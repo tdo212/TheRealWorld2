@@ -1,4 +1,4 @@
-package main.java.com.example.addressbook.model;
+package com.therealworld.fitschedule.model;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

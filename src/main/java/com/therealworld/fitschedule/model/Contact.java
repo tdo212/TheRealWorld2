@@ -1,4 +1,4 @@
-package main.java.com.example.addressbook.model;
+package com.therealworld.fitschedule.model;
 
 public class Contact {
     private int id;

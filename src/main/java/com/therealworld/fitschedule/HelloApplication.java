@@ -1,4 +1,5 @@
-package main.java.com.example.addressbook;
+package com.therealworld.fitschedule;
+
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

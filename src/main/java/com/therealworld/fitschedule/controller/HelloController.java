@@ -1,6 +1,6 @@
-package main.java.com.example.addressbook.controller;
+package com.therealworld.fitschedule.controller;
 
-import com.example.addressbook.HelloApplication;
+import com.therealworld.fitschedule.HelloApplication;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

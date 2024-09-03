@@ -1,13 +1,12 @@
-module com.example.adressbook {
+module com.therealworld.fitschedule {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
 
-
-    opens com.example.addressbook to javafx.fxml;
-    exports com.example.addressbook;
-    exports com.example.addressbook.controller;
-    opens com.example.addressbook.controller to javafx.fxml;
-    exports com.example.addressbook.model;
-    opens com.example.addressbook.model to javafx.fxml;
+    opens com.therealworld.fitschedule to javafx.fxml;
+    exports com.therealworld.fitschedule;
+    exports com.therealworld.fitschedule.controller;
+    opens com.therealworld.fitschedule.controller to javafx.fxml;
+    exports com.therealworld.fitschedule.model;
+    opens com.therealworld.fitschedule.model to javafx.fxml;
 }

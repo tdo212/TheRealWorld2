@@ -1,9 +1,9 @@
-package main.java.com.example.addressbook.controller;
+package com.therealworld.fitschedule.controller;
 
-import com.example.addressbook.model.Contact;
-import com.example.addressbook.model.IContactDAO;
-import com.example.addressbook.model.MockContactDAO;
-import com.example.addressbook.model.SqliteContactDAO;
+import com.therealworld.fitschedule.model.Contact;
+import com.therealworld.fitschedule.model.IContactDAO;
+import com.therealworld.fitschedule.model.MockContactDAO;
+import com.therealworld.fitschedule.model.SqliteContactDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
