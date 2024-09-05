@@ -35,9 +35,8 @@
         <TextField fx:id="phoneNumberField" promptText="Enter Phone Number" maxWidth="200"/>
 
         <!-- Buttons -->
-        <Button text="Register" onAction="#onRegisterButtonClick" maxWidth="100"/>
+        <Button fx:id="registerButton" text="Register" onAction="#onRegisterButtonClick" maxWidth="100"/>
         <Button text="Back to Login" onAction="#onBackToLoginClick" maxWidth="100"/>
-
-
+        <Button text="Show Users" onAction="#onShowUsersButtonClick" />
     </VBox>
 </AnchorPane>

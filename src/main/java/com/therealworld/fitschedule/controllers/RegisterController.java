@@ -2,6 +2,8 @@ package com.therealworld.fitschedule.controllers;
 
 import com.therealworld.fitschedule.FitScheduleApp;
 import com.therealworld.fitschedule.model.SqliteUserDAO;
+import com.therealworld.fitschedule.model.User;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 
 public class RegisterController {
     @FXML
@@ -30,6 +33,12 @@ public class RegisterController {
     private Button cancelButton;
 
     private SqliteUserDAO userDAO = new SqliteUserDAO();  // Add the DAO for database operations
+
+    @FXML
+    public void initialize() {
+        // Use Platform.runLater to ensure the scene is fully loaded before requesting focus
+        Platform.runLater(() -> registerButton.getScene().getRoot().requestFocus());
+    }
 
     @FXML
     protected void onRegisterButtonClick() {
@@ -68,7 +77,18 @@ public class RegisterController {
 
     @FXML
     protected void clearFocus() {
-        // This will clear focus from all text fields when clicking outside
-        registerButton.getScene().getRoot().requestFocus();
+        // Use Platform.runLater to make sure the scene is ready before clearing focus
+        Platform.runLater(() -> registerButton.getScene().getRoot().requestFocus());
+    }
+
+    @FXML
+    protected void onShowUsersButtonClick() {
+        List<User> users = userDAO.getAllUsers();
+        for (User user : users) {
+            System.out.println("Username: " + user.getUsername());
+            System.out.println("Email: " + user.getEmail());
+            System.out.println("Phone Number: " + user.getPhoneNumber());
+            System.out.println("----");
+        }
     }
 }

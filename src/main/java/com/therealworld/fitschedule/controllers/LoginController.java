@@ -1,6 +1,7 @@
 package com.therealworld.fitschedule.controllers;
 
 import com.therealworld.fitschedule.FitScheduleApp;
+import com.therealworld.fitschedule.model.SqliteUserDAO;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,6 +28,8 @@ public class LoginController {
     @FXML
     private VBox loginContainer; // Add a container to detect clicks
 
+    private SqliteUserDAO userDAO = new SqliteUserDAO(); // Add userDAO for authentication
+
     @FXML
     public void initialize() {
         // Set focus on the VBox (or another container) after the scene is fully loaded
@@ -41,11 +44,19 @@ public class LoginController {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        // Perform authentication (your logic)
-        if (authenticate(username, password)) {
+        // Use SqliteUserDAO to authenticate the user
+        boolean isAuthenticated = userDAO.authenticateUser(username, password);
+
+        if (isAuthenticated) {
             System.out.println("Login successful");
+            // Proceed to the main application dashboard or another page
+            Stage stage = (Stage) loginButton.getScene().getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("dashboard-view.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
+            stage.setScene(scene);
         } else {
-            System.out.println("Login failed");
+            System.out.println("Login failed. Invalid username or password.");
+            // Optionally, display an error message to the user
         }
     }
 
@@ -63,10 +74,5 @@ public class LoginController {
         // Close the application
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
-    }
-
-    private boolean authenticate(String username, String password) {
-        // Replace with actual authentication logic
-        return "user".equals(username) && "pass".equals(password);
     }
 }

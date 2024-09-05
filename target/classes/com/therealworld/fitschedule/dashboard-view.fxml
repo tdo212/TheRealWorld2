@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.therealworld.fitschedule.controllers.DashboardController" alignment="CENTER" spacing="10.0">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+    <Label text="Welcome to Fit Schedule!" style="-fx-font-size: 24px;"/>
+    <Button text="Log Out" onAction="#onLogoutButtonClick" />
+</VBox>
