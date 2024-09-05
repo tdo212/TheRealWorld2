@@ -1,0 +1,4 @@
+com\therealworld\fitschedule\controllers\LoginController.class
+com\therealworld\fitschedule\FitScheduleApp.class
+com\therealworld\fitschedule\model\Login.class
+module-info.class

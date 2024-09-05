@@ -8,6 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -22,8 +24,11 @@ public class LoginController {
     private Button loginButton;
     @FXML
     private Button cancelButton;
+    @FXML
+    private ImageView logo; // Add this for the logo ImageView
 
     @FXML
+
     protected void onLoginButtonClick() throws IOException {
         // Logic to authenticate the user
         String username = usernameField.getText();
@@ -32,7 +37,7 @@ public class LoginController {
         if (authenticate(username, password)) {
             // If authentication is successful, load the main application window
             Stage stage = (Stage) loginButton.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("login-view.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("main-view.fxml")); // Adjusted for main view
             Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
             stage.setScene(scene);
         } else {
@@ -54,5 +59,7 @@ public class LoginController {
     }
 
     public void onRegisterButtonClick(ActionEvent actionEvent) {
+        // Handle the register button click event
+        System.out.println("Register button clicked.");
     }
 }

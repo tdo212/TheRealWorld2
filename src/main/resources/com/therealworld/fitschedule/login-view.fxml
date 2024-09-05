@@ -11,8 +11,12 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.image.ImageView?>
 
+<?import javafx.scene.image.Image?>
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.therealworld.fitschedule.controllers.LoginController">
+    <padding>
+        <Insets bottom="20"/>
+    </padding>
 
     <!-- Root container -->
     <children>
@@ -25,11 +29,12 @@
                         <Insets top="10" right="10" />
                     </padding>
                     <ImageView fx:id="logo" fitWidth="100" fitHeight="100" pickOnBounds="true" preserveRatio="true">
-                        <!-- Placeholder for logo (no image linked) -->
+                        <Image url="@images/logo.png"/>
                     </ImageView>
                 </HBox>
             </top>
         </BorderPane>
+
 
         <!-- Welcome message in the center -->
         <Label text="Welcome to Fit Schedule!" style="-fx-font-size: 24px;" alignment="CENTER"/>
