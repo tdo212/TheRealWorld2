@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class FitScheduleApp extends Application {
 
@@ -16,7 +17,21 @@ public class FitScheduleApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("/com/therealworld/fitschedule/login-view.fxml"));
+        // Fetch the FXML file URL
+        URL fxmlFileUrl = FitScheduleApp.class.getResource("/com/therealworld/fitschedule/login-view.fxml");
+
+        // Print the path to the resource for debugging purposes
+        System.out.println("FXML URL: " + fxmlFileUrl);
+
+        // Check if the resource is loaded correctly
+        if (fxmlFileUrl == null) {
+            System.out.println("FXML file not found!");
+            return; // Stop the application if the FXML is missing
+        }
+
+        FXMLLoader fxmlLoader = new FXMLLoader(fxmlFileUrl);
+
+        // Load the scene and set it
         Scene scene = new Scene(fxmlLoader.load(), WIDTH, HEIGHT);
         stage.setTitle(TITLE);
         stage.setScene(scene);

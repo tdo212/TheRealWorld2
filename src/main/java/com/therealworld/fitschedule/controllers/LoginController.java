@@ -51,7 +51,7 @@ public class LoginController {
             System.out.println("Login successful");
             // Proceed to the main application dashboard or another page
             Stage stage = (Stage) loginButton.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("dashboard-view.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("/com/therealworld/fitschedule/dashboard-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
             stage.setScene(scene);
         } else {
@@ -64,7 +64,7 @@ public class LoginController {
     protected void onRegisterButtonClick() throws IOException {
         // Load the registration view when the register button is clicked
         Stage stage = (Stage) registerButton.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("register-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("/com/therealworld/fitschedule/register-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
         stage.setScene(scene);
     }
