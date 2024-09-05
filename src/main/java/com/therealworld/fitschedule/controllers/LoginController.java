@@ -1,21 +1,19 @@
 package com.therealworld.fitschedule.controllers;
 
 import com.therealworld.fitschedule.FitScheduleApp;
-import javafx.event.ActionEvent;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class LoginController {
-    public Button registerButton;
     @FXML
     private TextField usernameField;
     @FXML
@@ -23,27 +21,41 @@ public class LoginController {
     @FXML
     private Button loginButton;
     @FXML
+    private Button registerButton; // Register button added back
+    @FXML
     private Button cancelButton;
     @FXML
-    private ImageView logo; // Add this for the logo ImageView
+    private VBox loginContainer; // Add a container to detect clicks
 
     @FXML
+    public void initialize() {
+        // Set focus on the VBox (or another container) after the scene is fully loaded
+        Platform.runLater(() -> loginContainer.requestFocus());
 
+        // Handle click on background to remove focus from text fields
+        loginContainer.setOnMouseClicked(event -> loginContainer.requestFocus());
+    }
+
+    @FXML
     protected void onLoginButtonClick() throws IOException {
-        // Logic to authenticate the user
         String username = usernameField.getText();
         String password = passwordField.getText();
 
+        // Perform authentication (your logic)
         if (authenticate(username, password)) {
-            // If authentication is successful, load the main application window
-            Stage stage = (Stage) loginButton.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("main-view.fxml")); // Adjusted for main view
-            Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
-            stage.setScene(scene);
+            System.out.println("Login successful");
         } else {
-            // Handle authentication failure (e.g., show an error message)
-            System.out.println("Authentication failed.");
+            System.out.println("Login failed");
         }
+    }
+
+    @FXML
+    protected void onRegisterButtonClick() throws IOException {
+        // Load the registration view when the register button is clicked
+        Stage stage = (Stage) registerButton.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("register-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
+        stage.setScene(scene);
     }
 
     @FXML
@@ -54,12 +66,7 @@ public class LoginController {
     }
 
     private boolean authenticate(String username, String password) {
-        // Simple authentication logic (replace with actual authentication)
+        // Replace with actual authentication logic
         return "user".equals(username) && "pass".equals(password);
-    }
-
-    public void onRegisterButtonClick(ActionEvent actionEvent) {
-        // Handle the register button click event
-        System.out.println("Register button clicked.");
     }
 }
