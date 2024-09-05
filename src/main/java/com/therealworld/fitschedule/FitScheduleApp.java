@@ -12,6 +12,7 @@ public class FitScheduleApp extends Application {
 
     // Constants defining the window title and size
     public static final String TITLE = "Login";
+
     public static final int WIDTH = 640;
     public static final int HEIGHT = 360;
 
