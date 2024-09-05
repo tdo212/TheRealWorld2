@@ -38,5 +38,6 @@
         <Button text="Register" onAction="#onRegisterButtonClick" maxWidth="100"/>
         <Button text="Back to Login" onAction="#onBackToLoginClick" maxWidth="100"/>
 
+
     </VBox>
 </AnchorPane>

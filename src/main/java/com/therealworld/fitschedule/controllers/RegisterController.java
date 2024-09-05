@@ -1,17 +1,19 @@
 package com.therealworld.fitschedule.controllers;
 
-import javafx.application.Platform;
+import com.therealworld.fitschedule.FitScheduleApp;
+import com.therealworld.fitschedule.model.SqliteUserDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class RegisterController {
-    @FXML
-    private VBox registerContainer;
     @FXML
     private TextField usernameField;
     @FXML
@@ -27,19 +29,10 @@ public class RegisterController {
     @FXML
     private Button cancelButton;
 
-    @FXML
-    public void initialize() {
-        // Set focus on the VBox or any other element that doesn't accept user input
-        Platform.runLater(() -> registerContainer.requestFocus());
-    }
-    @FXML
-    public void clearFocus() {
-        // Clear focus by requesting focus on an empty element like the root container
-        registerContainer.requestFocus();
-    }
+    private SqliteUserDAO userDAO = new SqliteUserDAO();  // Add the DAO for database operations
+
     @FXML
     protected void onRegisterButtonClick() {
-        // Logic to register the user
         String username = usernameField.getText();
         String password = passwordField.getText();
         String confirmPassword = confirmPasswordField.getText();
@@ -47,11 +40,10 @@ public class RegisterController {
         String phoneNumber = phoneNumberField.getText();
 
         if (validateRegistration(username, password, confirmPassword, email, phoneNumber)) {
-            // Register user in the system
+            // Add the user to the database using SqliteUserDAO
+            userDAO.addUser(username, password, email, phoneNumber);
             System.out.println("User registered successfully.");
-            // After registration, redirect to login page or dashboard
         } else {
-            // Handle validation failure
             System.out.println("Registration failed.");
         }
     }
@@ -62,11 +54,21 @@ public class RegisterController {
         stage.close();
     }
 
+    @FXML
+    protected void onBackToLoginClick(ActionEvent event) throws IOException {
+        Stage stage = (Stage) registerButton.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("login-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
+        stage.setScene(scene);
+    }
+
     private boolean validateRegistration(String username, String password, String confirmPassword, String email, String phoneNumber) {
-        // Perform validation checks (e.g., matching passwords, non-empty fields, valid email format, etc.)
         return !username.isEmpty() && !password.isEmpty() && password.equals(confirmPassword) && !email.isEmpty() && !phoneNumber.isEmpty();
     }
 
-    public void onBackToLoginClick(ActionEvent actionEvent) {
+    @FXML
+    protected void clearFocus() {
+        // This will clear focus from all text fields when clicking outside
+        registerButton.getScene().getRoot().requestFocus();
     }
 }

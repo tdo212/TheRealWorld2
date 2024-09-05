@@ -1,67 +1,45 @@
 package com.therealworld.fitschedule.model;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class SqliteUserDAO {
 
     private Connection connection;
 
     public SqliteUserDAO() {
-        connection = SqliteConnection.getInstance();
+        connection = SqliteConnection.getInstance(); // Assuming SqliteConnection is set up correctly
         createTable();
     }
 
     private void createTable() {
         try {
-            Statement statement = connection.createStatement();
+            // Create the users table if it doesn't exist
             String query = "CREATE TABLE IF NOT EXISTS users ("
                     + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "username VARCHAR NOT NULL,"
-                    + "password VARCHAR NOT NULL"
+                    + "username VARCHAR(50) UNIQUE NOT NULL,"
+                    + "password VARCHAR(50) NOT NULL,"
+                    + "email VARCHAR(50) NOT NULL,"
+                    + "phoneNumber VARCHAR(15) NOT NULL"
                     + ")";
-            statement.execute(query);
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void registerUser(String username, String password) {
-        String query = "INSERT INTO users (username, password) VALUES (?, ?)";
+    public void addUser(String username, String password, String email, String phoneNumber) {
+        String query = "INSERT INTO users (username, password, email, phoneNumber) VALUES (?, ?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, username);
             pstmt.setString(2, password);
+            pstmt.setString(3, email);
+            pstmt.setString(4, phoneNumber);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public boolean authenticateUser(String username, String password) {
-        String query = "SELECT * FROM users WHERE username = ? AND password = ?";
-        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setString(1, username);
-            pstmt.setString(2, password);
-            ResultSet rs = pstmt.executeQuery();
-            return rs.next();  // If a result is found, the credentials are correct
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public List<String> getAllUsers() {
-        List<String> users = new ArrayList<>();
-        String query = "SELECT * FROM users";
-        try (Statement stmt = connection.createStatement()) {
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                users.add(rs.getString("username"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return users;
     }
 }
