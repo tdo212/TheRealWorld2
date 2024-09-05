@@ -8,24 +8,43 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Button?>
 
-<VBox alignment="TOP_LEFT" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.image.ImageView?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.therealworld.fitschedule.controllers.LoginController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
 
-    <Label text="Welcome to Fit Schedule. Please log in to continue."
-           wrapText="true"/>
+    <!-- Root container -->
+    <children>
 
-    <!-- Username Field -->
-    <TextField fx:id="usernameField" promptText="Username"/>
+        <!-- Top section with logo (aligned top-right) -->
+        <BorderPane>
+            <top>
+                <HBox alignment="TOP_RIGHT">
+                    <padding>
+                        <Insets top="10" right="10" />
+                    </padding>
+                    <ImageView fx:id="logo" fitWidth="100" fitHeight="100" pickOnBounds="true" preserveRatio="true">
+                        <!-- Placeholder for logo (no image linked) -->
+                    </ImageView>
+                </HBox>
+            </top>
+        </BorderPane>
 
-    <!-- Password Field -->
-    <PasswordField fx:id="passwordField" promptText="Password"/>
+        <!-- Welcome message in the center -->
+        <Label text="Welcome to Fit Schedule!" style="-fx-font-size: 24px;" alignment="CENTER"/>
 
-    <!-- Buttons for Login and Cancel -->
-    <HBox alignment="BOTTOM_RIGHT" spacing="10.0">
-        <Button fx:id="cancelButton" text="Cancel" onAction="#onCancelButtonClick"/>
-        <Button fx:id="loginButton" text="Login" onAction="#onLoginButtonClick"/>
-    </HBox>
+        <!-- Username Field -->
+        <TextField fx:id="usernameField" promptText="Username" maxWidth="300"/>
+
+        <!-- Password Field -->
+        <PasswordField fx:id="passwordField" promptText="Password" maxWidth="300"/>
+
+        <!-- Sign In Button -->
+        <Button fx:id="loginButton" text="Sign In" onAction="#onLoginButtonClick" maxWidth="300"/>
+
+        <!-- Register Button -->
+        <Button fx:id="registerButton" text="Register" onAction="#onRegisterButtonClick" maxWidth="300"/>
+
+    </children>
 </VBox>

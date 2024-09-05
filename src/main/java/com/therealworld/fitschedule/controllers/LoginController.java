@@ -1,6 +1,7 @@
 package com.therealworld.fitschedule.controllers;
 
 import com.therealworld.fitschedule.FitScheduleApp;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,6 +13,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class LoginController {
+    public Button registerButton;
     @FXML
     private TextField usernameField;
     @FXML
@@ -49,5 +51,8 @@ public class LoginController {
     private boolean authenticate(String username, String password) {
         // Simple authentication logic (replace with actual authentication)
         return "user".equals(username) && "pass".equals(password);
+    }
+
+    public void onRegisterButtonClick(ActionEvent actionEvent) {
     }
 }
