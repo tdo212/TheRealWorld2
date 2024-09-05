@@ -17,35 +17,26 @@ import java.io.IOException;
 import java.util.List;
 
 public class RegisterController {
+    @FXML
+    private TextField usernameField;
+    @FXML
+    private PasswordField passwordField;
+    @FXML
+    private PasswordField confirmPasswordField;
+    @FXML
+    private TextField emailField;
+    @FXML
+    private TextField phoneNumberField;
+    @FXML
+    private Button registerButton;
+    @FXML
+    private Button cancelButton;
 
-    private SqliteUserDAO userDAO;
-
-    public RegisterController() {
-        this.userDAO = new SqliteUserDAO(); // Default behavior
-    }
-
-    // Setter for injecting a mock DAO in tests
-    public void setUserDAO(SqliteUserDAO userDAO) {
-        this.userDAO = userDAO;
-    }
-
-    @FXML
-    protected TextField usernameField;
-    @FXML
-    protected PasswordField passwordField;
-    @FXML
-    protected PasswordField confirmPasswordField;
-    @FXML
-    protected TextField emailField;
-    @FXML
-    protected TextField phoneNumberField;
-    @FXML
-    protected Button registerButton;
-    @FXML
-    protected Button backToLoginButton; // Add this button reference
+    private SqliteUserDAO userDAO = new SqliteUserDAO();  // Add the DAO for database operations
 
     @FXML
     public void initialize() {
+        // Use Platform.runLater to ensure the scene is fully loaded before requesting focus
         Platform.runLater(() -> registerButton.getScene().getRoot().requestFocus());
     }
 
@@ -58,11 +49,26 @@ public class RegisterController {
         String phoneNumber = phoneNumberField.getText();
 
         if (validateRegistration(username, password, confirmPassword, email, phoneNumber)) {
+            // Add the user to the database using SqliteUserDAO
             userDAO.addUser(username, password, email, phoneNumber);
             System.out.println("User registered successfully.");
         } else {
             System.out.println("Registration failed.");
         }
+    }
+
+    @FXML
+    protected void onCancelButtonClick() {
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    protected void onBackToLoginClick(ActionEvent event) throws IOException {
+        Stage stage = (Stage) registerButton.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("login-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
+        stage.setScene(scene);
     }
 
     private boolean validateRegistration(String username, String password, String confirmPassword, String email, String phoneNumber) {
@@ -84,13 +90,5 @@ public class RegisterController {
             System.out.println("Phone Number: " + user.getPhoneNumber());
             System.out.println("----");
         }
-    }
-
-    @FXML
-    protected void onBackToLoginClick(ActionEvent event) throws IOException {
-        Stage stage = (Stage) registerButton.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("login-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
-        stage.setScene(scene);
     }
 }
