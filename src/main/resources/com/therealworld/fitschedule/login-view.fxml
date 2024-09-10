@@ -5,20 +5,34 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="loginContainer" alignment="CENTER" spacing="10.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.therealworld.fitschedule.controllers.LoginController">
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
-    </padding>
+<?import javafx.scene.image.Image?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.therealworld.fitschedule.controllers.LoginController">
 
-    <Label text="Login to Fit Schedule"/>
+    <!-- Logo positioned in the top-right corner -->
+    <ImageView fx:id="logoImageView" fitHeight="50" fitWidth="50" AnchorPane.topAnchor="10.0" AnchorPane.rightAnchor="10.0">
+        <image>
+            <Image url="@/com/therealworld/fitschedule/images/logo.png"/>
+        </image>
+    </ImageView>
 
-    <TextField fx:id="usernameField" promptText="Username" maxWidth="200"/>
-    <PasswordField fx:id="passwordField" promptText="Password" maxWidth="200"/>
+    <!-- Login Form in the center -->
+    <VBox fx:id="loginContainer" alignment="CENTER" spacing="10.0" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
 
-    <Button fx:id="loginButton" text="Login" onAction="#onLoginButtonClick" maxWidth="100"/>
-    <Button fx:id="registerButton" text="Register" onAction="#onRegisterButtonClick" maxWidth="100"/> <!-- Register button added back -->
-    <Button fx:id="cancelButton" text="Cancel" onAction="#onCancelButtonClick" maxWidth="100"/>
-</VBox>
+        <Label text="Login to Fit Schedule"/>
+
+        <TextField fx:id="usernameField" promptText="Username" maxWidth="200"/>
+        <PasswordField fx:id="passwordField" promptText="Password" maxWidth="200"/>
+
+        <Button fx:id="loginButton" text="Login" onAction="#onLoginButtonClick" maxWidth="100"/>
+        <Button fx:id="registerButton" text="Register" onAction="#onRegisterButtonClick" maxWidth="100"/>
+        <Button fx:id="cancelButton" text="Cancel" onAction="#onCancelButtonClick" maxWidth="100"/>
+    </VBox>
+
+</AnchorPane>

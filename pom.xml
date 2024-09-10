@@ -33,6 +33,16 @@
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
 
         <!-- JUnit 5 for testing -->
         <dependency>
@@ -57,6 +67,16 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.png</include> <!-- Ensure PNG files like logo.png are included -->
+                    <include>**/*.fxml</include> <!-- Ensure FXML files are included -->
+                </includes>
+            </resource>
+        </resources>
+
         <plugins>
             <!-- Maven compiler plugin -->
             <plugin>
