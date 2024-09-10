@@ -18,7 +18,8 @@ public class FitScheduleApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         // Log the path to the logo image for debugging purposes
-        System.out.println(FitScheduleApp.class.getResource("/com/therealworld/fitschedule/images/logo.png"));
+        URL logoUrl = FitScheduleApp.class.getResource("/com/therealworld/fitschedule/images/logo.png");
+        System.out.println(logoUrl); // This should not be null
 
         // Fetch the FXML file URL
         URL fxmlFileUrl = FitScheduleApp.class.getResource("/com/therealworld/fitschedule/login-view.fxml");

@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -22,13 +24,16 @@ public class LoginController {
     @FXML
     private Button loginButton;
     @FXML
-    private Button registerButton; // Register button added back
+    private Button registerButton;
     @FXML
     private Button cancelButton;
     @FXML
-    private VBox loginContainer; // Add a container to detect clicks
+    private VBox loginContainer;
 
-    private SqliteUserDAO userDAO = new SqliteUserDAO(); // Add userDAO for authentication
+    @FXML
+    private ImageView logo; // Add ImageView for the logo
+
+    private SqliteUserDAO userDAO = new SqliteUserDAO();
 
     @FXML
     public void initialize() {
@@ -37,6 +42,15 @@ public class LoginController {
 
         // Handle click on background to remove focus from text fields
         loginContainer.setOnMouseClicked(event -> loginContainer.requestFocus());
+
+        // Load logo image programmatically
+        Image logoImage = new Image(getClass().getResourceAsStream("/com/therealworld/fitschedule/images/logo.png"));
+
+        if (logoImage != null) {
+            logo.setImage(logoImage);
+        } else {
+            System.out.println("Logo image not found!");
+        }
     }
 
     @FXML
@@ -56,13 +70,11 @@ public class LoginController {
             stage.setScene(scene);
         } else {
             System.out.println("Login failed. Invalid username or password.");
-            // Optionally, display an error message to the user
         }
     }
 
     @FXML
     protected void onRegisterButtonClick() throws IOException {
-        // Load the registration view when the register button is clicked
         Stage stage = (Stage) registerButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("register-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
@@ -71,7 +83,6 @@ public class LoginController {
 
     @FXML
     protected void onCancelButtonClick() {
-        // Close the application
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }

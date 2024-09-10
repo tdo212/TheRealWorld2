@@ -13,11 +13,9 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.therealworld.fitschedule.controllers.LoginController">
 
     <!-- Logo positioned in the top-right corner -->
-    <ImageView fx:id="logoImageView" fitHeight="50" fitWidth="50" AnchorPane.topAnchor="10.0" AnchorPane.rightAnchor="10.0">
-        <image>
-            <Image url="@/com/therealworld/fitschedule/images/logo.png"/>
-        </image>
-    </ImageView>
+    <ImageView fx:id="logo" fitHeight="100" fitWidth="100" AnchorPane.topAnchor="10.0" AnchorPane.rightAnchor="10.0"/>
+
+
 
     <!-- Login Form in the center -->
     <VBox fx:id="loginContainer" alignment="CENTER" spacing="10.0" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
