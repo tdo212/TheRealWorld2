@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class LoginController {
+public class SchedulingController {
     @FXML
     private TextField usernameField;
     @FXML
@@ -30,7 +30,7 @@ public class LoginController {
         if (authenticate(username, password)) {
             // If authentication is successful, load the main application window
             Stage stage = (Stage) loginButton.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("login-view.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("scheduling-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
             stage.setScene(scene);
         } else {
