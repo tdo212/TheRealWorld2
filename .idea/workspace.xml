@@ -4,58 +4,114 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a55c27c5-b253-42ac-8dce-72e422226eca" name="Changes" comment="" />
+    <list default="true" id="764ab08b-92db-428a-9811-fe61d0ba3206" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/FitScheduleApp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/LoginController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contacts.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/HelloApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controller/HelloController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controller/MainController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/Contact.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/IContactDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/MockContactDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/SqliteConnection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/SqliteContactDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/therealworld/fitschedule/hello-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/therealworld/fitschedule/hello-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/therealworld/fitschedule/main-view.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/HelloApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controller/HelloController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controller/MainController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controller/MainController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/hello-view.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/main-view.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/Contact.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/IContactDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/MockContactDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/SqliteConnection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/SqliteContactDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "cullumstracman"
-  }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/tdo212/TheRealWorld2",
-    "accountId": "d97e5845-5496-4dd1-afb5-9e08a9696e74"
-  }
-}]]></component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
-      </MavenGeneralSettings>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
     </option>
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 4
-}]]></component>
-  <component name="ProjectId" id="2lu3rLi04RYIbZqnBEcemSIfqv8" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="my-new-branch" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Mrkane123&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/tdo212/TheRealWorld2.git&quot;,
+    &quot;accountId&quot;: &quot;64a8e11c-9a15-4f0e-bfc0-475dbb26adc1&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2lYVgsjbUnwLqftbTJnAhvok5YT" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.FitScheduleApp.executor": "Run",
+    "Application.HelloApplication.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "SchedulingUI",
-    "kotlin-language-version-configured": "true"
+    "git-widget-placeholder": "my-new-branch",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Ben/IdeaProjects/TheRealWorld2",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Ben\IdeaProjects\TheRealWorld2" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="a55c27c5-b253-42ac-8dce-72e422226eca" name="Changes" comment="" />
-      <created>1726016332431</created>
+      <changelist id="764ab08b-92db-428a-9811-fe61d0ba3206" name="Changes" comment="" />
+      <created>1725357111020</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1726016332431</updated>
+      <updated>1725357111020</updated>
     </task>
     <servers />
   </component>
