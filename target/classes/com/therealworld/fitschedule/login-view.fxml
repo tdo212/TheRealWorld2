@@ -7,11 +7,14 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.image.ImageView?>
 <VBox fx:id="loginContainer" alignment="CENTER" spacing="10.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.therealworld.fitschedule.controllers.LoginController">
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
+
+    <ImageView fx:id="logo" fitHeight="100" fitWidth="100"/> <!-- Add this line -->
 
     <Label text="Login to Fit Schedule"/>
 
@@ -19,6 +22,7 @@
     <PasswordField fx:id="passwordField" promptText="Password" maxWidth="200"/>
 
     <Button fx:id="loginButton" text="Login" onAction="#onLoginButtonClick" maxWidth="100"/>
-    <Button fx:id="registerButton" text="Register" onAction="#onRegisterButtonClick" maxWidth="100"/> <!-- Register button added back -->
+    <Button fx:id="registerButton" text="Register" onAction="#onRegisterButtonClick" maxWidth="100"/>
     <Button fx:id="cancelButton" text="Cancel" onAction="#onCancelButtonClick" maxWidth="100"/>
 </VBox>
+
