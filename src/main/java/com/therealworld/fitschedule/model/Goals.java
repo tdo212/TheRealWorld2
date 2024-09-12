@@ -1,4 +1,4 @@
 package com.therealworld.fitschedule.model;
 
-public class Login {
+public class Goals {
 }
