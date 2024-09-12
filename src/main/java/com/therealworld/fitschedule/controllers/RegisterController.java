@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -19,6 +20,9 @@ import java.util.List;
 public class RegisterController {
 
     private SqliteUserDAO userDAO;
+
+    private static final String REGISTRATION_SUCCESS = "User registered successfully.";
+    private static final String REGISTRATION_FAILED = "Registration failed.";
 
     public RegisterController() {
         this.userDAO = new SqliteUserDAO(); // Default behavior
@@ -42,7 +46,7 @@ public class RegisterController {
     @FXML
     protected Button registerButton;
     @FXML
-    protected Button backToLoginButton; // Add this button reference
+    protected Button backToLoginButton;
 
     @FXML
     public void initialize() {
@@ -57,23 +61,35 @@ public class RegisterController {
         String email = emailField.getText();
         String phoneNumber = phoneNumberField.getText();
 
-        if (validateRegistration(username, password, confirmPassword, email, phoneNumber)) {
+        String errorMessage = getValidationErrorMessage(username, password, confirmPassword, email, phoneNumber);
+
+        if (errorMessage == null) {
             userDAO.addUser(username, password, email, phoneNumber);
-            System.out.println("User registered successfully.");
+            showAlert(REGISTRATION_SUCCESS, Alert.AlertType.INFORMATION);
         } else {
-            System.out.println("Registration failed.");
+            showAlert("Registration failed: " + errorMessage, Alert.AlertType.ERROR);
         }
     }
 
-    private boolean validateRegistration(String username, String password, String confirmPassword, String email, String phoneNumber) {
-        return !username.isEmpty() && !password.isEmpty() && password.equals(confirmPassword) && !email.isEmpty() && !phoneNumber.isEmpty();
+    private String getValidationErrorMessage(String username, String password, String confirmPassword, String email, String phoneNumber) {
+        if (username.isEmpty()) return "Username cannot be empty";
+        if (password.isEmpty()) return "Password cannot be empty";
+        if (!password.equals(confirmPassword)) return "Passwords do not match";
+        if (email.isEmpty()) return "Email cannot be empty";
+        if (phoneNumber.isEmpty()) return "Phone number cannot be empty";
+        return null; // No errors
     }
 
-    @FXML
-    protected void clearFocus() {
-        // Use Platform.runLater to make sure the scene is ready before clearing focus
-        Platform.runLater(() -> registerButton.getScene().getRoot().requestFocus());
+    private void showAlert(String message, Alert.AlertType type) {
+        // In real usage, this shows an alert
+        Platform.runLater(() -> {
+            Alert alert = new Alert(type);
+            alert.setContentText(message);
+            alert.showAndWait();
+        });
     }
+
+
 
     @FXML
     protected void onShowUsersButtonClick() {
@@ -92,5 +108,9 @@ public class RegisterController {
         FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
         stage.setScene(scene);
+    }
+    @FXML
+    protected void clearFocus() {
+        Platform.runLater(() -> registerButton.getScene().getRoot().requestFocus());
     }
 }

@@ -1,0 +1,4 @@
+--patch-module
+com.therealworld.fitschedule=_
+--add-reads
+com.therealworld.fitschedule=ALL-UNNAMED
