@@ -48,4 +48,14 @@ public class GoalsController {
         contactsListView.setCellFactory(this::renderCell);
         contactsListView.getItems().addAll(contactDAO.getAllContacts());
     }
+
+    @FXML
+    private void onDelete() {
+        // Get the selected contact from the list view
+        Contact selectedContact = contactsListView.getSelectionModel().getSelectedItem();
+        if (selectedContact != null) {
+            contactDAO.deleteContact(selectedContact);
+
+        }
+    }
 }
