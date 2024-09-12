@@ -1,53 +1,51 @@
 package com.therealworld.fitschedule.controllers;
 
-import com.therealworld.fitschedule.FitScheduleApp;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
-import java.io.IOException;
+import com.therealworld.fitschedule.FitScheduleApp;
+
+import com.therealworld.fitschedule.model.Contact;
+import com.therealworld.fitschedule.model.IContactDAO;
+import com.therealworld.fitschedule.model.MockContactDAO;
+import javafx.fxml.FXML;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 
 public class GoalsController {
     @FXML
-    private TextField usernameField;
-    @FXML
-    private PasswordField passwordField;
-    @FXML
-    private Button loginButton;
-    @FXML
-    private Button cancelButton;
+    private ListView<Contact> contactsListView;
+    private IContactDAO contactDAO;
+    public GoalsController() {
+        contactDAO = new MockContactDAO();
+    }
 
-    @FXML
-    protected void onLoginButtonClick() throws IOException {
-        // Logic to authenticate the user
-        String username = usernameField.getText();
-        String password = passwordField.getText();
-
-        if (authenticate(username, password)) {
-            // If authentication is successful, load the main application window
-            Stage stage = (Stage) loginButton.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("goals-view.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
-            stage.setScene(scene);
-        } else {
-            // Handle authentication failure (e.g., show an error message)
-            System.out.println("Authentication failed.");
-        }
+    /**
+     * Renders a cell in the contacts list view by setting the text to the contact's full name.
+     * @param contactListView The list view to render the cell for.
+     * @return The rendered cell.
+     */
+    private ListCell<Contact> renderCell(ListView<Contact> contactListView) {
+        return new ListCell<>() {
+            /**
+             * Updates the item in the cell by setting the text to the contact's full name.
+             * @param contact The contact to update the cell with.
+             * @param empty Whether the cell is empty.
+             */
+            @Override
+            protected void updateItem(Contact contact, boolean empty) {
+                super.updateItem(contact, empty);
+                // If the cell is empty, set the text to null, otherwise set it to the contact's full name
+                if (empty || contact == null || contact.getFullName() == null) {
+                    setText(null);
+                } else {
+                    setText(contact.getFullName());
+                }
+            }
+        };
     }
 
     @FXML
-    protected void onCancelButtonClick() {
-        // Close the application
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        stage.close();
-    }
-
-    private boolean authenticate(String username, String password) {
-        // Simple authentication logic (replace with actual authentication)
-        return "user".equals(username) && "pass".equals(password);
+    public void initialize() {
+        contactsListView.setCellFactory(this::renderCell);
+        contactsListView.getItems().addAll(contactDAO.getAllContacts());
     }
 }
