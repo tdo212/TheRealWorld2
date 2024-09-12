@@ -30,7 +30,7 @@ public class GoalsController {
         if (authenticate(username, password)) {
             // If authentication is successful, load the main application window
             Stage stage = (Stage) loginButton.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("Goals.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("goals-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
             stage.setScene(scene);
         } else {
