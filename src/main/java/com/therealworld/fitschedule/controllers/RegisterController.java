@@ -56,7 +56,7 @@ public class RegisterController {
 
     @FXML
     protected void onRegisterButtonClick() {
-        String username = usernameField.getText();
+        String username = usernameField.getText().trim();  // Trim the username here
         String password = passwordField.getText();
         String confirmPassword = confirmPasswordField.getText();
         String email = emailField.getText();
@@ -77,6 +77,7 @@ public class RegisterController {
             showAlert(REGISTRATION_SUCCESS, Alert.AlertType.INFORMATION);
         }
     }
+
 
     // Method to collect empty fields
     private List<String> getEmptyFields(String username, String password, String confirmPassword, String email, String phoneNumber) {

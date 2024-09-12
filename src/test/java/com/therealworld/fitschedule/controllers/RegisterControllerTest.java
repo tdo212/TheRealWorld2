@@ -85,4 +85,40 @@ public class RegisterControllerTest {
                 .addUser(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
     }
 
+    @Test
+    public void testAllFieldsEmpty() {
+        // Leave all fields empty
+        registerController.usernameField.setText("");
+        registerController.passwordField.setText("");
+        registerController.confirmPasswordField.setText("");
+        registerController.emailField.setText("");
+        registerController.phoneNumberField.setText("");
+
+        // Simulate the registration button click
+        registerController.onRegisterButtonClick();
+
+        // Verify that addUser was never called due to all fields being empty
+        Mockito.verify(mockUserDAO, Mockito.never())
+                .addUser(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
+    }
+
+    @Test
+    public void testUsernameFieldWithSpaces() {
+        // Set up with leading/trailing spaces in the username
+        registerController.usernameField.setText("  testuser  ");
+        registerController.passwordField.setText("password123");
+        registerController.confirmPasswordField.setText("password123");
+        registerController.emailField.setText("testuser@example.com");
+        registerController.phoneNumberField.setText("1234567890");
+
+        // Simulate the registration button click
+        registerController.onRegisterButtonClick();
+
+        // Verify that addUser method was called with trimmed username
+        Mockito.verify(mockUserDAO, Mockito.times(1))
+                .addUser("testuser", "password123", "testuser@example.com", "1234567890");
+    }
+
+
+
 }
