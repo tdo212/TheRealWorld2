@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RegisterController {
@@ -61,23 +62,33 @@ public class RegisterController {
         String email = emailField.getText();
         String phoneNumber = phoneNumberField.getText();
 
-        String errorMessage = getValidationErrorMessage(username, password, confirmPassword, email, phoneNumber);
+        // Collect empty fields
+        List<String> emptyFields = getEmptyFields(username, password, confirmPassword, email, phoneNumber);
 
-        if (errorMessage == null) {
+        if (!emptyFields.isEmpty()) {
+            // Show the list of empty fields to the user
+            showAlert("The following fields are empty: " + String.join(", ", emptyFields), Alert.AlertType.ERROR);
+        } else if (!password.equals(confirmPassword)) {
+            // Show error if passwords don't match
+            showAlert("Passwords do not match", Alert.AlertType.ERROR);
+        } else {
+            // Proceed with registration if validation passes
             userDAO.addUser(username, password, email, phoneNumber);
             showAlert(REGISTRATION_SUCCESS, Alert.AlertType.INFORMATION);
-        } else {
-            showAlert("Registration failed: " + errorMessage, Alert.AlertType.ERROR);
         }
     }
 
-    private String getValidationErrorMessage(String username, String password, String confirmPassword, String email, String phoneNumber) {
-        if (username.isEmpty()) return "Username cannot be empty";
-        if (password.isEmpty()) return "Password cannot be empty";
-        if (!password.equals(confirmPassword)) return "Passwords do not match";
-        if (email.isEmpty()) return "Email cannot be empty";
-        if (phoneNumber.isEmpty()) return "Phone number cannot be empty";
-        return null; // No errors
+    // Method to collect empty fields
+    private List<String> getEmptyFields(String username, String password, String confirmPassword, String email, String phoneNumber) {
+        List<String> emptyFields = new ArrayList<>();
+
+        if (username.isEmpty()) emptyFields.add("Username");
+        if (password.isEmpty()) emptyFields.add("Password");
+        if (confirmPassword.isEmpty()) emptyFields.add("Confirm Password");
+        if (email.isEmpty()) emptyFields.add("Email");
+        if (phoneNumber.isEmpty()) emptyFields.add("Phone Number");
+
+        return emptyFields;
     }
 
     private void showAlert(String message, Alert.AlertType type) {
@@ -88,8 +99,6 @@ public class RegisterController {
             alert.showAndWait();
         });
     }
-
-
 
     @FXML
     protected void onShowUsersButtonClick() {
@@ -109,6 +118,7 @@ public class RegisterController {
         Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
         stage.setScene(scene);
     }
+
     @FXML
     protected void clearFocus() {
         Platform.runLater(() -> registerButton.getScene().getRoot().requestFocus());
