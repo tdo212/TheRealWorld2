@@ -10,13 +10,13 @@ import java.io.IOException;
 public class FitScheduleApp extends Application {
 
     // Constants defining the window title and size
-    public static final String TITLE = "Login";
-    public static final int WIDTH = 640;
-    public static final int HEIGHT = 360;
+    public static final String TITLE = "Goals";
+    public static final int WIDTH = 1920;
+    public static final int HEIGHT = 1080;
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("/com/therealworld/fitschedule/goals-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("/com/therealworld/fitschedule/NEW.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), WIDTH, HEIGHT);
         stage.setTitle(TITLE);
         stage.setScene(scene);
