@@ -1,10 +1,13 @@
 package com.therealworld.fitschedule;
 
+import com.therealworld.fitschedule.model.FitScheduleDBConnection;
+import com.therealworld.fitschedule.model.ScheduleDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.sql.Connection;
 
 public class FitScheduleApp extends Application {
 
@@ -24,5 +27,6 @@ public class FitScheduleApp extends Application {
 
     public static void main(String[] args) {
         launch();
+
     }
 }
