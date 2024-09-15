@@ -1,47 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Button?>
-
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableRow?>
-<?import javafx.scene.control.TableCell?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<!-- A Barebones UI has been created based on the layout of the low-fidelity prototype -->
-
-<VBox alignment="TOP_LEFT" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+<!-- The root VBox is now identified by the fx:id "rootContainer" -->
+<VBox fx:id="rootContainer" alignment="TOP_LEFT" spacing="20.0" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.therealworld.fitschedule.controllers.SchedulerController">
+
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
-<!--    <Label text="Welcome to Fit Schedule. Please log in to continue."-->
-<!--           wrapText="true"/>-->
-
-<!--    &lt;!&ndash; Username Field &ndash;&gt;-->
-<!--    <TextField fx:id="usernameField" promptText="Username"/>-->
-
-<!--    &lt;!&ndash; Password Field &ndash;&gt;-->
-<!--    <PasswordField fx:id="passwordField" promptText="Password"/>-->
-
     <!-- Buttons for Scheduling and Logging Off -->
     <HBox alignment="CENTER" spacing="475.0">
-        <!-- Is this supposed to be a button for inputting the schedule or just a label? -->
         <Button fx:id="scheduleButton" text="Schedule" onAction="#onScheduleButtonClick"/>
         <Button fx:id="logoffButton" text="Log Off" onAction="#onLogoffButtonClick"/>
     </HBox>
 
-    <!-- Buttons to    -->
+    <!-- Week navigation buttons -->
     <HBox alignment="CENTER" spacing="20.0">
         <Button fx:id="previousWeekButton" text="Previous Week" onAction="#onPreviousWeekButtonClick"/>
-        <!-- Should this be a button or a label? Is it for navigating back to the current week after clicking
-        previous/next or is it just to say that the shown schedule is the current week's one or is it for both
-        of those purposes?-->
         <Button fx:id="currentWeekButton" text="Current Week" onAction="#onCurrentWeekButtonClick"/>
         <Button fx:id="nextWeekButton" text="Next Week" onAction="#onNextWeekButtonClick"/>
     </HBox>
@@ -50,24 +34,29 @@
         <Label text="Weekly Schedule Overview"/>
     </HBox>
 
-
-
-
-
-    <!-- Table for schedule, this is placeholder as you will need to generate the table anyways. We can
-    remove this later if necessary or keep it if we want the user to understand that their information
-    will end up in the table after they provide their schedule.-->
-
-    <TableView>
-
+    <!-- Table for schedule, with columns for each day of the week -->
+    <TableView fx:id="scheduleTable">
+        <columns>
+            <TableColumn fx:id="mondayColumn" text="Monday"/>
+            <TableColumn fx:id="tuesdayColumn" text="Tuesday"/>
+            <TableColumn fx:id="wednesdayColumn" text="Wednesday"/>
+            <TableColumn fx:id="thursdayColumn" text="Thursday"/>
+            <TableColumn fx:id="fridayColumn" text="Friday"/>
+            <TableColumn fx:id="saturdayColumn" text="Saturday"/>
+            <TableColumn fx:id="sundayColumn" text="Sunday"/>
+        </columns>
     </TableView>
 
-    <!-- Buttons for changing and updating the current schedule or to generate a new schedule  -->
+    <!-- Buttons for changing, updating the current schedule, and generating a new schedule -->
     <HBox alignment="CENTER" spacing="20.0">
         <Button fx:id="changeScheduleButton" text="Change Schedule" onAction="#onChangeScheduleButtonClick"/>
         <Button fx:id="updateScheduleButton" text="Update Schedule" onAction="#onUpdateScheduleButtonClick"/>
-    <!-- How does this button function? Is it to 'validate' the already inputted schedule by the user or is it to prompt
-            the user to input a completely new schedule? -->
         <Button fx:id="generateNewScheduleButton" text="Generate New Schedule" onAction="#onGenerateNewScheduleButtonClick"/>
     </HBox>
+
+    <!-- A VBox container for dynamically adding input fields for schedule entries -->
+    <VBox fx:id="scheduleContainer" alignment="CENTER" spacing="10.0">
+        <!-- This container will be dynamically populated when the "Generate New Schedule" button is clicked -->
+    </VBox>
+
 </VBox>
