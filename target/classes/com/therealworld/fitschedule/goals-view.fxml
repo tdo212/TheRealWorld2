@@ -50,7 +50,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1"             fx:controller="com.therealworld.fitschedule.controllers.GoalsController">
+<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.therealworld.fitschedule.controllers.GoalsController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -86,12 +86,12 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
           <items>
-            <MenuItem mnemonicParsing="false" fx:id="MenuAbout" text="About TheRealWorld"  />
+            <MenuItem fx:id="MenuAbout" mnemonicParsing="false" text="About TheRealWorld" />
           </items>
         </Menu>
       </menus>
     </MenuBar>
-    <SplitPane dividerPositions="0.2505567928730512, 0.7505567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <SplitPane dividerPositions="0.2505567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <items>
         <AnchorPane>
           <children>
@@ -103,7 +103,7 @@
                 <Color red="0.624" green="0.624" blue="0.624" fx:id="x2" />
               </textFill>
             </Label>
-                  <ListView layoutX="21.0" layoutY="44.0" prefHeight="142.0" prefWidth="177.0" fx:id="contactsListView"/>
+                  <ListView fx:id="contactsListView" layoutX="21.0" layoutY="44.0" prefHeight="142.0" prefWidth="177.0" />
                   <Label alignment="CENTER" layoutX="13.0" layoutY="206.0" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Badges" textAlignment="CENTER" wrapText="false">
                      <font>
                         <Font size="18.0" fx:id="x12" />
@@ -117,7 +117,7 @@
         </AnchorPane>
         <ScrollPane prefHeight="-1.0" prefWidth="-1.0">
           <content>
-            <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="430.0">
+            <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="671.0">
               <children>
                 <Label alignment="CENTER" font="$x1" layoutX="14.0" layoutY="14.0" style="&#10;" text="Goals" textAlignment="CENTER" textFill="$x2" underline="true" wrapText="false" />
                         <ListView layoutX="21.0" layoutY="110.0" prefHeight="200.0" prefWidth="323.0" />
@@ -138,16 +138,11 @@
                               <Color red="0.624" green="0.624" blue="0.624" fx:id="x211" />
                            </textFill>
                         </Label>
+                        <PieChart animated="false" layoutX="415.0" layoutY="60.0" prefHeight="105.0" prefWidth="118.0" title="Pie Chart:" />
               </children>
             </AnchorPane>
           </content>
         </ScrollPane>
-        <AnchorPane prefHeight="551.0" prefWidth="0.0">
-          <children>
-            <Label alignment="CENTER" font="$x1" layoutX="14.0" layoutY="14.0" style="&#10;" text="Details" textAlignment="CENTER" textFill="$x2" wrapText="false" />
-                  <PieChart animated="false" layoutX="7.0" layoutY="52.0" prefHeight="105.0" prefWidth="118.0" title="Pie Chart:" />
-          </children>
-        </AnchorPane>
       </items>
     </SplitPane>
     <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
