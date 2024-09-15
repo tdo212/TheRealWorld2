@@ -13,10 +13,12 @@ public class MockContactDAO implements IContactDAO {
 
     public MockContactDAO() {
         // Add some initial contacts to the mock database
-        addContact(new Contact("4 Hours", "6 Hours", "12/9/2024", "0423423423"));
-        addContact(new Contact("0 Hours", "9 Hours", "19/9/2024", "0423423424"));
-        addContact(new Contact("0 Hours", "3 Hours", "26/9/2024", "0423423425"));
-        addContact(new Contact("0 Hours", "4 Hours", "4/10/2024", "0423423425"));
+        addContact(new Contact("Username: ", "tdo212", "4/10/2024", "0423423425"));
+        addContact(new Contact("Streak: 50 points", "", "12/9/2024", "0423423423"));
+        addContact(new Contact("Hours Exercised: 39", "", "19/9/2024", "0423423424"));
+        addContact(new Contact("Days Exercised: 10", "", "26/9/2024", "0423423425"));
+        addContact(new Contact("Goals Completed: 22", "", "4/10/2024", "0423423425"));
+
     }
 
     @Override
