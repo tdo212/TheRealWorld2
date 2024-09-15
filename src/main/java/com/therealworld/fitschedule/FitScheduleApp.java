@@ -18,7 +18,7 @@ public class FitScheduleApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         // Fetch the FXML file URL
-        URL fxmlFileUrl = FitScheduleApp.class.getResource("/com/therealworld/fitschedule/login-view.fxml");
+        URL fxmlFileUrl = FitScheduleApp.class.getResource("/com/therealworld/fitschedule/dashboard-view.fxml");
 
         // Print the path to the resource for debugging purposes
         System.out.println("FXML URL: " + fxmlFileUrl);
