@@ -56,20 +56,36 @@ public class RegisterController {
 
     @FXML
     protected void onRegisterButtonClick() {
-        String username = usernameField.getText().trim();  // Trim the username here
+        String username = usernameField.getText().trim();
         String password = passwordField.getText();
         String confirmPassword = confirmPasswordField.getText();
         String email = emailField.getText();
         String phoneNumber = phoneNumberField.getText();
 
+        // Validate maximum username length (assuming the max length is 25 characters)
+        if (username.length() > 25) {
+            showAlert("Username exceeds maximum length of 25 characters", Alert.AlertType.ERROR);
+            return;  // Stop further processing
+        }
+
+        // Validate email format
+        if (!isValidEmail(email)) {
+            showAlert("Invalid email format", Alert.AlertType.ERROR);
+            return;  // Stop further processing
+        }
+
+        // Validate phone number format
+        if (!isValidPhoneNumber(phoneNumber)) {
+            showAlert("Invalid phone number format", Alert.AlertType.ERROR);
+            return;  // Stop further processing
+        }
+
         // Collect empty fields
         List<String> emptyFields = getEmptyFields(username, password, confirmPassword, email, phoneNumber);
 
         if (!emptyFields.isEmpty()) {
-            // Show the list of empty fields to the user
             showAlert("The following fields are empty: " + String.join(", ", emptyFields), Alert.AlertType.ERROR);
         } else if (!password.equals(confirmPassword)) {
-            // Show error if passwords don't match
             showAlert("Passwords do not match", Alert.AlertType.ERROR);
         } else {
             // Proceed with registration if validation passes
@@ -77,6 +93,9 @@ public class RegisterController {
             showAlert(REGISTRATION_SUCCESS, Alert.AlertType.INFORMATION);
         }
     }
+
+
+
 
 
     // Method to collect empty fields
@@ -124,4 +143,18 @@ public class RegisterController {
     protected void clearFocus() {
         Platform.runLater(() -> registerButton.getScene().getRoot().requestFocus());
     }
+
+    // Method to validate email format
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"; // Basic regex for email validation
+        return email.matches(emailRegex);
+    }
+
+    // Method to validate phone number format
+    private boolean isValidPhoneNumber(String phoneNumber) {
+        String phoneRegex = "^[+]?[0-9]{10,15}$"; // Allows optional '+' and between 10 to 15 digits
+        return phoneNumber.matches(phoneRegex);
+    }
+
+
 }

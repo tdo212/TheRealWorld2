@@ -1,13 +1,17 @@
 package com.therealworld.fitschedule.controllers;
 
 import com.therealworld.fitschedule.model.SqliteUserDAO;
+import javafx.application.Platform;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
+import static org.mockito.ArgumentMatchers.anyString;
 import org.testfx.framework.junit5.ApplicationExtension;
+
+import java.util.concurrent.CountDownLatch;
 
 @ExtendWith(ApplicationExtension.class) // Initialize TestFX
 public class RegisterControllerTest {
@@ -118,6 +122,125 @@ public class RegisterControllerTest {
         Mockito.verify(mockUserDAO, Mockito.times(1))
                 .addUser("testuser", "password123", "testuser@example.com", "1234567890");
     }
+    @Test
+    public void testUsernameExceedsMaxLength() {
+        registerController.usernameField.setText("a".repeat(26)); // Assuming max length is 255
+        registerController.passwordField.setText("password123");
+        registerController.confirmPasswordField.setText("password123");
+        registerController.emailField.setText("testuser@example.com");
+        registerController.phoneNumberField.setText("1234567890");
+
+        // Simulate the registration button click
+        registerController.onRegisterButtonClick();
+
+        // Verify that userDAO.addUser() was NEVER called due to excessive username length
+        Mockito.verify(mockUserDAO, Mockito.never()).addUser(anyString(), anyString(), anyString(), anyString());
+    }
+
+    @Test
+    public void testInvalidEmailFormat() {
+        registerController.usernameField.setText("testuser");
+        registerController.passwordField.setText("password123");
+        registerController.confirmPasswordField.setText("password123");
+        registerController.emailField.setText("invalid-email"); // Invalid email format
+        registerController.phoneNumberField.setText("1234567890");
+
+        // Simulate registration click
+        registerController.onRegisterButtonClick();
+
+        // Verify that user is not added due to invalid email
+        Mockito.verify(mockUserDAO, Mockito.never()).addUser(anyString(), anyString(), anyString(), anyString());
+    }
+
+    @Test
+    public void testInvalidPhoneNumber() {
+        registerController.usernameField.setText("testuser");
+        registerController.passwordField.setText("password123");
+        registerController.confirmPasswordField.setText("password123");
+        registerController.emailField.setText("testuser@example.com");
+        registerController.phoneNumberField.setText("invalid-phone"); // Invalid phone number format
+
+        // Simulate registration click
+        registerController.onRegisterButtonClick();
+
+        // Verify that user is not added due to invalid phone number
+        Mockito.verify(mockUserDAO, Mockito.never()).addUser(anyString(), anyString(), anyString(), anyString());
+    }
+
+    @Test
+    public void testValidPhoneNumberWithPlus() {
+        registerController.usernameField.setText("testuser");
+        registerController.passwordField.setText("password123");
+        registerController.confirmPasswordField.setText("password123");
+        registerController.emailField.setText("testuser@example.com");
+        registerController.phoneNumberField.setText("+123456789012"); // Valid international phone number
+
+        // Simulate registration click
+        registerController.onRegisterButtonClick();
+
+        // Verify that the user is added
+        Mockito.verify(mockUserDAO, Mockito.times(1)).addUser(anyString(), anyString(), anyString(), anyString());
+    }
+
+    @Test
+    public void testShortPhoneNumber() {
+        registerController.usernameField.setText("testuser");
+        registerController.passwordField.setText("password123");
+        registerController.confirmPasswordField.setText("password123");
+        registerController.emailField.setText("testuser@example.com");
+        registerController.phoneNumberField.setText("123"); // Too short phone number
+
+        // Simulate registration click
+        registerController.onRegisterButtonClick();
+
+        // Verify that user is not added due to invalid phone number
+        Mockito.verify(mockUserDAO, Mockito.never()).addUser(anyString(), anyString(), anyString(), anyString());
+    }
+
+    @Test
+    public void testSimultaneousRegistrations() throws InterruptedException {
+        int threadCount = 5; // Number of simultaneous registrations
+        CountDownLatch startLatch = new CountDownLatch(1); // Latch to ensure all threads start at the same time
+        CountDownLatch doneLatch = new CountDownLatch(threadCount); // Latch to wait for all threads to finish
+
+        Runnable registrationTask = () -> {
+            try {
+                startLatch.await(); // All threads wait here until latch is released
+                Platform.runLater(() -> {
+                    // Set unique values for each thread
+                    registerController.usernameField.setText("user" + Thread.currentThread().getId());
+                    registerController.passwordField.setText("password123");
+                    registerController.confirmPasswordField.setText("password123");
+                    registerController.emailField.setText("testuser" + Thread.currentThread().getId() + "@example.com");
+                    registerController.phoneNumberField.setText("1234567890");
+
+                    // Simulate the registration button click
+                    registerController.onRegisterButtonClick();
+                    doneLatch.countDown(); // Mark this thread as done
+                });
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        };
+
+        // Create and start multiple threads to simulate simultaneous registration attempts
+        for (int i = 0; i < threadCount; i++) {
+            new Thread(registrationTask).start();
+        }
+
+        startLatch.countDown(); // Release all threads to start at the same time
+        doneLatch.await(); // Wait for all threads to finish
+
+        // Verify all users were registered
+        Mockito.verify(mockUserDAO, Mockito.times(threadCount))
+                .addUser(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
+    }
+
+
+
+
+
+
 
 
 
