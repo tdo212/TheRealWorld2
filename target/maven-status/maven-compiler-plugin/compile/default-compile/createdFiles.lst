@@ -1,0 +1,6 @@
+com\therealworld\fitschedule\model\FitScheduleDBConnection.class
+com\therealworld\fitschedule\controllers\SchedulerController.class
+module-info.class
+com\therealworld\fitschedule\model\Schedule.class
+com\therealworld\fitschedule\FitScheduleApp.class
+com\therealworld\fitschedule\model\ScheduleDAO.class
