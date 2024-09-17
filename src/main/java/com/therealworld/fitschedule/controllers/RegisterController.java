@@ -17,7 +17,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class RegisterController {
 
@@ -57,50 +56,78 @@ public class RegisterController {
 
     @FXML
     protected void onRegisterButtonClick() {
+        // Retrieve the input values
         String username = usernameField.getText().trim();
         String password = passwordField.getText();
         String confirmPassword = confirmPasswordField.getText();
         String email = emailField.getText();
         String phoneNumber = phoneNumberField.getText();
 
-        // Validate maximum username length (assuming the max length is 25 characters)
+        // Perform the validations
+        if (!performValidations(username, password, confirmPassword, email, phoneNumber)) {
+            return;  // Stop if validations fail
+        }
+
+        // Proceed with registration if validation passes
+        boolean registrationSuccess = registerUser(username, password, email, phoneNumber);
+        if (registrationSuccess) {
+            showAlert(REGISTRATION_SUCCESS, Alert.AlertType.INFORMATION);
+            clearInputFields(); // Clear the input fields after successful registration
+        } else {
+            showAlert(REGISTRATION_FAILED, Alert.AlertType.ERROR);
+        }
+    }
+
+    // Helper method to perform all validations
+    private boolean performValidations(String username, String password, String confirmPassword, String email, String phoneNumber) {
+        // Check for empty fields
+        List<String> emptyFields = getEmptyFields(username, password, confirmPassword, email, phoneNumber);
+        if (!emptyFields.isEmpty()) {
+            showAlert("The following fields are empty: " + String.join(", ", emptyFields), Alert.AlertType.ERROR);
+            return false;
+        }
+
+        // Validate username length
         if (username.length() > 25) {
             showAlert("Username exceeds maximum length of 25 characters", Alert.AlertType.ERROR);
-            return;  // Stop further processing
+            return false;
         }
 
         // Validate email format
         if (!isValidEmail(email)) {
             showAlert("Invalid email format", Alert.AlertType.ERROR);
-            return;  // Stop further processing
+            return false;
         }
 
         // Validate phone number format
         if (!isValidPhoneNumber(phoneNumber)) {
             showAlert("Invalid phone number format", Alert.AlertType.ERROR);
-            return;  // Stop further processing
+            return false;
         }
 
         // Validate password strength
         if (!isValidPassword(password)) {
             showAlert("Password must be at least 8 characters long and contain at least one digit, one uppercase letter, one lowercase letter, and one special character.", Alert.AlertType.ERROR);
-            return;  // Stop further processing
+            return false;
         }
 
-        // Collect empty fields
-        List<String> emptyFields = getEmptyFields(username, password, confirmPassword, email, phoneNumber);
-
-        if (!emptyFields.isEmpty()) {
-            showAlert("The following fields are empty: " + String.join(", ", emptyFields), Alert.AlertType.ERROR);
-        } else if (!password.equals(confirmPassword)) {
+        // Ensure passwords match
+        if (!password.equals(confirmPassword)) {
             showAlert("Passwords do not match", Alert.AlertType.ERROR);
-        } else {
-            // Proceed with registration if validation passes
-            userDAO.addUser(username, password, email, phoneNumber);
-            showAlert(REGISTRATION_SUCCESS, Alert.AlertType.INFORMATION);
+            return false;
+        }
 
-            // Clear the input fields after successful registration
-            clearInputFields();
+        return true;  // All validations passed
+    }
+
+    // Helper method to handle user registration
+    private boolean registerUser(String username, String password, String email, String phoneNumber) {
+        try {
+            userDAO.addUser(username, password, email, phoneNumber);
+            return true;  // Registration successful
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;  // Registration failed
         }
     }
 
@@ -168,6 +195,7 @@ public class RegisterController {
         String phoneRegex = "^[+]?[0-9]{10,15}$"; // Allows optional '+' and between 10 to 15 digits
         return phoneNumber.matches(phoneRegex);
     }
+
     // Method to clear all input fields
     private void clearInputFields() {
         usernameField.clear();
