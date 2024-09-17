@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.therealworld.fitschedule.controllers.EditGoalsController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <!-- Main container for the UI elements -->
+    <VBox spacing="20" alignment="CENTER" prefWidth="600.0" prefHeight="400.0" layoutX="50.0" layoutY="20.0">
+        <!-- Title -->
+        <Label text="Edit Your Fitness Goals" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+
+        <!-- Goal Type Selector -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Goal Type:"/>
+            <ComboBox fx:id="goalTypeComboBox" prefWidth="150.0">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Cardio"/>
+                        <String fx:value="Gym"/>
+                        <String fx:value="Other"/>
+                    </FXCollections>
+                </items>
+            </ComboBox>
+        </HBox>
+
+        <!-- Duration Type (Hours/Days) -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Duration Type:"/>
+            <ComboBox fx:id="durationTypeComboBox" prefWidth="150.0">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Hours per week"/>
+                        <String fx:value="Days per week"/>
+                    </FXCollections>
+                </items>
+            </ComboBox>
+            <TextField fx:id="durationValueField" promptText="Enter value" prefWidth="100.0"/>
+        </HBox>
+
+        <!-- Overall Goal Duration (4-12 weeks) -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Overall Goal Duration:"/>
+            <ComboBox fx:id="goalDurationComboBox" prefWidth="150.0">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="4 weeks"/>
+                        <String fx:value="5 weeks"/>
+                        <String fx:value="6 weeks"/>
+                        <String fx:value="7 weeks"/>
+                        <String fx:value="8 weeks"/>
+                        <String fx:value="9 weeks"/>
+                        <String fx:value="10 weeks"/>
+                        <String fx:value="11 weeks"/>
+                        <String fx:value="12 weeks"/>
+                    </FXCollections>
+                </items>
+            </ComboBox>
+        </HBox>
+
+        <!-- Target Sessions/Hours per Week -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Target Sessions/Hours:"/>
+            <TextField fx:id="targetSessionsField" promptText="Enter target number" prefWidth="150.0"/>
+        </HBox>
+
+        <!-- Save/Cancel Buttons -->
+        <HBox spacing="10" alignment="CENTER">
+            <Button text="Save" onAction="#onSaveClick" prefWidth="100.0"/>
+            <Button text="Cancel" onAction="#onCancelClick" prefWidth="100.0"/>
+        </HBox>
+    </VBox>
+
+    <!-- Padding around the VBox -->
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+</AnchorPane>
