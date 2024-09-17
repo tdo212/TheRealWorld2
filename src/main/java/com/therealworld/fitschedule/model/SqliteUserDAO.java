@@ -1,4 +1,5 @@
 package com.therealworld.fitschedule.model;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class SqliteUserDAO {
             String query = "CREATE TABLE IF NOT EXISTS users ("
                     + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "username VARCHAR(50) UNIQUE NOT NULL,"
-                    + "password VARCHAR(50) NOT NULL,"
+                    + "password VARCHAR(60) NOT NULL,"  // Increased length for hashed password
                     + "email VARCHAR(50) NOT NULL,"
                     + "phoneNumber VARCHAR(15) NOT NULL"
                     + ")";
@@ -53,11 +54,13 @@ public class SqliteUserDAO {
         }
     }
 
+    // Hash the password using bcrypt and store it in the database
     public void addUser(String username, String password, String email, String phoneNumber) {
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt()); // Hash the password
         String query = "INSERT INTO users (username, password, email, phoneNumber) VALUES (?, ?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, username);
-            pstmt.setString(2, password);
+            pstmt.setString(2, hashedPassword); // Store the hashed password
             pstmt.setString(3, email);
             pstmt.setString(4, phoneNumber);
             pstmt.executeUpdate();
@@ -65,17 +68,20 @@ public class SqliteUserDAO {
             e.printStackTrace();
         }
     }
+
+    // Authenticate user by comparing the hashed password
     public boolean authenticateUser(String username, String password) {
-        String query = "SELECT * FROM users WHERE username = ? AND password = ?";
+        String query = "SELECT password FROM users WHERE username = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, username);
-            pstmt.setString(2, password);
             ResultSet rs = pstmt.executeQuery();
-            return rs.next(); // Return true if credentials are found
+            if (rs.next()) {
+                String hashedPassword = rs.getString("password");
+                return BCrypt.checkpw(password, hashedPassword); // Verify hashed password
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
-
 }

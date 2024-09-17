@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class RegisterController {
 
@@ -80,6 +81,12 @@ public class RegisterController {
             return;  // Stop further processing
         }
 
+        // Validate password strength
+        if (!isValidPassword(password)) {
+            showAlert("Password must be at least 8 characters long and contain at least one digit, one uppercase letter, one lowercase letter, and one special character.", Alert.AlertType.ERROR);
+            return;  // Stop further processing
+        }
+
         // Collect empty fields
         List<String> emptyFields = getEmptyFields(username, password, confirmPassword, email, phoneNumber);
 
@@ -91,12 +98,18 @@ public class RegisterController {
             // Proceed with registration if validation passes
             userDAO.addUser(username, password, email, phoneNumber);
             showAlert(REGISTRATION_SUCCESS, Alert.AlertType.INFORMATION);
+
+            // Clear the input fields after successful registration
+            clearInputFields();
         }
     }
 
-
-
-
+    // Method to validate strong password
+    private boolean isValidPassword(String password) {
+        // Minimum 8 characters, at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character
+        String passwordRegex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&#])[A-Za-z\\d@$!%*?&#]{8,}$";
+        return password.matches(passwordRegex);
+    }
 
     // Method to collect empty fields
     private List<String> getEmptyFields(String username, String password, String confirmPassword, String email, String phoneNumber) {
@@ -155,6 +168,12 @@ public class RegisterController {
         String phoneRegex = "^[+]?[0-9]{10,15}$"; // Allows optional '+' and between 10 to 15 digits
         return phoneNumber.matches(phoneRegex);
     }
-
-
+    // Method to clear all input fields
+    private void clearInputFields() {
+        usernameField.clear();
+        passwordField.clear();
+        confirmPasswordField.clear();
+        emailField.clear();
+        phoneNumberField.clear();
+    }
 }

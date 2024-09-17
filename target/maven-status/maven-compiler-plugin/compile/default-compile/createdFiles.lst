@@ -1,8 +1,0 @@
-com\therealworld\fitschedule\controllers\LoginController.class
-com\therealworld\fitschedule\model\SqliteConnection.class
-module-info.class
-com\therealworld\fitschedule\model\SqliteUserDAO.class
-com\therealworld\fitschedule\controllers\DashboardController.class
-com\therealworld\fitschedule\FitScheduleApp.class
-com\therealworld\fitschedule\model\User.class
-com\therealworld\fitschedule\controllers\RegisterController.class
