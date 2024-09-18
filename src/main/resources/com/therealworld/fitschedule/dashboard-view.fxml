@@ -5,10 +5,91 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.therealworld.fitschedule.controllers.DashboardController" alignment="CENTER" spacing="10.0">
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.therealworld.fitschedule.controllers.DashboardController" alignment="TOP_LEFT" spacing="10.0">
+
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
-    <Label text="Welcome to Fit Schedule!" style="-fx-font-size: 24px;"/>
-    <Button text="Log Out" onAction="#onLogoutButtonClick" />
+
+    <!-- Home and Log out Buttons -->
+    <HBox alignment="CENTER" spacing="475.0">
+        <Button text="Home" onAction="#onHomeButtonClick"/>
+        <Button text="Log Out" onAction="#onLogoutButtonClick" />
+    </HBox>
+
+    <!-- Label for Title of Weekly Schedule -->
+    <HBox alignment="CENTER">
+        <Label text="Your Weekly Schedule" style="-fx-font-size: 24px;"/>
+    </HBox>
+
+    <!-- Table for the current week schedule, with columns for each day of the week -->
+    <HBox alignment="CENTER">
+    <TableView fx:id="scheduleTable">
+        <columns>
+            <TableColumn fx:id="mondayColumn" text="Monday"/>
+            <TableColumn fx:id="tuesdayColumn" text="Tuesday"/>
+            <TableColumn fx:id="wednesdayColumn" text="Wednesday"/>
+            <TableColumn fx:id="thursdayColumn" text="Thursday"/>
+            <TableColumn fx:id="fridayColumn" text="Friday"/>
+            <TableColumn fx:id="saturdayColumn" text="Saturday"/>
+            <TableColumn fx:id="sundayColumn" text="Sunday"/>
+        </columns>
+    </TableView>
+    </HBox>
+
+    <!--  Table for current day schedule  -->
+
+    <HBox alignment="CENTER" spacing="40">
+        <VBox alignment="TOP_CENTER" spacing="5">
+    <Label text="Today's Schedule" style="-fx-font-size: 20px;"/>
+    <TableView fx:id="todaySchedule">
+        <columns>
+            <TableColumn fx:id="dayOfTheWeek" text="dayOfTheWeek"/>
+        </columns>
+    </TableView>
+        </VBox>
+
+    <!-- Vbox Container for Fitness Streak and Goals Progress  -->
+
+        <VBox alignment="TOP_CENTER" spacing="5">
+    <Label text="Fitness Streak" style="-fx-font-size: 20px;"/>
+    <TableView fx:id="fitnessStreak">
+        <columns>
+            <TableColumn fx:id="fitStreak" text="Streak"/>
+        </columns>
+    </TableView>
+            <Label text="Progress to Goal Tracker" style="-fx-font-size: 20px;"/>
+            <TableView fx:id="goalTrackerGraph">
+                <columns>
+                    <TableColumn fx:id="goalTracker" text="Goal"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </HBox>
+
+    <!-- Yes/No Query box for if User successfully followed their training schedule  -->
+    <HBox alignment="CENTER" style="-fx-padding: 10 0 10 0;">
+        <VBox style="-fx-padding: 5 10 10 10; -fx-border-color:black; -fx-border-radius: 10 10 10 10;">
+            <Label text="Did you train today?" style="-fx-font-size: 16px; -fx-padding: 5 0 5 0; "/>
+            <HBox alignment="CENTER" spacing="20">
+                <Button text="Yes" onAction="#onYesButtonClick" style="-fx-padding: 5 15 5 15"/>
+                <Button text="No" onAction="#onNoButtonClick" style="-fx-padding: 5 15 5 15;"/>
+            </HBox>
+        </VBox>
+    </HBox>
+
+    <!-- Navigation bar -->
+    <HBox style="-fx-font-size: 16px; -fx-padding: 10 10 10 10; -fx-alignment: center; -fx-border-radius: 15 15 15 15; -fx-background-color: linear-gradient(#fbfbfb 0%, #e7e7e7 100%);" spacing="20">
+        <Button text="Home" onAction="#onHomeNavButtonClick" style="-fx-padding: 0 40 0 40;"/>
+        <Button text="Schedule" onAction="#onScheduleNavButtonClick" style="-fx-padding: 0 40 0 40;"/>
+        <Button text="Goals" onAction="#onGoalNavButtonClick" style="-fx-padding: 0 40 0 40;" />
+        <Button text="Profile" onAction="#onProfileNavButtonClick" style="-fx-padding: 0 40 0 40;"/>
+    </HBox>
+
 </VBox>

@@ -13,7 +13,7 @@ public class FitScheduleApp extends Application {
     // Constants defining the window title and size
     public static final String TITLE = "Login";
     public static final int WIDTH = 640;
-    public static final int HEIGHT = 360;
+    public static final int HEIGHT = 500;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -36,6 +36,7 @@ public class FitScheduleApp extends Application {
         stage.setTitle(TITLE);
         stage.setScene(scene);
         stage.show();
+
     }
 
     public static void main(String[] args) {
