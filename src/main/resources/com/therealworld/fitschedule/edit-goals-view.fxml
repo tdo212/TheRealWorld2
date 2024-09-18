@@ -15,7 +15,7 @@
     <!-- Main container for the UI elements -->
     <VBox spacing="20" alignment="CENTER" prefWidth="600.0" prefHeight="400.0" layoutX="50.0" layoutY="20.0">
         <!-- Title -->
-        <Label text="Edit Your Fitness Goals" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+        <Label text="Add Fitness Goals" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
 
         <!-- Goal Type Selector -->
         <HBox spacing="10" alignment="CENTER_LEFT">
@@ -29,6 +29,12 @@
                     </FXCollections>
                 </items>
             </ComboBox>
+        </HBox>
+
+        <!-- Target Sessions/Hours per Week -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Other Goal Type:"/>
+            <TextField fx:id="otherGoalTextField" promptText="Enter desired goal type" prefWidth="300.0"/>
         </HBox>
 
         <!-- Duration Type (Hours/Days) -->
@@ -66,8 +72,8 @@
 
         <!-- Target Sessions/Hours per Week -->
         <HBox spacing="10" alignment="CENTER_LEFT">
-            <Label text="Target Sessions/Hours:"/>
-            <TextField fx:id="targetSessionsField" promptText="Enter target number" prefWidth="150.0"/>
+            <Label text="Target Hours:"/>
+            <TextField fx:id="targetSessionsField" promptText="Enter desired number of hours." prefWidth="300.0"/>
         </HBox>
 
         <!-- Save/Cancel Buttons -->

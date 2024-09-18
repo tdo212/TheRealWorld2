@@ -10,7 +10,16 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
+import com.therealworld.fitschedule.model.SqliteGoalsDAO;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import java.io.IOException;
 
 public class EditGoalsController {
@@ -19,6 +28,8 @@ public class EditGoalsController {
     public ComboBox<String> durationTypeComboBox; // For selecting between 'Hours per week', 'Days per week'
     public ComboBox<Integer> goalDurationComboBox; // For selecting 4, 5, 6, up to 12 weeks
     public TextField targetSessionsField; // For entering target number of sessions or hours
+    @FXML
+    public TextField otherGoalTextField; // For entering custom goal type when 'Other' is selected
 
     private SqliteGoalsDAO goalsDAO;
 
@@ -41,6 +52,22 @@ public class EditGoalsController {
 
         // Create DAO instance
         goalsDAO = new SqliteGoalsDAO();
+
+        // Add listener to the goalTypeComboBox to show/hide the otherGoalTextField
+        goalTypeComboBox.valueProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if ("Other".equals(newValue)) {
+                    otherGoalTextField.setVisible(true);
+                } else {
+                    otherGoalTextField.setVisible(false);
+                }
+            }
+        });
+
+        // Initially hide the otherGoalTextField
+        otherGoalTextField.setVisible(false);
+
     }
 
 
@@ -56,9 +83,19 @@ public class EditGoalsController {
             return;
         }
 
+
+        if ("Other".equals(goalType)) {
+            goalType = otherGoalTextField.getText();
+        }
+
         try {
             int targetValue = Integer.parseInt(targetSessions); // Ensure the target value is a number
 
+            // Check if target value is zero
+            if (targetValue == 0) {
+                showAlert("Target value cannot be zero!", Alert.AlertType.ERROR);
+                return;
+            }
             // Assuming userId is available, you should pass it from the logged-in user's session
             int userId = 1; // Example user ID, replace with actual user ID
 
