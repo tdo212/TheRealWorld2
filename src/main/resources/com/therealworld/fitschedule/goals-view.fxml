@@ -28,7 +28,7 @@
                                 <Font size="18.0" fx:id="x1" />
                             </font>
                         </Label>
-                        <ListView fx:id="contactsListView" layoutX="21.0" layoutY="44.0" prefHeight="142.0" prefWidth="177.0" />
+                        <ListView layoutX="21.0" layoutY="44.0" prefHeight="142.0" prefWidth="177.0" />
                         <Label alignment="CENTER" layoutX="17.0" layoutY="208.0" minWidth="52.0" prefHeight="23.0" prefWidth="59.0" text="Badges" underline="true">
                             <font>
                                 <Font size="18.0" fx:id="x12" />
@@ -44,7 +44,7 @@
                         <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="671.0">
                             <children>
                                 <Label alignment="CENTER" font="$x1" layoutX="25.0" layoutY="14.0" text="Goals" underline="true" />
-                                <ListView layoutX="21.0" layoutY="110.0" prefHeight="200.0" prefWidth="323.0" />
+                                <ListView layoutX="21.0" layoutY="110.0" prefHeight="200.0" prefWidth="323.0" fx:id="contactsListView"/>
                                 <ProgressBar layoutX="21.0" layoutY="77.0" prefHeight="20.0" prefWidth="200.0" progress="0.6" />
                                 <Label alignment="CENTER" layoutX="26.0" layoutY="48.0" text="Progress - Weekly Goal:" />
                                 <Label alignment="CENTER" layoutX="21.0" layoutY="348.0" prefHeight="23.0" prefWidth="116.0" text="Current Week:" />

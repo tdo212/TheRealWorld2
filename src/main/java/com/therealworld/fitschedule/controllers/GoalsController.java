@@ -1,10 +1,13 @@
 package com.therealworld.fitschedule.controllers;
 
+import com.therealworld.fitschedule.model.DatabaseHelper;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ListView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -28,5 +31,13 @@ public class GoalsController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    @FXML
+    private ListView<String> contactsListView;
+
+    public void initialize() {
+        ObservableList<String> data = DatabaseHelper.getAllGoals();
+        System.out.println("Number of items to display: " + data.size());
+        contactsListView.setItems(data);
     }
 }
