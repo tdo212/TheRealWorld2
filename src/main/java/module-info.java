@@ -2,6 +2,7 @@ module com.therealworld.fitschedule {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
+    requires jbcrypt;
 
     opens com.therealworld.fitschedule to javafx.fxml;
     exports com.therealworld.fitschedule;

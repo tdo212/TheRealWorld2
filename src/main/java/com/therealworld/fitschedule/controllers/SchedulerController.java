@@ -2,7 +2,7 @@ package com.therealworld.fitschedule.controllers;
 
 import com.therealworld.fitschedule.FitScheduleApp;
 import com.therealworld.fitschedule.model.Schedule;
-import com.therealworld.fitschedule.model.ScheduleDAO;
+import com.therealworld.fitschedule.model.SqliteDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -40,7 +40,7 @@ public class SchedulerController {
     @FXML
     private TableColumn<Schedule, String> sundayColumn;
 
-    private final ScheduleDAO scheduleDAO = new ScheduleDAO();
+    private final SqliteDAO scheduleDAO = new SqliteDAO();
 
     // Initialize the table when the view is loaded
     @FXML
@@ -72,10 +72,8 @@ public class SchedulerController {
     // "Schedule" button action to create or insert a mock schedule
     @FXML
     protected void onScheduleButtonClick() {
-        // Insert mock data into the database
-        scheduleDAO.insertSchedule("Tuesday", "Workout", "Gym session", "10:00 AM", "11:00 AM");
-
-        // Refresh the table to show the new data
+        // Insert mock data into the database for user with ID 1 (replace with actual ID if necessary)
+        scheduleDAO.insertSchedule(1, "Tuesday", "Workout", "Gym session", "10:00 AM", "11:00 AM");
         populateScheduleTable();
     }
 
@@ -111,7 +109,8 @@ public class SchedulerController {
 
     // Method to populate the schedule table with data from the database
     private void populateScheduleTable() {
-        List<Schedule> commitments = scheduleDAO.getAll();
+        int userId = 1;  // Replace with the actual user ID if necessary
+        List<Schedule> commitments = scheduleDAO.getScheduleForUser(userId);
         ObservableList<Schedule> tableData = FXCollections.observableArrayList(commitments);
         scheduleTable.setItems(tableData);
     }
@@ -156,7 +155,7 @@ public class SchedulerController {
                         return;
                     }
 
-                    scheduleDAO.insertSchedule(dayOfWeek, eventName, eventDescription, eventStartTime, eventEndTime);
+                    scheduleDAO.insertSchedule(1, dayOfWeek, eventName, eventDescription, eventStartTime, eventEndTime);
 
                     showAlert("Success", "Commitment added successfully!", Alert.AlertType.INFORMATION);
 

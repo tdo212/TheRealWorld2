@@ -12,7 +12,7 @@ public class FitScheduleDBConnection {
 
     public static synchronized Connection getInstance() {
         if (instance == null) {
-            String url = "jdbc:sqlite:schedulingdatabase.db";  // Remove spaces in the file name
+            String url = "jdbc:sqlite:FitScheduleDBConnection.db";  // Remove spaces in the file name
             try {
                 instance = DriverManager.getConnection(url);
             } catch (SQLException sqlEx) {

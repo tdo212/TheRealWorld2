@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+
+<HBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.therealworld.fitschedule.controllers.NavigationController"
+      style="-fx-font-size: 16px; -fx-padding: 10 10 10 10; -fx-alignment: center; -fx-border-radius: 15 15 15 15; -fx-background-color: linear-gradient(#fbfbfb 0%, #e7e7e7 100%);" spacing="20">
+    <Button text="Home" onAction="#onHomeNavButtonClick" style="-fx-padding: 0 40 0 40;"/>
+    <Button text="Schedule" onAction="#onScheduleNavButtonClick" style="-fx-padding: 0 40 0 40;"/>
+    <Button text="Goals" onAction="#onGoalNavButtonClick" style="-fx-padding: 0 40 0 40;" />
+    <Button text="Profile" onAction="#onProfileNavButtonClick" style="-fx-padding: 0 40 0 40;"/>
+</HBox>

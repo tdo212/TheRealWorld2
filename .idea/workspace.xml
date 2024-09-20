@@ -5,21 +5,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="764ab08b-92db-428a-9811-fe61d0ba3206" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/DashboardController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/EditGoalsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/GoalsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/NavigationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/RegisterController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/SqliteDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/therealworld/fitschedule/dashboard-view.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/therealworld/fitschedule/edit-goals-view.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/therealworld/fitschedule/goals-view.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/therealworld/fitschedule/navbar.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/schedulingdatabase.db" beforeDir="false" afterPath="$PROJECT_DIR$/schedulingdatabase.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/schedulingdatabase.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/FitScheduleApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/FitScheduleApp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/SchedulerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/SchedulerController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/FitScheduleDBConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/FitScheduleDBConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/Schedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/Schedule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/ScheduleDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/ScheduleDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/ScheduleDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/therealworld/fitschedule/scheduler-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/therealworld/fitschedule/scheduler-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/FitScheduleApp.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/FitScheduleApp.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/SchedulerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/SchedulerController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/FitScheduleDBConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/FitScheduleDBConnection.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/Schedule.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/Schedule.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/ScheduleDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/ScheduleDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/Scheduling.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/ScheduleDAO.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/scheduler-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/scheduler-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +40,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="FxmlFile" />
         <option value="Class" />
       </list>
     </option>
@@ -81,9 +93,9 @@
     "Repository.Attach.Sources": "false",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "SchedulingUI",
+    "git-widget-placeholder": "Intergrated",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Ben/IdeaProjects/TheRealWorld2",
+    "last_opened_file_path": "C:/Users/Ben/IdeaProjects/TheRealWorld2/src/main/resources/com/therealworld/fitschedule",
     "node.js.selected.package.tslint": "(autodetect)",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
@@ -97,7 +109,12 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Ben\IdeaProjects\TheRealWorld2\src\main\resources\com\therealworld\fitschedule" />
       <recent name="C:\Users\Ben\IdeaProjects\TheRealWorld2" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.therealworld.fitschedule.controllers" />
+      <recent name="com.therealworld.fitschedule.model" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
