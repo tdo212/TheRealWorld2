@@ -14,6 +14,7 @@ public class SqliteGoalsDAO {
     public SqliteGoalsDAO() {
         connection = SqliteConnection.getInstance();
         createTable();
+        createGoalsTable();
     }
 
     // Create the goals table if it doesn't exist
@@ -34,6 +35,21 @@ public class SqliteGoalsDAO {
         }
     }
 
+    // Create the goals table if it doesn't exist
+    private void createGoalsTable() {
+        String query = "CREATE TABLE IF NOT EXISTS stats (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "user_id INTEGER NOT NULL," +
+                "goals_completed TEXT NOT NULL," +// Store goal duration as INTEGER for weeks
+                "goals_remaining TEXT NOT NULL," +
+                "FOREIGN KEY(user_id) REFERENCES users(id)" +
+                ")";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     // Insert a new goal
     public void addGoal(int userId, String goalType, String goalDuration, int goalPeriod, int targetValue) {
         String query = "INSERT INTO goals (user_id, goal_type, goal_duration, goal_period, goal_description) VALUES (?, ?, ?, ?, ?)";
