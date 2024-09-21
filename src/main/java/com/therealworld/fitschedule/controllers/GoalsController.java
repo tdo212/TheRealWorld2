@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressBar;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -46,6 +47,7 @@ public class GoalsController {
         contactsListView.setItems(data);
         displayGoalCount();
         displayPieChart();
+        updateProgressBar();
     }
     public void displayGoalCount() {
         int goalCount = databaseHelper.countGoals();
@@ -54,14 +56,30 @@ public class GoalsController {
     @FXML
     private PieChart pieChart;
     public void displayPieChart() {
+        int goalCount = databaseHelper.countGoals();
         // Sample data for the PieChart
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-                new PieChart.Data("Category A", 50),
-                new PieChart.Data("Category B", 30),
-                new PieChart.Data("Category C", 20)
+                new PieChart.Data("Completed", 30),
+                new PieChart.Data("Incomplete", goalCount)
+
         );
 
         // Set data to the PieChart
         pieChart.setData(pieChartData);
+    }
+
+    @FXML
+    private ProgressBar progressBar;
+    @FXML
+    private Label progressLabel;  // Label to display percentage
+    // Method to calculate and update the progress bar
+    public void updateProgressBar() {
+        // Get the completed and total goal stats from the database
+        int goalCount = databaseHelper.countGoals();
+        int completeGoals = 7;
+        double progressgoals = (double) completeGoals / goalCount;
+        progressBar.setProgress(progressgoals);
+        int progresslabel = (int) (progressgoals * 100);
+        progressLabel.setText(progresslabel + "%");
     }
 }

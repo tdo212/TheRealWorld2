@@ -48,14 +48,14 @@
                             <children>
                                 <Label alignment="CENTER" font="$x1" layoutX="25.0" layoutY="14.0" text="Goals" underline="true" />
                                 <ListView fx:id="contactsListView" layoutX="21.0" layoutY="110.0" prefHeight="200.0" prefWidth="323.0" />
-                                <ProgressBar layoutX="21.0" layoutY="77.0" prefHeight="20.0" prefWidth="200.0" progress="0.6" />
+                                <ProgressBar layoutX="21.0" layoutY="77.0" prefHeight="20.0" prefWidth="200.0" fx:id="progressBar"/>
                                 <Label alignment="CENTER" layoutX="26.0" layoutY="48.0" text="Progress - Weekly Goal:" />
                                 <Label alignment="CENTER" layoutX="21.0" layoutY="348.0" prefHeight="23.0" prefWidth="116.0" text="Current Week:" />
                                 <PieChart animated="false" layoutX="341.0" layoutY="60.0" prefHeight="248.0" prefWidth="316.0" title="Weekly Goals - Pie Chart:" fx:id="pieChart"/>
                                 <ListView layoutX="19.0" layoutY="414.0" prefHeight="200.0" prefWidth="323.0" />
                                 <ProgressBar layoutX="19.0" layoutY="381.0" prefHeight="20.0" prefWidth="200.0" progress="0.6" />
                                 <PieChart animated="false" layoutX="344.0" layoutY="348.0" prefHeight="272.0" prefWidth="309.0" title="General Goals - Pie Chart:" />
-                                <Label alignment="CENTER" layoutX="232.0" layoutY="75.0" prefHeight="23.0" prefWidth="42.0" text="65%" />
+                                <Label alignment="CENTER" layoutX="232.0" layoutY="75.0" prefHeight="23.0" prefWidth="42.0" fx:id="progressLabel" text="0%"/>
                                 <Label alignment="CENTER" layoutX="236.0" layoutY="380.0" prefHeight="23.0" prefWidth="42.0" text="65%" />
 
                                 <!-- New Button for editing goals -->
