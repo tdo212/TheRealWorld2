@@ -34,7 +34,7 @@
                             </font>
                         </Label>
                         <ListView layoutX="20.0" layoutY="236.0" prefHeight="142.0" prefWidth="177.0" />
-                  <Label fx:id="goalCountLabel" layoutX="24.0" layoutY="148.0" prefHeight="17.0" prefWidth="125.0" text="Goals Remaining:"/>
+                  <Label fx:id="goalCountLabel" layoutX="24.0" layoutY="148.0" prefHeight="17.0" prefWidth="125.0" text="Goals Remaining:" />
                   <Label layoutX="28.0" layoutY="58.0" prefHeight="17.0" prefWidth="49.0" text="UserID: 1" />
                   <Label layoutX="26.0" layoutY="90.0" prefHeight="17.0" prefWidth="29.0" text="ID: 1" />
                   <Label layoutX="24.0" layoutY="116.0" text="Goals Completed: 0" />
@@ -48,18 +48,19 @@
                             <children>
                                 <Label alignment="CENTER" font="$x1" layoutX="25.0" layoutY="14.0" text="Goals" underline="true" />
                                 <ListView fx:id="contactsListView" layoutX="21.0" layoutY="110.0" prefHeight="200.0" prefWidth="323.0" />
-                                <ProgressBar layoutX="21.0" layoutY="77.0" prefHeight="20.0" prefWidth="200.0" fx:id="progressBar"/>
+                                <ProgressBar fx:id="progressBar" layoutX="21.0" layoutY="77.0" prefHeight="20.0" prefWidth="200.0" />
                                 <Label alignment="CENTER" layoutX="26.0" layoutY="48.0" text="Progress - Weekly Goal:" />
                                 <Label alignment="CENTER" layoutX="21.0" layoutY="348.0" prefHeight="23.0" prefWidth="116.0" text="Current Week:" />
-                                <PieChart animated="false" layoutX="341.0" layoutY="60.0" prefHeight="248.0" prefWidth="316.0" title="Weekly Goals - Pie Chart:" fx:id="pieChart"/>
+                                <PieChart fx:id="pieChart" animated="false" layoutX="341.0" layoutY="60.0" prefHeight="248.0" prefWidth="316.0" title="Weekly Goals - Pie Chart:" />
                                 <ListView layoutX="19.0" layoutY="414.0" prefHeight="200.0" prefWidth="323.0" />
                                 <ProgressBar layoutX="19.0" layoutY="381.0" prefHeight="20.0" prefWidth="200.0" progress="0.6" />
                                 <PieChart animated="false" layoutX="344.0" layoutY="348.0" prefHeight="272.0" prefWidth="309.0" title="General Goals - Pie Chart:" />
-                                <Label alignment="CENTER" layoutX="232.0" layoutY="75.0" prefHeight="23.0" prefWidth="42.0" fx:id="progressLabel" text="0%"/>
+                                <Label fx:id="progressLabel" alignment="CENTER" layoutX="232.0" layoutY="75.0" prefHeight="23.0" prefWidth="42.0" text="0%" />
                                 <Label alignment="CENTER" layoutX="236.0" layoutY="380.0" prefHeight="23.0" prefWidth="42.0" text="65%" />
 
                                 <!-- New Button for editing goals -->
                                 <Button fx:id="editGoalsButton" layoutX="580.0" layoutY="14.0" onAction="#onEditGoalsClick" text="Edit Goals" />
+                        <Button layoutX="489.0" layoutY="14.0"  text="Complete" />
                             </children>
                         </AnchorPane>
                     </content>
