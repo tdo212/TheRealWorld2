@@ -18,7 +18,6 @@
 <VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.therealworld.fitschedule.controllers.GoalsController">
     <children>
 
-
         <!-- SplitPane for stats and goals content -->
         <SplitPane dividerPositions="0.2505567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
             <items>
@@ -57,7 +56,9 @@
                                 <Label alignment="CENTER" layoutX="236.0" layoutY="380.0" prefHeight="23.0" prefWidth="42.0" text="65%" />
 
                                 <!-- New Button for editing goals -->
-                                <Button fx:id="editGoalsButton" layoutX="580.0" layoutY="14.0" text="Edit Goals" onAction="#onEditGoalsClick"/>
+                                <Button fx:id="editGoalsButton" layoutX="500.0" layoutY="14.0" text="Edit Goals" onAction="#onEditGoalsClick"/>
+                                <!-- Button added for logging off -->
+                                <Button fx:id="logoffButton" layoutX="580.0" layoutY="14.0" text="Log Off" onAction="#onLogoffButtonClick"/>
                             </children>
                         </AnchorPane>
                     </content>

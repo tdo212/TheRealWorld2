@@ -1,5 +1,6 @@
 package com.therealworld.fitschedule.controllers;
 
+import com.therealworld.fitschedule.FitScheduleApp;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,19 +15,14 @@ public class GoalsController {
 
     @FXML
     private void onEditGoalsClick(ActionEvent event) {
-        try {
-            // Load the Edit Goals FXML
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/therealworld/fitschedule/edit-goals-view.fxml"));
-            Parent root = fxmlLoader.load();
 
-            // Create a new stage (window) for the Edit Goals UI
-            Stage stage = new Stage();
-            stage.setTitle("Edit Goals");
-            stage.initModality(Modality.APPLICATION_MODAL); // Block interaction with other windows
-            stage.setScene(new Scene(root));
-            stage.showAndWait(); // Wait until the edit goals window is closed
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    }
+
+    // Log off button
+    public void onLogoffButtonClick(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("login-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
+        stage.setScene(scene);
     }
 }
