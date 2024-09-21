@@ -13,6 +13,13 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
+import com.therealworld.fitschedule.model.DayTracker;  // Import the DayTracker class
+import com.therealworld.fitschedule.model.Schedule;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,6 +31,7 @@ public class SchedulerController {
 
     @FXML
     private TableView<Schedule> scheduleTable;
+
 
     @FXML
     private TableColumn<Schedule, String> mondayColumn;
@@ -47,6 +55,8 @@ public class SchedulerController {
     public void initialize() {
         bindTableColumns();
         populateScheduleTable();
+        // Make columns fill the available space
+        scheduleTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
     // Bind the TableColumns to the Schedule properties
@@ -95,17 +105,142 @@ public class SchedulerController {
         showAlert("Next Week", "Display next week's schedule.", Alert.AlertType.INFORMATION);
     }
 
-    // "Change Schedule" button action
     @FXML
     protected void onChangeScheduleButtonClick() {
-        showAlert("Change Schedule", "Change the selected schedule.", Alert.AlertType.INFORMATION);
+        // Create a confirmation alert dialog
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Clear Schedule Confirmation");
+        confirmationAlert.setHeaderText("Are you sure you want to clear the schedule?");
+        confirmationAlert.setContentText("This action cannot be undone.");
+
+        // Add buttons for the user to confirm or cancel
+        ButtonType buttonYes = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+        ButtonType buttonNo = new ButtonType("No", ButtonBar.ButtonData.NO);
+        confirmationAlert.getButtonTypes().setAll(buttonYes, buttonNo);
+
+        // Show the alert and wait for the user's response
+        confirmationAlert.showAndWait().ifPresent(response -> {
+            if (response == buttonYes) {
+                // User confirmed, clear the table
+                scheduleTable.getItems().clear();
+
+                // Optional: if you want to clear the database as well
+                scheduleDAO.clearScheduleForUser(1);  // Assuming 1 is the user ID, replace as needed
+
+                showAlert("Success", "The schedule has been cleared.", Alert.AlertType.INFORMATION);
+            } else if (response == buttonNo) {
+                // User chose "No", do nothing and close the dialog
+                confirmationAlert.close();
+            }
+        });
     }
 
-    // "Update Schedule" button action
     @FXML
     protected void onUpdateScheduleButtonClick() {
-        showAlert("Update Schedule", "Update the selected schedule.", Alert.AlertType.INFORMATION);
+        try {
+            // Clear the root container
+            rootContainer.getChildren().clear();
+
+            // Title for the update form
+            Label formTitle = new Label("Update an Existing Commitment");
+
+            // Create dropdown for day selection
+            ComboBox<String> dayComboBox = new ComboBox<>();
+            dayComboBox.getItems().addAll("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
+
+            // Dropdown for selecting an event once day is selected
+            ComboBox<Schedule> eventComboBox = new ComboBox<>();
+
+            // Populate the event dropdown based on the selected day
+            dayComboBox.setOnAction(event -> {
+                String selectedDay = dayComboBox.getValue();
+                if (selectedDay != null) {
+                    List<Schedule> commitments = scheduleDAO.getCommitmentsForDay(1, selectedDay);  // User ID is 1, change as needed
+                    eventComboBox.setItems(FXCollections.observableArrayList(commitments));
+                }
+            });
+
+            // Text fields for event details (same as in generate new schedule)
+            TextField eventNameTextField = new TextField();
+            TextField eventDescriptionTextField = new TextField();
+            TextField eventStartTimeTextField = new TextField();
+            TextField eventEndTimeTextField = new TextField();
+
+            eventComboBox.setOnAction(event -> {
+                Schedule selectedSchedule = eventComboBox.getValue();
+                if (selectedSchedule != null) {
+                    // Populate the form fields with the selected event's existing data
+                    eventNameTextField.setText(selectedSchedule.getEventName());
+                    eventDescriptionTextField.setText(selectedSchedule.getEventDescription());
+                    eventStartTimeTextField.setText(selectedSchedule.getEventStartTime());
+                    eventEndTimeTextField.setText(selectedSchedule.getEventEndTime());
+                }
+            });
+
+            // Add the checkbox for "Is this a workout?"
+            CheckBox isWorkoutCheckBox = new CheckBox("Is this a workout?");
+
+
+            // Button to submit the updated data
+            Button submitButton = new Button("Submit");
+
+            submitButton.setOnAction(event -> {
+                try {
+                    Schedule selectedSchedule = eventComboBox.getValue();
+                    if (selectedSchedule == null) {
+                        showAlert("Error", "No event selected for update.", Alert.AlertType.ERROR);
+                        return;
+                    }
+
+                    // Get updated fields
+                    String dayOfWeek = dayComboBox.getValue();
+                    String eventName = eventNameTextField.getText();
+                    String eventDescription = eventDescriptionTextField.getText();
+                    String eventStartTime = eventStartTimeTextField.getText();
+                    String eventEndTime = eventEndTimeTextField.getText();
+
+                    // Validate inputs
+                    if (dayOfWeek == null || eventName.isEmpty() || eventDescription.isEmpty() || eventStartTime.isEmpty() || eventEndTime.isEmpty()) {
+                        showAlert("Error", "All fields are required.", Alert.AlertType.ERROR);
+                        return;
+                    }
+
+                    // Delete the old schedule and insert the new one (you can modify this to update the existing row if your DB supports it)
+                    scheduleDAO.deleteSchedule(selectedSchedule.getId());  // Assuming there's an ID field to identify the record
+                    scheduleDAO.insertSchedule(1, dayOfWeek, eventName, eventDescription, eventStartTime, eventEndTime);
+
+                    showAlert("Success", "Commitment updated successfully!", Alert.AlertType.INFORMATION);
+
+                    buildInitialLayout();  // Recreate initial layout
+                    populateScheduleTable();  // Refresh the table with new data
+                } catch (Exception e) {
+                    showAlert("Error", "An error occurred: " + e.getMessage(), Alert.AlertType.ERROR);
+                }
+            });
+
+            // Create the "Back" button to go back to the main schedule view
+            Button backButton = new Button("Back");
+            backButton.setOnAction(event -> buildInitialLayout());
+
+            // Add all elements to the root container
+            rootContainer.getChildren().addAll(
+                    formTitle,
+                    new HBox(new Label("Day of the Week: "), dayComboBox),
+                    new HBox(new Label("Select Event: "), eventComboBox),
+                    new HBox(new Label("Event Name: "), eventNameTextField),
+                    new HBox(new Label("Description: "), eventDescriptionTextField),
+                    new HBox(new Label("Start Time: "), eventStartTimeTextField),
+                    new HBox(new Label("End Time: "), eventEndTimeTextField),
+                    isWorkoutCheckBox,  // Add the checkbox to the form
+                    submitButton,
+                    backButton  // Add the "Back" button to the layout
+            );
+        } catch (Exception e) {
+            showAlert("Error", "An error occurred while updating the schedule: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
     }
+
+    private final DayTracker dayTracker = new DayTracker();  // Instance of the DayTracker class
 
     // Method to populate the schedule table with data from the database
     private void populateScheduleTable() {
@@ -113,9 +248,35 @@ public class SchedulerController {
         List<Schedule> commitments = scheduleDAO.getScheduleForUser(userId);
         ObservableList<Schedule> tableData = FXCollections.observableArrayList(commitments);
         scheduleTable.setItems(tableData);
+
+        // Highlight events happening today and at the current time
+        highlightCurrentEvents(tableData);
     }
 
-    // "Generate New Schedule" button action handler
+    // Method to highlight events happening today and at the current time
+    private void highlightCurrentEvents(ObservableList<Schedule> tableData) {
+        List<Schedule> eventsHappeningNow = dayTracker.getEventsHappeningNow(tableData);
+
+        // Add custom CSS style to highlight rows
+        scheduleTable.setRowFactory(tv -> new TableRow<>() {
+            @Override
+            protected void updateItem(Schedule item, boolean empty) {
+                super.updateItem(item, empty);
+
+                // Remove previous styles
+                setStyle("");
+
+                // Check if the current row item is one of the events happening now
+                if (item != null && eventsHappeningNow.contains(item)) {
+                    setStyle("-fx-background-color: yellow;");  // Highlight with yellow color
+                }
+            }
+        });
+    }
+
+
+
+
     @FXML
     protected void onGenerateNewScheduleButtonClick() {
         try {
@@ -139,6 +300,9 @@ public class SchedulerController {
 
             TextField eventEndTimeTextField = new TextField();
             eventEndTimeTextField.setPromptText("End Time (e.g. 11:00 AM)");
+
+            // Add the checkbox for "Is this a workout?"
+            CheckBox isWorkoutCheckBox = new CheckBox("Is this a workout?");
 
             Button submitButton = new Button("Submit");
 
@@ -166,6 +330,11 @@ public class SchedulerController {
                 }
             });
 
+            // Create the "Back" button to go back to the main schedule view
+            Button backButton = new Button("Back");
+            backButton.setOnAction(event -> buildInitialLayout());
+
+            // Add all elements to the root container
             rootContainer.getChildren().addAll(
                     formTitle,
                     new HBox(new Label("Day of the Week: "), dayComboBox),
@@ -173,12 +342,15 @@ public class SchedulerController {
                     new HBox(new Label("Description: "), eventDescriptionTextField),
                     new HBox(new Label("Start Time: "), eventStartTimeTextField),
                     new HBox(new Label("End Time: "), eventEndTimeTextField),
-                    submitButton
+                    isWorkoutCheckBox,  // Add the checkbox to the form
+                    submitButton,
+                    backButton  // Add the "Back" button to the layout
             );
         } catch (Exception e) {
             showAlert("Error", "An error occurred while generating the new schedule: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
+
 
     // Utility method to show alert messages
     private void showAlert(String title, String content, Alert.AlertType alertType) {
@@ -188,37 +360,17 @@ public class SchedulerController {
         alert.showAndWait();
     }
 
-    // Method to build the initial screen layout (buttons, table, etc.)
     private void buildInitialLayout() {
-        rootContainer.getChildren().clear();
+        try {
+            // Load the FXML file for the schedule view
+            FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("scheduler-view.fxml"));
+            VBox scheduleLayout = fxmlLoader.load();
 
-        HBox schedulingHBox = new HBox(475);
-        Button scheduleButton = new Button("Schedule");
-        Button logoffButton = new Button("Log Off");
-        schedulingHBox.setSpacing(475);
-        schedulingHBox.getChildren().addAll(scheduleButton, logoffButton);
-
-        HBox navigationHBox = new HBox(20);
-        Button previousWeekButton = new Button("Previous Week");
-        Button currentWeekButton = new Button("Current Week");
-        Button nextWeekButton = new Button("Next Week");
-        navigationHBox.setSpacing(20);
-        navigationHBox.getChildren().addAll(previousWeekButton, currentWeekButton, nextWeekButton);
-
-        Label scheduleLabel = new Label("Weekly Schedule Overview");
-
-        HBox actionHBox = new HBox(20);
-        Button changeScheduleButton = new Button("Change Schedule");
-        Button updateScheduleButton = new Button("Update Schedule");
-        Button generateNewScheduleButton = new Button("Generate New Schedule");
-        actionHBox.getChildren().addAll(changeScheduleButton, updateScheduleButton, generateNewScheduleButton);
-
-        rootContainer.getChildren().addAll(
-                schedulingHBox,
-                navigationHBox,
-                scheduleLabel,
-                scheduleTable,
-                actionHBox
-        );
+            // Clear the root container and add the loaded layout from FXML
+            rootContainer.getChildren().clear();
+            rootContainer.getChildren().add(scheduleLayout);
+        } catch (IOException e) {
+            showAlert("Error", "Failed to load the schedule layout: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
     }
 }

@@ -156,6 +156,35 @@ public class SqliteDAO {
         return schedules;
     }
 
+    // New Method: Get Commitments for a Specific Day
+    public List<Schedule> getCommitmentsForDay(int userId, String dayOfWeek) {
+        List<Schedule> schedules = new ArrayList<>();
+        String query = "SELECT * FROM currentSchedule WHERE user_id = ? AND dayOfWeek = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setInt(1, userId);
+            pstmt.setString(2, dayOfWeek);
+            ResultSet rs = pstmt.executeQuery();
+
+            // Loop through the result set and create Schedule objects
+            while (rs.next()) {
+                Schedule schedule = new Schedule(
+                        rs.getInt("id"),                      // Schedule ID
+                        rs.getString("dayOfWeek"),            // Day of the week
+                        rs.getString("eventName"),            // Event name
+                        rs.getString("eventDescription"),     // Event description
+                        rs.getString("eventStartTime"),       // Event start time
+                        rs.getString("eventEndTime")          // Event end time
+                );
+                schedules.add(schedule);  // Add the schedule to the list
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error retrieving commitments for day: " + ex.getMessage());
+        }
+
+        return schedules;
+    }
+
     public void deleteSchedule(int scheduleId) {
         String query = "DELETE FROM currentSchedule WHERE id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -234,6 +263,17 @@ public class SqliteDAO {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void clearScheduleForUser(int userId) {
+        String query = "DELETE FROM currentSchedule WHERE user_id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setInt(1, userId);
+            pstmt.executeUpdate();
+            System.out.println("Schedule cleared for user " + userId);
+        } catch (SQLException ex) {
+            System.err.println("Error clearing schedule: " + ex.getMessage());
         }
     }
 }
