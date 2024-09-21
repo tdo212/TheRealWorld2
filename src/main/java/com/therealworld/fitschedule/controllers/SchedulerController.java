@@ -137,52 +137,66 @@ public class SchedulerController {
     @FXML
     protected void onUpdateScheduleButtonClick() {
         try {
-            // Clear the root container
+            // Clear the root container to make space for the update form
             rootContainer.getChildren().clear();
 
-            // Title for the update form
+            // Create a form title
             Label formTitle = new Label("Update an Existing Commitment");
 
-            // Create dropdown for day selection
+            // Create a ComboBox for selecting the day of the week
             ComboBox<String> dayComboBox = new ComboBox<>();
             dayComboBox.getItems().addAll("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
 
-            // Dropdown for selecting an event once day is selected
+            // ComboBox for selecting the specific event for the selected day
             ComboBox<Schedule> eventComboBox = new ComboBox<>();
 
-            // Populate the event dropdown based on the selected day
+            // Populate the event ComboBox based on the selected day
             dayComboBox.setOnAction(event -> {
                 String selectedDay = dayComboBox.getValue();
                 if (selectedDay != null) {
-                    List<Schedule> commitments = scheduleDAO.getCommitmentsForDay(1, selectedDay);  // User ID is 1, change as needed
+                    List<Schedule> commitments = scheduleDAO.getCommitmentsForDay(1, selectedDay);  // Replace 1 with actual user ID if necessary
                     eventComboBox.setItems(FXCollections.observableArrayList(commitments));
                 }
             });
 
-            // Text fields for event details (same as in generate new schedule)
+            // Text fields for the event name and description
             TextField eventNameTextField = new TextField();
-            TextField eventDescriptionTextField = new TextField();
-            TextField eventStartTimeTextField = new TextField();
-            TextField eventEndTimeTextField = new TextField();
+            eventNameTextField.setPromptText("Enter Event Name");
 
+            TextField eventDescriptionTextField = new TextField();
+            eventDescriptionTextField.setPromptText("Enter Event Description");
+
+            // Time fields for start time and end time with AM/PM dropdowns
+            TextField eventStartTimeTextField = new TextField();
+            eventStartTimeTextField.setPromptText("Start Time (e.g., 10:00)");
+
+            ComboBox<String> startAmPmComboBox = new ComboBox<>(FXCollections.observableArrayList("AM", "PM"));
+
+            TextField eventEndTimeTextField = new TextField();
+            eventEndTimeTextField.setPromptText("End Time (e.g., 11:00)");
+
+            ComboBox<String> endAmPmComboBox = new ComboBox<>(FXCollections.observableArrayList("AM", "PM"));
+
+            // When an event is selected, populate the fields with its data
             eventComboBox.setOnAction(event -> {
                 Schedule selectedSchedule = eventComboBox.getValue();
                 if (selectedSchedule != null) {
-                    // Populate the form fields with the selected event's existing data
                     eventNameTextField.setText(selectedSchedule.getEventName());
                     eventDescriptionTextField.setText(selectedSchedule.getEventDescription());
-                    eventStartTimeTextField.setText(selectedSchedule.getEventStartTime());
-                    eventEndTimeTextField.setText(selectedSchedule.getEventEndTime());
+
+                    // Parse the existing start time and end time into time and AM/PM
+                    String[] startTimeParts = selectedSchedule.getEventStartTime().split(" ");
+                    eventStartTimeTextField.setText(startTimeParts[0]);
+                    startAmPmComboBox.setValue(startTimeParts[1]);
+
+                    String[] endTimeParts = selectedSchedule.getEventEndTime().split(" ");
+                    eventEndTimeTextField.setText(endTimeParts[0]);
+                    endAmPmComboBox.setValue(endTimeParts[1]);
                 }
             });
 
-            // Add the checkbox for "Is this a workout?"
-            CheckBox isWorkoutCheckBox = new CheckBox("Is this a workout?");
-
-
-            // Button to submit the updated data
+            // Submit button to save the updated event
             Button submitButton = new Button("Submit");
-
             submitButton.setOnAction(event -> {
                 try {
                     Schedule selectedSchedule = eventComboBox.getValue();
@@ -191,33 +205,34 @@ public class SchedulerController {
                         return;
                     }
 
-                    // Get updated fields
+                    // Get the updated fields
                     String dayOfWeek = dayComboBox.getValue();
                     String eventName = eventNameTextField.getText();
                     String eventDescription = eventDescriptionTextField.getText();
-                    String eventStartTime = eventStartTimeTextField.getText();
-                    String eventEndTime = eventEndTimeTextField.getText();
+                    String eventStartTime = eventStartTimeTextField.getText() + " " + startAmPmComboBox.getValue();
+                    String eventEndTime = eventEndTimeTextField.getText() + " " + endAmPmComboBox.getValue();
 
-                    // Validate inputs
+                    // Validate the input fields
                     if (dayOfWeek == null || eventName.isEmpty() || eventDescription.isEmpty() || eventStartTime.isEmpty() || eventEndTime.isEmpty()) {
                         showAlert("Error", "All fields are required.", Alert.AlertType.ERROR);
                         return;
                     }
 
-                    // Delete the old schedule and insert the new one (you can modify this to update the existing row if your DB supports it)
-                    scheduleDAO.deleteSchedule(selectedSchedule.getId());  // Assuming there's an ID field to identify the record
+                    // Delete the old schedule entry and insert the updated one
+                    scheduleDAO.deleteSchedule(selectedSchedule.getId());
                     scheduleDAO.insertSchedule(1, dayOfWeek, eventName, eventDescription, eventStartTime, eventEndTime);
 
                     showAlert("Success", "Commitment updated successfully!", Alert.AlertType.INFORMATION);
 
-                    buildInitialLayout();  // Recreate initial layout
-                    populateScheduleTable();  // Refresh the table with new data
+                    // Rebuild the initial layout and refresh the table with updated data
+                    buildInitialLayout();
+                    populateScheduleTable();
                 } catch (Exception e) {
                     showAlert("Error", "An error occurred: " + e.getMessage(), Alert.AlertType.ERROR);
                 }
             });
 
-            // Create the "Back" button to go back to the main schedule view
+            // Back button to return to the main schedule view
             Button backButton = new Button("Back");
             backButton.setOnAction(event -> buildInitialLayout());
 
@@ -228,16 +243,16 @@ public class SchedulerController {
                     new HBox(new Label("Select Event: "), eventComboBox),
                     new HBox(new Label("Event Name: "), eventNameTextField),
                     new HBox(new Label("Description: "), eventDescriptionTextField),
-                    new HBox(new Label("Start Time: "), eventStartTimeTextField),
-                    new HBox(new Label("End Time: "), eventEndTimeTextField),
-                    isWorkoutCheckBox,  // Add the checkbox to the form
+                    new HBox(new Label("Start Time: "), eventStartTimeTextField, startAmPmComboBox),
+                    new HBox(new Label("End Time: "), eventEndTimeTextField, endAmPmComboBox),
                     submitButton,
-                    backButton  // Add the "Back" button to the layout
+                    backButton
             );
         } catch (Exception e) {
             showAlert("Error", "An error occurred while updating the schedule: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
+
 
     private final DayTracker dayTracker = new DayTracker();  // Instance of the DayTracker class
 
@@ -279,57 +294,68 @@ public class SchedulerController {
     @FXML
     protected void onGenerateNewScheduleButtonClick() {
         try {
-            // Clear the entire root container
+            // Clear the root container to make space for the new schedule form
             rootContainer.getChildren().clear();
 
-            // Create new input fields dynamically for adding a new schedule
+            // Create a form title
             Label formTitle = new Label("Add a New Commitment");
 
+            // ComboBox for selecting the day of the week
             ComboBox<String> dayComboBox = new ComboBox<>();
             dayComboBox.getItems().addAll("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
 
+            // Text fields for the event name and description
             TextField eventNameTextField = new TextField();
             eventNameTextField.setPromptText("Enter Event Name");
 
             TextField eventDescriptionTextField = new TextField();
             eventDescriptionTextField.setPromptText("Enter Event Description");
 
+            // Time fields for start time and end time with AM/PM dropdowns
             TextField eventStartTimeTextField = new TextField();
-            eventStartTimeTextField.setPromptText("Start Time (e.g. 10:00 AM)");
+            eventStartTimeTextField.setPromptText("Start Time (e.g., 10:00)");
+
+            ComboBox<String> startAmPmComboBox = new ComboBox<>(FXCollections.observableArrayList("AM", "PM"));
 
             TextField eventEndTimeTextField = new TextField();
-            eventEndTimeTextField.setPromptText("End Time (e.g. 11:00 AM)");
+            eventEndTimeTextField.setPromptText("End Time (e.g., 11:00)");
+
+            ComboBox<String> endAmPmComboBox = new ComboBox<>(FXCollections.observableArrayList("AM", "PM"));
 
             // Add the checkbox for "Is this a workout?"
             CheckBox isWorkoutCheckBox = new CheckBox("Is this a workout?");
 
+            // Submit button to add the new event to the schedule
             Button submitButton = new Button("Submit");
-
             submitButton.setOnAction(event -> {
                 try {
+                    // Retrieve user inputs
                     String dayOfWeek = dayComboBox.getValue();
                     String eventName = eventNameTextField.getText();
                     String eventDescription = eventDescriptionTextField.getText();
-                    String eventStartTime = eventStartTimeTextField.getText();
-                    String eventEndTime = eventEndTimeTextField.getText();
+                    String eventStartTime = eventStartTimeTextField.getText() + " " + startAmPmComboBox.getValue();
+                    String eventEndTime = eventEndTimeTextField.getText() + " " + endAmPmComboBox.getValue();
 
+                    // Validate the input fields
                     if (dayOfWeek == null || eventName.isEmpty() || eventDescription.isEmpty() || eventStartTime.isEmpty() || eventEndTime.isEmpty()) {
                         showAlert("Error", "All fields are required.", Alert.AlertType.ERROR);
                         return;
                     }
 
+                    // Insert the new schedule into the database
                     scheduleDAO.insertSchedule(1, dayOfWeek, eventName, eventDescription, eventStartTime, eventEndTime);
 
                     showAlert("Success", "Commitment added successfully!", Alert.AlertType.INFORMATION);
 
-                    buildInitialLayout();  // Recreate initial layout
-                    populateScheduleTable();  // Refresh the table with new data
+                    // Rebuild the initial layout and refresh the table with the new data
+                    buildInitialLayout();
+                    populateScheduleTable();
                 } catch (Exception e) {
                     showAlert("Error", "An error occurred: " + e.getMessage(), Alert.AlertType.ERROR);
                 }
             });
 
-            // Create the "Back" button to go back to the main schedule view
+            // Back button to return to the main schedule view
             Button backButton = new Button("Back");
             backButton.setOnAction(event -> buildInitialLayout());
 
@@ -339,16 +365,17 @@ public class SchedulerController {
                     new HBox(new Label("Day of the Week: "), dayComboBox),
                     new HBox(new Label("Event Name: "), eventNameTextField),
                     new HBox(new Label("Description: "), eventDescriptionTextField),
-                    new HBox(new Label("Start Time: "), eventStartTimeTextField),
-                    new HBox(new Label("End Time: "), eventEndTimeTextField),
-                    isWorkoutCheckBox,  // Add the checkbox to the form
+                    new HBox(new Label("Start Time: "), eventStartTimeTextField, startAmPmComboBox),
+                    new HBox(new Label("End Time: "), eventEndTimeTextField, endAmPmComboBox),
+                    isWorkoutCheckBox,
                     submitButton,
-                    backButton  // Add the "Back" button to the layout
+                    backButton
             );
         } catch (Exception e) {
             showAlert("Error", "An error occurred while generating the new schedule: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
+
 
 
     // Utility method to show alert messages
