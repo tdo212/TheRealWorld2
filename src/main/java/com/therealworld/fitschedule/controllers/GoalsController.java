@@ -1,12 +1,14 @@
 package com.therealworld.fitschedule.controllers;
 
 import com.therealworld.fitschedule.model.DatabaseHelper;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Modality;
@@ -43,9 +45,23 @@ public class GoalsController {
         System.out.println("Number of items to display: " + data.size());
         contactsListView.setItems(data);
         displayGoalCount();
+        displayPieChart();
     }
     public void displayGoalCount() {
         int goalCount = databaseHelper.countGoals();
         goalCountLabel.setText("Goals Remaining: " + goalCount);
+    }
+    @FXML
+    private PieChart pieChart;
+    public void displayPieChart() {
+        // Sample data for the PieChart
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+                new PieChart.Data("Category A", 50),
+                new PieChart.Data("Category B", 30),
+                new PieChart.Data("Category C", 20)
+        );
+
+        // Set data to the PieChart
+        pieChart.setData(pieChartData);
     }
 }
