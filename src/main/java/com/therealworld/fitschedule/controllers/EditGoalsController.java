@@ -131,4 +131,5 @@ public class EditGoalsController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
 }

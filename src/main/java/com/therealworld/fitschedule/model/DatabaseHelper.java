@@ -1,13 +1,23 @@
 package com.therealworld.fitschedule.model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class DatabaseHelper {
+
+    // Existing method to get the connection
+    private Connection connect() {
+        String url = "jdbc:sqlite:fitschedule.db";
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(url);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return conn;
+    }
 
     public static ObservableList<String> getAllGoals() {
         ObservableList<String> data = FXCollections.observableArrayList();
@@ -43,6 +53,28 @@ public class DatabaseHelper {
         System.out.println("Data loaded: " + data.size() + " items.");
         return data;
     }
+    public int countGoals() {
+        String sql = "SELECT COUNT(*) AS count FROM goals";
+        int count = 0;
 
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            if (rs.next()) {
+                count = rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return count;
+    }
 
 }
+
+
+
+
+
+
+
