@@ -18,7 +18,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
-import com.therealworld.fitschedule.model.DayTracker;  // Import the DayTracker class
+import com.therealworld.fitschedule.model.DayTracker;
 import com.therealworld.fitschedule.model.Schedule;
 
 import java.io.IOException;
@@ -124,7 +124,6 @@ public class SchedulerController {
                 // User confirmed, clear the table
                 scheduleTable.getItems().clear();
 
-                // Optional: if you want to clear the database as well
                 scheduleDAO.clearScheduleForUser(1);  // Assuming 1 is the user ID, replace as needed
 
                 showAlert("Success", "The schedule has been cleared.", Alert.AlertType.INFORMATION);
