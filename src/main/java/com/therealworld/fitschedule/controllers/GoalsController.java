@@ -82,4 +82,11 @@ public class GoalsController {
         int progresslabel = (int) (progressgoals * 100);
         progressLabel.setText(progresslabel + "%");
     }
+    @FXML
+    public void onCompleteGoalsClick(ActionEvent event) {
+        String selectedGoal = contactsListView.getSelectionModel().getSelectedItem();
+
+            contactsListView.getItems().remove(selectedGoal);
+
+    }
 }

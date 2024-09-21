@@ -60,7 +60,7 @@
 
                                 <!-- New Button for editing goals -->
                                 <Button fx:id="editGoalsButton" layoutX="580.0" layoutY="14.0" onAction="#onEditGoalsClick" text="Edit Goals" />
-                        <Button layoutX="489.0" layoutY="14.0"  text="Complete" />
+                        <Button layoutX="489.0" layoutY="14.0"  text="Complete" onAction="#onCompleteGoalsClick"/>
                             </children>
                         </AnchorPane>
                     </content>
