@@ -80,6 +80,7 @@ public class DashboardController {
     public void onNoButtonClick(ActionEvent event) {
     }
 
+    @FXML
     // Log off button
     public void onLogoffButtonClick(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
