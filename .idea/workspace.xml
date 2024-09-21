@@ -7,6 +7,9 @@
     <list default="true" id="764ab08b-92db-428a-9811-fe61d0ba3206" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/schedulingdatabase.db" beforeDir="false" afterPath="$PROJECT_DIR$/schedulingdatabase.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/databaseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/databaseTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/META-INF/jpms.args" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/databaseTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/databaseTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +67,10 @@
     "Application.HelloApplication.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
     "JUnit.databaseTest.executor": "Run",
+    "JUnit.databaseTest.recordsCanBeRemovedFromDatabaseTable.executor": "Debug",
+    "JUnit.databaseTest.recordsCanBeRetrieved.executor": "Debug",
+    "JUnit.databaseTest.recordsCanBeRetrievedFromDatabaseTable.executor": "Debug",
+    "JUnit.databaseTest.recordsCanBeUpdated.executor": "Debug",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
     "Repository.Attach.Sources": "false",
