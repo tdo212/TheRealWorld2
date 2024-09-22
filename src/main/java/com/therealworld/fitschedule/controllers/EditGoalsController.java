@@ -3,6 +3,7 @@ package com.therealworld.fitschedule.controllers;
 import com.therealworld.fitschedule.FitScheduleApp;
 import com.therealworld.fitschedule.model.SqliteDAO;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
