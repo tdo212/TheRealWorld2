@@ -87,5 +87,7 @@
                 <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
             </padding>
         </HBox>
+        <!-- Include the navigation bar -->
+        <fx:include source="navbar.fxml"/>
     </children>
 </VBox>
