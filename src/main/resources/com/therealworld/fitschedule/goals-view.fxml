@@ -18,7 +18,6 @@
 <VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.therealworld.fitschedule.controllers.GoalsController">
     <children>
 
-
         <!-- SplitPane for stats and goals content -->
         <SplitPane dividerPositions="0.2505567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
             <items>
@@ -29,13 +28,16 @@
                                 <Font size="18.0" fx:id="x1" />
                             </font>
                         </Label>
-                        <ListView fx:id="contactsListView" layoutX="21.0" layoutY="44.0" prefHeight="142.0" prefWidth="177.0" />
                         <Label alignment="CENTER" layoutX="17.0" layoutY="208.0" minWidth="52.0" prefHeight="23.0" prefWidth="59.0" text="Badges" underline="true">
                             <font>
                                 <Font size="18.0" fx:id="x12" />
                             </font>
                         </Label>
                         <ListView layoutX="20.0" layoutY="236.0" prefHeight="142.0" prefWidth="177.0" />
+                  <Label fx:id="goalCountLabel" layoutX="24.0" layoutY="148.0" prefHeight="17.0" prefWidth="125.0" text="Goals Remaining:" />
+                  <Label layoutX="28.0" layoutY="58.0" prefHeight="17.0" prefWidth="49.0" text="UserID: 1" />
+                  <Label layoutX="26.0" layoutY="90.0" prefHeight="17.0" prefWidth="29.0" text="ID: 1" />
+                  <Label fx:id="goalCompletedLabel" layoutX="24.0" layoutY="116.0" text="Goals Completed: 0" />
                     </children>
                 </AnchorPane>
 
@@ -45,27 +47,45 @@
                         <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="671.0">
                             <children>
                                 <Label alignment="CENTER" font="$x1" layoutX="25.0" layoutY="14.0" text="Goals" underline="true" />
-                                <ListView layoutX="21.0" layoutY="110.0" prefHeight="200.0" prefWidth="323.0" />
-                                <ProgressBar layoutX="21.0" layoutY="77.0" prefHeight="20.0" prefWidth="200.0" progress="0.6" />
+                                <ListView fx:id="contactsListView" layoutX="21.0" layoutY="110.0" prefHeight="200.0" prefWidth="323.0" />
+                                <ProgressBar fx:id="progressBar" layoutX="21.0" layoutY="77.0" prefHeight="20.0" prefWidth="200.0" />
                                 <Label alignment="CENTER" layoutX="26.0" layoutY="48.0" text="Progress - Weekly Goal:" />
                                 <Label alignment="CENTER" layoutX="21.0" layoutY="348.0" prefHeight="23.0" prefWidth="116.0" text="Current Week:" />
-                                <PieChart animated="false" layoutX="341.0" layoutY="60.0" prefHeight="248.0" prefWidth="316.0" title="Weekly Goals - Pie Chart:" />
+                                <PieChart fx:id="pieChart" animated="false" layoutX="341.0" layoutY="60.0" prefHeight="248.0" prefWidth="316.0" title="Weekly Goals - Pie Chart:" />
                                 <ListView layoutX="19.0" layoutY="414.0" prefHeight="200.0" prefWidth="323.0" />
                                 <ProgressBar layoutX="19.0" layoutY="381.0" prefHeight="20.0" prefWidth="200.0" progress="0.6" />
                                 <PieChart animated="false" layoutX="344.0" layoutY="348.0" prefHeight="272.0" prefWidth="309.0" title="General Goals - Pie Chart:" />
-                                <Label alignment="CENTER" layoutX="232.0" layoutY="75.0" prefHeight="23.0" prefWidth="42.0" text="65%" />
+                                <Label fx:id="progressLabel" alignment="CENTER" layoutX="232.0" layoutY="75.0" prefHeight="23.0" prefWidth="42.0" text="0%" />
                                 <Label alignment="CENTER" layoutX="236.0" layoutY="380.0" prefHeight="23.0" prefWidth="42.0" text="65%" />
 
                                 <!-- New Button for editing goals -->
-                                <Button fx:id="editGoalsButton" layoutX="580.0" layoutY="14.0" text="Edit Goals" onAction="#onEditGoalsClick"/>
+                                <Button fx:id="editGoalsButton" layoutX="580.0" layoutY="14.0" onAction="#onEditGoalsClick" text="Edit Goals" />
+                        <Button layoutX="489.0" layoutY="14.0" onAction="#onCompleteGoalsClick" text="Complete" />
+                        <Button layoutX="411.0" layoutY="14.0" onAction="#onDeleteGoalsClick" text="Delete" />
+                        <Button layoutX="336.0" layoutY="13.0" onAction="#onLogoffButtonClick" text="Logoff" />
                             </children>
                         </AnchorPane>
                     </content>
                 </ScrollPane>
             </items>
         </SplitPane>
-    </children>
-    <!-- Include the navigation bar -->
-    <fx:include source="navbar.fxml"/>
 
+        <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
+            <children>
+                <Label maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="Left status" HBox.hgrow="ALWAYS">
+                    <font>
+                        <Font size="11.0" fx:id="x3" />
+                    </font>
+                    <textFill>
+                        <Color red="0.625" green="0.625" blue="0.625" fx:id="x4" />
+                    </textFill>
+                </Label>
+                <Pane prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS" />
+                <Label font="$x3" maxWidth="-1.0" text="Right status" textFill="$x4" HBox.hgrow="NEVER" />
+            </children>
+            <padding>
+                <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+            </padding>
+        </HBox>
+    </children>
 </VBox>
