@@ -3,7 +3,6 @@ package com.therealworld.fitschedule.controllers;
 import com.therealworld.fitschedule.model.UserSession;
 import com.therealworld.fitschedule.FitScheduleApp;
 import com.therealworld.fitschedule.model.SqliteDAO;
-import com.therealworld.fitschedule.controllers.DashboardController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,21 +20,21 @@ import javafx.scene.Parent;
 import java.io.IOException;
 
 public class LoginController {
-    @FXML
-    TextField usernameField;
-    @FXML
-    PasswordField passwordField;
-    @FXML
-    Button loginButton;
-    @FXML
-    private Button registerButton;
-    @FXML
-    private Button cancelButton;
-    @FXML
-    private VBox loginContainer;
 
     @FXML
-    private ImageView logo; // ImageView for the logo
+    protected TextField usernameField;
+    @FXML
+    protected PasswordField passwordField;
+    @FXML
+    protected Button loginButton;
+    @FXML
+    protected Button registerButton;
+    @FXML
+    protected Button cancelButton;
+    @FXML
+    protected VBox loginContainer;
+    @FXML
+    protected ImageView logo;
 
     SqliteDAO userDAO = new SqliteDAO();
 
@@ -65,6 +64,13 @@ public class LoginController {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
+        // Check if username or password is empty
+        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+            System.out.println("Login failed. Username or password is empty.");
+            showAlert("Error", "Please enter both username and password.", Alert.AlertType.ERROR);
+            return;  // Return early to prevent authentication call
+        }
+
         // Authenticate the user
         boolean isAuthenticated = userDAO.authenticateUser(username, password);
 
@@ -75,47 +81,62 @@ public class LoginController {
             UserSession.getInstance().setUserId(userId);  // Set the user ID globally
             System.out.println("User ID set in session: " + userId);
 
-
             SqliteDAO dao = new SqliteDAO();
             dao.createWeeklyScheduleTable(userId);
             dao.populateTimeSlots(userId);
 
-            // Load and display the dashboard view
-            FXMLLoader dashboardLoader = new FXMLLoader(FitScheduleApp.class.getResource("/com/therealworld/fitschedule/dashboard-view.fxml"));
-            Parent dashboardRoot = dashboardLoader.load();  // Load the FXML file for the dashboard
+            // UI update must be done on the JavaFX Application Thread
+            Platform.runLater(() -> {
+                try {
+                    // Load and display the dashboard view
+                    FXMLLoader dashboardLoader = new FXMLLoader(FitScheduleApp.class.getResource("/com/therealworld/fitschedule/dashboard-view.fxml"));
+                    Parent dashboardRoot = dashboardLoader.load();  // Load the FXML file for the dashboard
 
-
-            // Display the dashboard scene
-            Stage stage = (Stage) loginButton.getScene().getWindow();
-            stage.setScene(new Scene(dashboardRoot));
-            stage.show();
+                    // Display the dashboard scene
+                    Stage stage = (Stage) loginButton.getScene().getWindow();
+                    stage.setScene(new Scene(dashboardRoot));
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
         } else {
             System.out.println("Login failed. Invalid username or password.");
-            showAlert("Error", "Invalid username or password.", Alert.AlertType.ERROR);
+            // Use Platform.runLater to ensure UI changes happen on the JavaFX Application Thread
+            Platform.runLater(() -> showAlert("Error", "Invalid username or password.", Alert.AlertType.ERROR));
         }
     }
 
 
-
     @FXML
     private void showAlert(String title, String content, Alert.AlertType alertType) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setContentText(content);
-        alert.showAndWait();
+        Platform.runLater(() -> {
+            Alert alert = new Alert(alertType);
+            alert.setTitle(title);
+            alert.setContentText(content);
+            alert.showAndWait();
+        });
     }
 
     @FXML
     protected void onRegisterButtonClick() throws IOException {
-        Stage stage = (Stage) registerButton.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("register-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
-        stage.setScene(scene);
+        Platform.runLater(() -> {
+            try {
+                Stage stage = (Stage) registerButton.getScene().getWindow();
+                FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("register-view.fxml"));
+                Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
+                stage.setScene(scene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @FXML
     protected void onCancelButtonClick() {
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        stage.close();
+        Platform.runLater(() -> {
+            Stage stage = (Stage) cancelButton.getScene().getWindow();
+            stage.close();
+        });
     }
 }
