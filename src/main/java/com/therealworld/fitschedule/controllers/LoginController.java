@@ -22,11 +22,11 @@ import java.io.IOException;
 
 public class LoginController {
     @FXML
-    private TextField usernameField;
+    TextField usernameField;
     @FXML
-    private PasswordField passwordField;
+    PasswordField passwordField;
     @FXML
-    private Button loginButton;
+    Button loginButton;
     @FXML
     private Button registerButton;
     @FXML
@@ -37,7 +37,7 @@ public class LoginController {
     @FXML
     private ImageView logo; // ImageView for the logo
 
-    private SqliteDAO userDAO = new SqliteDAO();
+    SqliteDAO userDAO = new SqliteDAO();
 
     @FXML
     public void initialize() {
