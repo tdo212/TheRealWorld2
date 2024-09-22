@@ -4,6 +4,7 @@ import com.therealworld.fitschedule.FitScheduleApp;
 import com.therealworld.fitschedule.model.Schedule;
 import com.therealworld.fitschedule.model.SqliteDAO;
 import com.therealworld.fitschedule.model.ScheduleRow;
+import com.therealworld.fitschedule.model.UserSession;
 import com.therealworld.fitschedule.model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -46,9 +47,9 @@ public class SchedulerController {
     @FXML
     private TableColumn<ScheduleRow, String> sundayColumn;
 
-    private final SqliteDAO scheduleDAO = new SqliteDAO();
-
     private int userId;
+
+    private final SqliteDAO scheduleDAO = new SqliteDAO();
 
     // Predefined time slots (12:00 AM to 11:00 PM)
     private final List<String> timeSlots = Arrays.asList(
@@ -60,8 +61,12 @@ public class SchedulerController {
 
     @FXML
     public void initialize() {
+        // Access the userId from the global session
+        int userId = UserSession.getInstance().getUserId();
+        System.out.println("User ID in SchedulerController: " + userId);
         // Bind the TableColumns to ScheduleRow properties
         bindTableColumns();
+        populateScheduleTable(userId);
     }
 
     // Bind the TableColumns to ScheduleRow properties
@@ -76,6 +81,7 @@ public class SchedulerController {
         sundayColumn.setCellValueFactory(cellData -> cellData.getValue().sundayProperty());
     }
 
+    // Method to populate the schedule table for a specific user
     private void populateScheduleTable(int userId) {
         // Predefined time slots (12:00 AM to 11:00 PM)
         List<String> timeSlots = Arrays.asList(
@@ -106,6 +112,7 @@ public class SchedulerController {
             }
         }
 
+        // Initialize the observable list for the table rows
         ObservableList<ScheduleRow> scheduleRows = FXCollections.observableArrayList();
 
         // Populate the table with predefined time slots and merge with any existing events
@@ -113,6 +120,7 @@ public class SchedulerController {
             // Retrieve the schedule row for this time slot from the map, if available
             String[] eventRow = scheduleMap.getOrDefault(timeSlot, new String[8]);
 
+            // Add the row to the table, ensuring that each day (column) gets the correct event
             scheduleRows.add(new ScheduleRow(
                     timeSlot, // Always add the predefined time slot
                     eventRow[1] == null ? "" : eventRow[1],  // Monday's event
@@ -131,14 +139,6 @@ public class SchedulerController {
     }
 
 
-    // Method to set the user ID and load the schedule
-    public void setUserId(int userId) {
-        this.userId = userId;
-        populateScheduleTable(userId);
-    }
-
-
-
     // Logoff button action
     @FXML
     protected void onLogoffButtonClick(ActionEvent event) throws IOException {
@@ -151,7 +151,9 @@ public class SchedulerController {
     // "Schedule" button action to insert mock schedule data
     @FXML
     protected void onScheduleButtonClick() {
-        scheduleDAO.insertSchedule(1, "Tuesday", "Workout", "Gym session", "10:00 AM", "11:00 AM");
+        // Access the userId from the global session
+        int userId = UserSession.getInstance().getUserId();
+        System.out.println("User ID in SchedulerController: " + userId);;
         populateScheduleTable(userId);
     }
 
@@ -214,7 +216,9 @@ public class SchedulerController {
                     String dayOfWeek = dayComboBox.getValue();
                     String timeSlot = timeSlotComboBox.getValue();
                     String eventDescription = eventDescriptionTextField.getText();
-                    int userId = 1; // Replace with actual user ID
+                    // Access the userId from the global session
+                    int userId = UserSession.getInstance().getUserId();
+                    System.out.println("User ID in SchedulerController: " + userId);
 
                     if (dayOfWeek == null || timeSlot == null || eventDescription.isEmpty()) {
                         showAlert("Error", "All fields are required.", Alert.AlertType.ERROR);
@@ -288,7 +292,9 @@ public class SchedulerController {
                     String dayOfWeek = dayComboBox.getValue();
                     String timeSlot = timeSlotComboBox.getValue();
                     String eventDescription = eventDescriptionTextField.getText();
-                    int userId = 1; // Replace with actual user ID
+                    // Access the userId from the global session
+                    int userId = UserSession.getInstance().getUserId();
+                    System.out.println("User ID in SchedulerController: " + userId);
 
                     if (dayOfWeek == null || timeSlot == null || eventDescription.isEmpty()) {
                         showAlert("Error", "All fields are required.", Alert.AlertType.ERROR);

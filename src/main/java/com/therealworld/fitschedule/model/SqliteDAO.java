@@ -1,3 +1,4 @@
+
 package com.therealworld.fitschedule.model;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -17,8 +18,6 @@ public class SqliteDAO {
             e.printStackTrace();
         }
         createTables();  // Create users, schedules, and goals tables
-        createWeeklyScheduleTable();  // Create the weekly schedule table
-        populateTimeSlots();  // Populate time slots in the weekly schedule table
     }
 
     // Create tables for users, schedules, and goals
@@ -67,9 +66,9 @@ public class SqliteDAO {
     }
 
     // Create the weekly schedule table linked with the users table
-    private void createWeeklyScheduleTable() {
+    public void createWeeklyScheduleTable(int userId) {
         try (Statement stmt = connection.createStatement()) {
-            // Create the weekly schedule table with time slots, user_id, and days of the week columns
+            // Create the weekly schedule table if it doesn't exist
             stmt.execute(
                     "CREATE TABLE IF NOT EXISTS weeklySchedule (" +
                             "timeSlot VARCHAR(10) NOT NULL, " +
@@ -90,6 +89,8 @@ public class SqliteDAO {
         }
     }
 
+
+
     // Helper method to get user ID by username
     public int getUserId(String username) {
         String query = "SELECT id FROM users WHERE username = ?";
@@ -106,7 +107,7 @@ public class SqliteDAO {
     }
 
     // Populate the weekly schedule with time slots for a user
-    private void populateTimeSlots() {
+    public void populateTimeSlots(int userId) {
         String[] timeSlots = {
                 "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM", "6:00 AM", "7:00 AM", "8:00 AM",
                 "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM",
@@ -116,7 +117,7 @@ public class SqliteDAO {
         String insertQuery = "INSERT OR IGNORE INTO weeklySchedule (timeSlot, user_id) VALUES (?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(insertQuery)) {
             List<Integer> userIds = getAllUserIds();  // Get all user IDs to populate for each user
-            for (int userId : userIds) {
+            for (int currentUserId : userIds) {
                 for (String timeSlot : timeSlots) {
                     pstmt.setString(1, timeSlot);
                     pstmt.setInt(2, userId);

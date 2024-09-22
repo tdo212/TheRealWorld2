@@ -1,5 +1,6 @@
 package com.therealworld.fitschedule.controllers;
 
+import com.therealworld.fitschedule.model.UserSession;
 import com.therealworld.fitschedule.FitScheduleApp;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -41,13 +42,6 @@ public class DashboardController {
 
     }
 
-    // Method to set the user ID
-    public void setUserId(int userId) {
-        this.userId = userId;
-        // Load user-specific dashboard data
-        loadDashboardData();
-    }
-
     // Example method to load data for the dashboard
     private void loadDashboardData() {
         // Logic to load user-specific data based on the userId
@@ -70,6 +64,7 @@ public class DashboardController {
         FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("scheduler-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
         stage.setScene(scene);
+
     }
 
     public void onGoalNavButtonClick(ActionEvent event) throws IOException {
@@ -94,6 +89,12 @@ public class DashboardController {
     }
 
     public void onNoButtonClick(ActionEvent event) {
+    }
+
+    // Method to set the user ID and load the schedule
+    public void setUserId(int userId) {
+        this.userId = userId;
+        System.out.println("set user ID " +userId);
     }
 
 

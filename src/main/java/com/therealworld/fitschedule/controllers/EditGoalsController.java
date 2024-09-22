@@ -1,6 +1,7 @@
 package com.therealworld.fitschedule.controllers;
 
 import com.therealworld.fitschedule.model.SqliteDAO;
+import com.therealworld.fitschedule.model.UserSession;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;

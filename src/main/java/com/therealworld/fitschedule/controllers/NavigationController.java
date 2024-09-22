@@ -5,10 +5,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import com.therealworld.fitschedule.model.UserSession;
 
 import java.io.IOException;
 
 public class NavigationController {
+
 
     public void onHomeNavButtonClick(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
@@ -22,6 +24,7 @@ public class NavigationController {
         FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("scheduler-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
         stage.setScene(scene);
+
     }
 
     public void onGoalNavButtonClick(ActionEvent event) throws IOException {
@@ -37,4 +40,5 @@ public class NavigationController {
         Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
         stage.setScene(scene);
     }
+
 }

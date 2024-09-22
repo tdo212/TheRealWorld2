@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import com.therealworld.fitschedule.model.UserSession;
 
 import java.io.IOException;
 

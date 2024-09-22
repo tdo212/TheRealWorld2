@@ -1,5 +1,6 @@
 package com.therealworld.fitschedule.controllers;
 
+import com.therealworld.fitschedule.model.UserSession;
 import com.therealworld.fitschedule.FitScheduleApp;
 import com.therealworld.fitschedule.model.SqliteDAO;
 import com.therealworld.fitschedule.controllers.DashboardController;
@@ -70,24 +71,34 @@ public class LoginController {
         if (isAuthenticated) {
             System.out.println("Login successful");
 
-            // Load the dashboard view after successful login
-            FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("/com/therealworld/fitschedule/dashboard-view.fxml"));
-            Parent root = fxmlLoader.load();  // Load the FXML file
-
-            // Assuming you need to pass the userId to the dashboard
-            DashboardController dashboardController = fxmlLoader.getController();
             int userId = userDAO.getUserId(username);  // Get the user ID from the database
-            dashboardController.setUserId(userId);  // Set the user ID in the controller
+            UserSession.getInstance().setUserId(userId);  // Set the user ID globally
+            System.out.println("User ID set in session: " + userId);
+
+
+            // Optionally: Create table and populate time slots for the user
+            SqliteDAO dao = new SqliteDAO();
+            dao.createWeeklyScheduleTable(userId);
+            dao.populateTimeSlots(userId);
+
+            // Load and display the dashboard view
+            FXMLLoader dashboardLoader = new FXMLLoader(FitScheduleApp.class.getResource("/com/therealworld/fitschedule/dashboard-view.fxml"));
+            Parent dashboardRoot = dashboardLoader.load();  // Load the FXML file for the dashboard
+            // You can pass the userId to the DashboardController if needed
+            DashboardController dashboardController = dashboardLoader.getController();
+            dashboardController.setUserId(userId);  // If needed, pass the userId to DashboardController
 
             // Display the dashboard scene
             Stage stage = (Stage) loginButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
+            stage.setScene(new Scene(dashboardRoot));
             stage.show();
         } else {
             System.out.println("Login failed. Invalid username or password.");
             showAlert("Error", "Invalid username or password.", Alert.AlertType.ERROR);
         }
     }
+
+
 
     @FXML
     private void showAlert(String title, String content, Alert.AlertType alertType) {
