@@ -42,4 +42,9 @@ public class DayTracker {
                         && isEventHappeningNow(schedule))
                 .collect(Collectors.toList());
     }
+
+    public List<Schedule> getEventsForToday(List<Schedule> allSchedules) {
+        String currentDay = getCurrentDay();
+        return allSchedules;
+    }
 }

@@ -5,8 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="764ab08b-92db-428a-9811-fe61d0ba3206" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/therealworld/fitschedule/controllers/SchedullerControllerTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/DayTracker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/DayTracker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/FitScheduleApp.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/DashboardController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/EditGoalsController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/EditGoalsController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/GoalsController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/LoginController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/NavigationController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/ProfileController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/RegisterController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/SchedulerController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/DayTracker.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/FitScheduleDBConnection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/Schedule.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/ScheduleRow.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/SqliteDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/TodayScheduleRow.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/UserProfile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/UserSession.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,7 +133,7 @@
       <recent name="com.therealworld.fitschedule.controllers" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.FitScheduleApp">
+  <component name="RunManager" selected="JUnit.SchedulerControllerTest">
     <configuration name="FitScheduleApp" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="corretto-21" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -127,6 +145,21 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SchedulerControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="fitschedule" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.therealworld.fitschedule.controllers.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.therealworld.fitschedule.controllers" />
+      <option name="MAIN_CLASS_NAME" value="com.therealworld.fitschedule.controllers.SchedulerControllerTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -169,10 +202,12 @@
     <list>
       <item itemvalue="Application.FitScheduleApp" />
       <item itemvalue="JUnit.Unnamed" />
+      <item itemvalue="JUnit.SchedulerControllerTest" />
       <item itemvalue="JUnit.databaseTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.SchedulerControllerTest" />
         <item itemvalue="JUnit.databaseTest" />
       </list>
     </recent_temporary>
