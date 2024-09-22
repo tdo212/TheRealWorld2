@@ -1,20 +1,9 @@
 package com.therealworld.fitschedule.controllers;
 
-import com.therealworld.fitschedule.FitScheduleApp;
 import com.therealworld.fitschedule.model.SqliteDAO;
-
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -22,7 +11,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import java.io.IOException;
 
 public class EditGoalsController {
 
@@ -34,6 +22,12 @@ public class EditGoalsController {
     public TextField otherGoalTextField; // For entering custom goal type when 'Other' is selected
 
     private SqliteDAO goalsDAO;
+    private GoalsController goalsController;  // Reference to GoalsController
+
+    // Inject the GoalsController
+    public void setGoalsController(GoalsController goalsController) {
+        this.goalsController = goalsController;
+    }
 
     public void initialize() {
         // Initialize ComboBoxes with options
@@ -69,9 +63,7 @@ public class EditGoalsController {
 
         // Initially hide the otherGoalTextField
         otherGoalTextField.setVisible(false);
-
     }
-
 
     // Handle saving the goal and then closing the window
     public void onSaveClick(ActionEvent actionEvent) {
@@ -85,7 +77,6 @@ public class EditGoalsController {
             return;
         }
 
-
         if ("Other".equals(goalType)) {
             goalType = otherGoalTextField.getText();
         }
@@ -98,6 +89,7 @@ public class EditGoalsController {
                 showAlert("Target value cannot be zero!", Alert.AlertType.ERROR);
                 return;
             }
+
             // Assuming userId is available, you should pass it from the logged-in user's session
             int userId = 1; // Example user ID, replace with actual user ID
 
@@ -105,6 +97,11 @@ public class EditGoalsController {
             goalsDAO.addGoal(userId, goalType, goalDuration, durationType, "Goal Description");
 
             showAlert("Goal saved successfully!", Alert.AlertType.INFORMATION);
+
+            // Notify the GoalsController to refresh the list of goals
+            if (goalsController != null) {
+                goalsController.refreshGoalsList();  // Refresh the goal list
+            }
 
             // Close the current edit-goals-view window after saving
             closeCurrentWindow(actionEvent);
@@ -126,12 +123,10 @@ public class EditGoalsController {
         currentStage.close();  // Close the current window
     }
 
-
     // Helper method to show alerts
     void showAlert(String message, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setContentText(message);
         alert.showAndWait();
     }
-
 }
