@@ -1,10 +1,10 @@
 package com.therealworld.fitschedule.model;
 
 public class User {
-    private String username;
-    private String password;
-    private String email;
-    private String phoneNumber;
+    public static String username;
+    public String password;
+    public String email;
+    public String phoneNumber;
 
     public User(String username, String password, String email, String phoneNumber) {
         this.username = username;
@@ -14,7 +14,7 @@ public class User {
     }
 
     // Getters and setters
-    public String getUsername() { return username; }
+    public static String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
 
     public String getPassword() { return password; }
