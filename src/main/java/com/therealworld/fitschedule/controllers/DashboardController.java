@@ -97,6 +97,14 @@ public class DashboardController {
         System.out.println("set user ID " +userId);
     }
 
+    // Logoff button action
+    @FXML
+    protected void onLogoffButtonClick(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("login-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
+        stage.setScene(scene);
+    }
 
     // May possible need to edit database to add date and time and then retrieve
     // the current day's date for showing 'Today's Schedule'
