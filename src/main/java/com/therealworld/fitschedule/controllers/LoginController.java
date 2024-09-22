@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -18,22 +19,22 @@ import java.io.IOException;
 
 public class LoginController {
     @FXML
-    private TextField usernameField;
+    protected TextField usernameField;
     @FXML
-    private PasswordField passwordField;
+    protected PasswordField passwordField;
     @FXML
-    private Button loginButton;
+    Button loginButton;
     @FXML
-    private Button registerButton;
+    Button registerButton;
     @FXML
-    private Button cancelButton;
+    Button cancelButton;
     @FXML
     private VBox loginContainer;
 
     @FXML
     private ImageView logo; // Add ImageView for the logo
 
-    private SqliteUserDAO userDAO = new SqliteUserDAO();
+    SqliteUserDAO userDAO = new SqliteUserDAO();
 
     @FXML
     public void initialize() {
@@ -58,18 +59,33 @@ public class LoginController {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
+        // Check if the username or password fields are empty
+        if (username.isEmpty() || password.isEmpty()) {
+            System.out.println("Login failed. Username or password is empty.");
+            showAlert("Error", "Username or password cannot be empty.", Alert.AlertType.ERROR);
+            return;  // Exit the method if fields are empty
+        }
+
         // Use SqliteUserDAO to authenticate the user
         boolean isAuthenticated = userDAO.authenticateUser(username, password);
 
         if (isAuthenticated) {
             System.out.println("Login successful");
-            // Proceed to the main application dashboard or another page
-            Stage stage = (Stage) loginButton.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("dashboard-view.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
-            stage.setScene(scene);
+
+            // Ensure the scene change happens on the JavaFX Application Thread
+            Platform.runLater(() -> {
+                try {
+                    Stage stage = (Stage) loginButton.getScene().getWindow();
+                    FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("dashboard-view.fxml"));
+                    Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
+                    stage.setScene(scene);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
         } else {
             System.out.println("Login failed. Invalid username or password.");
+            showAlert("Error", "Invalid username or password.", Alert.AlertType.ERROR);
         }
     }
 
@@ -85,5 +101,16 @@ public class LoginController {
     protected void onCancelButtonClick() {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    private void showAlert(String title, String content, Alert.AlertType alertType) {
+        // Ensure the alert is shown on the JavaFX Application Thread
+        Platform.runLater(() -> {
+            Alert alert = new Alert(alertType);
+            alert.setTitle(title);
+            alert.setContentText(content);
+            alert.showAndWait();
+        });
     }
 }
