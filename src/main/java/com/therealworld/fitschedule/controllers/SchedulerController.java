@@ -59,21 +59,8 @@ public class SchedulerController {
 
     @FXML
     public void initialize() {
-        // Replace this with actual login logic to retrieve the username
-        String username = "some_username";
-
-        // Retrieve the user ID based on the username
-        userId = scheduleDAO.getUserId(username);
-
-        // Check if the user ID was found
-        if (userId != -1) {
-            // Populate the schedule table for the user
-            bindTableColumns();
-            populateScheduleTable(userId);
-            scheduleTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        } else {
-            showAlert("Error", "User not found!", Alert.AlertType.ERROR);
-        }
+        // Bind the TableColumns to ScheduleRow properties
+        bindTableColumns();
     }
 
     // Bind the TableColumns to ScheduleRow properties
@@ -122,6 +109,12 @@ public class SchedulerController {
 
         // Bind the scheduleRows data to the TableView
         scheduleTable.setItems(scheduleRows);
+    }
+
+    // Method to set the user ID and load the schedule
+    public void setUserId(int userId) {
+        this.userId = userId;
+        populateScheduleTable(userId);
     }
 
 

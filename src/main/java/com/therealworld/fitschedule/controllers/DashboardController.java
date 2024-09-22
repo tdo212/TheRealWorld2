@@ -10,8 +10,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+
+
 public class DashboardController {
 
+    private int userId;
 
 //    Attempt at creating an Alert for Querying if User has trained for the day
     @FXML
@@ -36,6 +39,19 @@ public class DashboardController {
     @FXML
     protected void onHomeButtonClick(ActionEvent event) throws IOException{
 
+    }
+
+    // Method to set the user ID
+    public void setUserId(int userId) {
+        this.userId = userId;
+        // Load user-specific dashboard data
+        loadDashboardData();
+    }
+
+    // Example method to load data for the dashboard
+    private void loadDashboardData() {
+        // Logic to load user-specific data based on the userId
+        System.out.println("Loading dashboard data for user ID: " + userId);
     }
 
     public void onHomeNavButtonClick(ActionEvent event) throws IOException

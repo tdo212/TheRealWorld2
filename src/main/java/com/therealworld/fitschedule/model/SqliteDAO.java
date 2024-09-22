@@ -384,4 +384,39 @@ public class SqliteDAO {
             System.err.println("Error clearing schedule: " + ex.getMessage());
         }
     }
+
+    // Method to validate password
+    public boolean validatePassword(String username, String password) {
+        String query = "SELECT password FROM users WHERE username = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                String hashedPassword = rs.getString("password");
+                // Validate the provided password with the hashed password from the database
+                return BCrypt.checkpw(password, hashedPassword);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;  // Return false if user is not found or if there is an error
+    }
+
+    public boolean authenticateUser(String username, String password) {
+        String query = "SELECT password FROM users WHERE username = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                String storedPassword = rs.getString("password");
+                // Compare the provided password with the stored (hashed) password
+                return BCrypt.checkpw(password, storedPassword);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;  // Return false if user not found or error occurred
+    }
 }
