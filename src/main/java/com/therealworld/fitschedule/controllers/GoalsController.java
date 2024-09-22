@@ -1,5 +1,6 @@
 package com.therealworld.fitschedule.controllers;
 
+import com.therealworld.fitschedule.FitScheduleApp;
 import com.therealworld.fitschedule.model.SqliteDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -124,5 +125,12 @@ public class GoalsController {
         if (selectedGoal != null) {
             contactsListView.getItems().remove(selectedGoal); // Remove the selected goal from the ListView
         }
+    }
+    @FXML
+    protected void onLogoffButtonClick(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("login-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
+        stage.setScene(scene);
     }
 }

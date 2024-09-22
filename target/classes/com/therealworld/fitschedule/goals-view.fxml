@@ -62,7 +62,7 @@
                                 <Button fx:id="editGoalsButton" layoutX="580.0" layoutY="14.0" onAction="#onEditGoalsClick" text="Edit Goals" />
                         <Button layoutX="489.0" layoutY="14.0" onAction="#onCompleteGoalsClick" text="Complete" />
                         <Button layoutX="411.0" layoutY="14.0" onAction="#onDeleteGoalsClick" text="Delete" />
-                        <Button layoutX="336.0" layoutY="13.0" onAction="#onDeleteGoalsClick" text="Logoff" />
+                        <Button layoutX="336.0" layoutY="13.0" onAction="#onLogoffButtonClick" text="Logoff" />
                             </children>
                         </AnchorPane>
                     </content>
