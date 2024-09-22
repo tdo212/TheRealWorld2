@@ -3,6 +3,7 @@ package com.therealworld.fitschedule.model;
 
 import org.mindrot.jbcrypt.BCrypt;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -241,12 +242,15 @@ public class SqliteDAO {
         }
     }
 
-    // Retrieve schedules for a specific user
+    // Retrieve schedules for a specific user and day
     public List<Schedule> getScheduleForUser(int userId) {
         List<Schedule> schedules = new ArrayList<>();
-        String query = "SELECT * FROM currentSchedule WHERE user_id = ?";
+        String query = "SELECT * FROM currentSchedule WHERE user_id = ? AND dayOfWeek = ?";
+        String currentDay = LocalDate.now().getDayOfWeek().toString(); // Get today's day
+
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setInt(1, userId);
+            pstmt.setString(2, currentDay);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 Schedule schedule = new Schedule(
@@ -254,16 +258,17 @@ public class SqliteDAO {
                         rs.getString("dayOfWeek"),
                         rs.getString("eventName"),
                         rs.getString("eventDescription"),
-                        rs.getString("eventStartTime"),
-                        rs.getString("eventEndTime")
+                        rs.getString("timeSlot"),  // This is the time block
+                        ""  // No end time
                 );
                 schedules.add(schedule);
             }
         } catch (SQLException ex) {
-            System.err.println("Error retrieving schedules: " + ex.getMessage());
+            System.err.println("Error retrieving schedules for user: " + ex.getMessage());
         }
         return schedules;
     }
+
 
     // Get commitments for a specific day
     public List<Schedule> getCommitmentsForDay(int userId, String dayOfWeek) {

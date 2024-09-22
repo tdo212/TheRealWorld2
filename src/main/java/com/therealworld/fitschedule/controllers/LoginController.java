@@ -41,7 +41,7 @@ public class LoginController {
 
     @FXML
     public void initialize() {
-        // Set focus on the VBox (or another container) after the scene is fully loaded
+        // Set focus on the VBox after the scene is fully loaded
         Platform.runLater(() -> loginContainer.requestFocus());
 
         // Handle click on background to remove focus from text fields
@@ -76,7 +76,6 @@ public class LoginController {
             System.out.println("User ID set in session: " + userId);
 
 
-            // Optionally: Create table and populate time slots for the user
             SqliteDAO dao = new SqliteDAO();
             dao.createWeeklyScheduleTable(userId);
             dao.populateTimeSlots(userId);
@@ -84,9 +83,7 @@ public class LoginController {
             // Load and display the dashboard view
             FXMLLoader dashboardLoader = new FXMLLoader(FitScheduleApp.class.getResource("/com/therealworld/fitschedule/dashboard-view.fxml"));
             Parent dashboardRoot = dashboardLoader.load();  // Load the FXML file for the dashboard
-            // You can pass the userId to the DashboardController if needed
-            DashboardController dashboardController = dashboardLoader.getController();
-            dashboardController.setUserId(userId);  // If needed, pass the userId to DashboardController
+
 
             // Display the dashboard scene
             Stage stage = (Stage) loginButton.getScene().getWindow();

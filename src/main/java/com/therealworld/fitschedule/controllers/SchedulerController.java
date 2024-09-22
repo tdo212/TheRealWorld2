@@ -51,7 +51,7 @@ public class SchedulerController {
 
     private final SqliteDAO scheduleDAO = new SqliteDAO();
 
-    // Predefined time slots (12:00 AM to 11:00 PM)
+    // Predefined time slots
     private final List<String> timeSlots = Arrays.asList(
             "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM", "6:00 AM",
             "7:00 AM", "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM",
@@ -83,7 +83,6 @@ public class SchedulerController {
 
     // Method to populate the schedule table for a specific user
     private void populateScheduleTable(int userId) {
-        // Predefined time slots (12:00 AM to 11:00 PM)
         List<String> timeSlots = Arrays.asList(
                 "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM", "6:00 AM", "7:00 AM",
                 "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM",
@@ -117,7 +116,7 @@ public class SchedulerController {
 
         // Populate the table with predefined time slots and merge with any existing events
         for (String timeSlot : timeSlots) {
-            // Retrieve the schedule row for this time slot from the map, if available
+            // Retrieve the schedule row for this time slot from the map
             String[] eventRow = scheduleMap.getOrDefault(timeSlot, new String[8]);
 
             // Add the row to the table, ensuring that each day (column) gets the correct event
@@ -231,7 +230,7 @@ public class SchedulerController {
                     // Refresh the table to display the new event
                     populateScheduleTable(userId);
 
-                    buildInitialLayout();  // Optionally return to the initial layout
+                    buildInitialLayout();
                 } catch (Exception e) {
                     showAlert("Error", "An error occurred: " + e.getMessage(), Alert.AlertType.ERROR);
                 }
@@ -307,7 +306,7 @@ public class SchedulerController {
                     // Refresh the table to display the new event
                     populateScheduleTable(userId);
 
-                    buildInitialLayout();  // Optionally return to the initial layout
+                    buildInitialLayout();
                 } catch (Exception e) {
                     showAlert("Error", "An error occurred: " + e.getMessage(), Alert.AlertType.ERROR);
                 }

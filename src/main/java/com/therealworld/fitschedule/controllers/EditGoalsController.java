@@ -97,7 +97,6 @@ public class EditGoalsController {
                 showAlert("Target value cannot be zero!", Alert.AlertType.ERROR);
                 return;
             }
-            // Assuming userId is available, you should pass it from the logged-in user's session
             int userId = 1; // Example user ID, replace with actual user ID
 
             // Save the goal to the database, now using the integer value for goal durations

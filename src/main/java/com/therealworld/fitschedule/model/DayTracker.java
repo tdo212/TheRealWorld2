@@ -8,9 +8,9 @@ import java.util.stream.Collectors;
 
 public class DayTracker {
 
-    // Returns the current day of the week as a string (e.g., "Monday", "Tuesday", etc.)
+    // Returns the current day of the week as a string
     public String getCurrentDay() {
-        return LocalDate.now().getDayOfWeek().toString();  // E.g., MONDAY, TUESDAY, etc.
+        return LocalDate.now().getDayOfWeek().toString();
     }
 
     // Returns whether the given schedule event is happening at the current time
@@ -18,7 +18,7 @@ public class DayTracker {
         // Get current time
         LocalTime now = LocalTime.now();
 
-        // Parse start and end times from the schedule (assuming time is stored as a String like "10:00 AM")
+        // Parse start and end times from the schedule
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm a");
         try {
             LocalTime startTime = LocalTime.parse(schedule.getEventStartTime(), timeFormatter);
@@ -32,6 +32,13 @@ public class DayTracker {
         }
     }
 
+    // Filters and returns a list of events happening today
+    public List<Schedule> getEventsForToday(List<Schedule> allSchedules) {
+        return allSchedules.stream()
+                .filter(this::isEventToday)  // Filter schedules based on whether they are today
+                .collect(Collectors.toList());
+    }
+
     // Filters the list of events to find events happening today and now
     public List<Schedule> getEventsHappeningNow(List<Schedule> allSchedules) {
         String currentDay = getCurrentDay();
@@ -41,5 +48,11 @@ public class DayTracker {
                 .filter(schedule -> schedule.getDayOfWeek().equalsIgnoreCase(currentDay)
                         && isEventHappeningNow(schedule))
                 .collect(Collectors.toList());
+    }
+
+    // Method to check if a schedule event is happening today
+    public boolean isEventToday(Schedule schedule) {
+        // Compare the day of the event with the current day
+        return schedule.getDayOfWeek().equalsIgnoreCase(getCurrentDay());
     }
 }
