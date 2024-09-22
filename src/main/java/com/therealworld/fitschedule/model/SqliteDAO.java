@@ -60,11 +60,52 @@ public class SqliteDAO {
                             "FOREIGN KEY(user_id) REFERENCES users(id)" +
                             ")"
             );
+            // Create profile table
+            stmt.execute(
+                    "CREATE TABLE IF NOT EXISTS userProfile (" +
+                            "id INTEGER PRIMARY KEY, " +
+                            "user_id INTEGER NOT NULL, " +
+                            "username VARCHAR(50) NOT NULL, " +
+                            "email VARCHAR(50) NOT NULL, " +
+                            "height INTEGER, " +
+                            "weight INTEGER, " +
+                            "trainingFrequency VARCHAR(50), " +
+                            "accountCreationDate VARCHAR(50), " +
+                            "FOREIGN KEY(user_id) REFERENCES users(id)" +
+                            ")"
+            );
             System.out.println("Goals table created or already exists.");
         } catch (SQLException ex) {
             System.err.println("Error creating tables: " + ex.getMessage());
         }
     }
+
+
+    public List<UserProfile> fetchProfileDetails() {
+        List<UserProfile> userProfile = new ArrayList<>();
+        String sql = "SELECT * FROM userProfile";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                UserProfile userprofiles = new UserProfile(
+                        rs.getString("username"),
+                        rs.getString("email"),
+                        rs.getString("height"),
+                        rs.getString("weight"),
+                        rs.getString("trainingFrequency"),
+                        rs.getString("accountCreationDate"),
+                        rs.getString("preferredTrainingTime")
+                );
+
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return userProfile;
+    }
+
 
     // User-related operations
     public void addUser(String username, String password, String email, String phoneNumber) {
