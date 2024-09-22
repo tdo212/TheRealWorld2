@@ -60,11 +60,38 @@ public class SqliteDAO {
                             "goal_description TEXT, " +
                             "FOREIGN KEY(user_id) REFERENCES users(id))"
             );
+            // Create userProfile table
+            stmt.execute(
+                    "CREATE TABLE IF NOT EXISTS userProfile (" +
+                            "user_id INTEGER PRIMARY KEY, " +
+                            "username VARCHAR(50) NOT NULL, " +
+                            "email VARCHAR(50) NOT NULL, " +
+                            "trainingFrequency VARCHAR(50), " +
+                            "accountCreationDate VARCHAR(50), " +
+                            "preferredTrainingTime VARCHAR(50), " +
+                            "FOREIGN KEY(user_id) REFERENCES users(id))"
+            );
+            System.out.println("userProfile table created or already exists.");
+
             System.out.println("Goals table created or already exists.");
         } catch (SQLException ex) {
             System.err.println("Error creating tables: " + ex.getMessage());
         }
     }
+    public void createProfile(int userId, String username, String email) {
+        String query = "INSERT INTO userProfile (user_id, username, email, trainingFrequency, accountCreationDate, preferredTrainingTime) VALUES (?, ?, ?, '3 times a week', '2024-01-01', 'Morning')";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setInt(1, userId);
+            pstmt.setString(2, username);
+            pstmt.setString(3, email);
+            pstmt.executeUpdate();
+            System.out.println("Profile created for user: " + username);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     // Create the weekly schedule table linked with the users table
     private void createWeeklyScheduleTable() {
@@ -207,22 +234,29 @@ public class SqliteDAO {
     }
 
 
-
-
-    // Add a new user
     public void addUser(String username, String password, String email, String phoneNumber) {
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
         String query = "INSERT INTO users (username, password, email, phoneNumber) VALUES (?, ?, ?, ?)";
-        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, username);
             pstmt.setString(2, hashedPassword);
             pstmt.setString(3, email);
             pstmt.setString(4, phoneNumber);
             pstmt.executeUpdate();
+
+            // Get the generated user ID
+            ResultSet rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                int userId = rs.getInt(1);
+                // Create a profile for the new user
+                createProfile(userId, username, email);
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
     // Insert a schedule into the currentSchedule table
     public void insertSchedule(int userId, String dayOfWeek, String eventName, String eventDescription, String eventStartTime, String eventEndTime) {
@@ -419,4 +453,31 @@ public class SqliteDAO {
         }
         return false;  // Return false if user not found or error occurred
     }
+
+    public UserProfile fetchProfileDetails(int userId) {
+        String sql = "SELECT * FROM userProfile WHERE user_id = ?";
+        UserProfile userProfile = null;
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                userProfile = new UserProfile(
+                        rs.getString("username"),
+                        rs.getString("email"),
+                        rs.getString("trainingFrequency"),
+                        rs.getString("accountCreationDate"),
+                        rs.getString("preferredTrainingTime")
+                );
+            } else {
+                System.out.println("No profile found for user ID: " + userId);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching profile: " + e.getMessage());
+        }
+
+        return userProfile;
+    }
+
 }

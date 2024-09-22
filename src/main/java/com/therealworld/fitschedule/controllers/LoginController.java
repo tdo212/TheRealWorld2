@@ -1,6 +1,7 @@
 package com.therealworld.fitschedule.controllers;
 
 import com.therealworld.fitschedule.FitScheduleApp;
+import com.therealworld.fitschedule.model.SessionManager;
 import com.therealworld.fitschedule.model.SqliteDAO;
 import com.therealworld.fitschedule.controllers.DashboardController;
 import javafx.application.Platform;
@@ -58,7 +59,6 @@ public class LoginController {
             System.out.println("Logo image not found!");
         }
     }
-
     @FXML
     protected void onLoginButtonClick() throws IOException {
         String username = usernameField.getText();
@@ -70,14 +70,13 @@ public class LoginController {
         if (isAuthenticated) {
             System.out.println("Login successful");
 
-            // Load the dashboard view after successful login
-            FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("/com/therealworld/fitschedule/dashboard-view.fxml"));
-            Parent root = fxmlLoader.load();  // Load the FXML file
+            // Get the user ID from the database
+            int userId = userDAO.getUserId(username);
+            SessionManager.getInstance().setUserId(userId);  // Set the user ID in the session manager
 
-            // Assuming you need to pass the userId to the dashboard
-            DashboardController dashboardController = fxmlLoader.getController();
-            int userId = userDAO.getUserId(username);  // Get the user ID from the database
-            dashboardController.setUserId(userId);  // Set the user ID in the controller
+            // Load the dashboard view
+            FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("/com/therealworld/fitschedule/dashboard-view.fxml"));
+            Parent root = fxmlLoader.load();
 
             // Display the dashboard scene
             Stage stage = (Stage) loginButton.getScene().getWindow();
@@ -88,6 +87,8 @@ public class LoginController {
             showAlert("Error", "Invalid username or password.", Alert.AlertType.ERROR);
         }
     }
+
+
 
     @FXML
     private void showAlert(String title, String content, Alert.AlertType alertType) {

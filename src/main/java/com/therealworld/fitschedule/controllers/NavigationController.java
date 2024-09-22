@@ -1,6 +1,7 @@
 package com.therealworld.fitschedule.controllers;
 
 import com.therealworld.fitschedule.FitScheduleApp;
+import com.therealworld.fitschedule.model.SessionManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -32,9 +33,21 @@ public class NavigationController {
     }
 
     public void onProfileNavButtonClick(ActionEvent event) throws IOException {
+        // Get the current stage
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+
+        // Load the profile-view.fxml file
         FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("profile-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
+
+        // Get the ProfileController and set the user ID
+        ProfileController profileController = fxmlLoader.getController();
+        int userId = SessionManager.getInstance().getUserId();  // Retrieve userId from SessionManager
+        profileController.setUserId(userId);  // Set the user ID in the ProfileController
+
+        // Set the scene to display the profile
         stage.setScene(scene);
+        stage.show();
     }
+
 }
