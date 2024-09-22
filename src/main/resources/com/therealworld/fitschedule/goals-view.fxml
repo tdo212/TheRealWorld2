@@ -37,7 +37,7 @@
                   <Label fx:id="goalCountLabel" layoutX="24.0" layoutY="148.0" prefHeight="17.0" prefWidth="125.0" text="Goals Remaining:" />
                   <Label layoutX="28.0" layoutY="58.0" prefHeight="17.0" prefWidth="49.0" text="UserID: 1" />
                   <Label layoutX="26.0" layoutY="90.0" prefHeight="17.0" prefWidth="29.0" text="ID: 1" />
-                  <Label layoutX="24.0" layoutY="116.0" text="Goals Completed: 0" />
+                  <Label fx:id="goalCompletedLabel" layoutX="24.0" layoutY="116.0" text="Goals Completed: 0" />
                     </children>
                 </AnchorPane>
 
@@ -60,7 +60,9 @@
 
                                 <!-- New Button for editing goals -->
                                 <Button fx:id="editGoalsButton" layoutX="580.0" layoutY="14.0" onAction="#onEditGoalsClick" text="Edit Goals" />
-                        <Button layoutX="489.0" layoutY="14.0"  text="Complete" onAction="#onCompleteGoalsClick"/>
+                        <Button layoutX="489.0" layoutY="14.0" onAction="#onCompleteGoalsClick" text="Complete" />
+                        <Button layoutX="411.0" layoutY="14.0" onAction="#onDeleteGoalsClick" text="Delete" />
+                        <Button layoutX="336.0" layoutY="13.0" onAction="#onDeleteGoalsClick" text="Logoff" />
                             </children>
                         </AnchorPane>
                     </content>

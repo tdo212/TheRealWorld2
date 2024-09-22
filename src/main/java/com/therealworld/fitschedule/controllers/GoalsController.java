@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
@@ -40,7 +41,10 @@ public class GoalsController {
     private ListView<String> contactsListView;
     @FXML
     private Label goalCountLabel; // Label to display goal count
+    @FXML
+    private Label goalCompletedLabel; // Label to display goal count
     private DatabaseHelper databaseHelper = new DatabaseHelper();
+    private EditGoalsController editGoalsController = new EditGoalsController();
     public void initialize() {
         ObservableList<String> data = DatabaseHelper.getAllGoals();
         System.out.println("Number of items to display: " + data.size());
@@ -52,6 +56,15 @@ public class GoalsController {
     public void displayGoalCount() {
         int goalCount = databaseHelper.countGoals();
         goalCountLabel.setText("Goals Remaining: " + goalCount);
+
+    }
+    int goalsCompleted = 0;
+    public void updateGoalsCompleted() {
+        int goalCount = databaseHelper.countGoals();
+        goalsCompleted = goalsCompleted + 1;
+
+
+        goalCompletedLabel.setText("Goals Completed: " + goalsCompleted);
     }
     @FXML
     private PieChart pieChart;
@@ -59,7 +72,7 @@ public class GoalsController {
         int goalCount = databaseHelper.countGoals();
         // Sample data for the PieChart
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-                new PieChart.Data("Completed", 30),
+                new PieChart.Data("Completed", goalsCompleted),
                 new PieChart.Data("Incomplete", goalCount)
 
         );
@@ -76,8 +89,7 @@ public class GoalsController {
     public void updateProgressBar() {
         // Get the completed and total goal stats from the database
         int goalCount = databaseHelper.countGoals();
-        int completeGoals = 7;
-        double progressgoals = (double) completeGoals / goalCount;
+        double progressgoals = (double) goalsCompleted / goalCount;
         progressBar.setProgress(progressgoals);
         int progresslabel = (int) (progressgoals * 100);
         progressLabel.setText(progresslabel + "%");
@@ -87,6 +99,17 @@ public class GoalsController {
         String selectedGoal = contactsListView.getSelectionModel().getSelectedItem();
 
             contactsListView.getItems().remove(selectedGoal);
+            updateGoalsCompleted();
+            updateProgressBar();
+            displayPieChart();
+
+    }
+
+    @FXML
+    public void onDeleteGoalsClick(ActionEvent event) {
+        String selectedGoal = contactsListView.getSelectionModel().getSelectedItem();
+
+        contactsListView.getItems().remove(selectedGoal);
 
     }
 }

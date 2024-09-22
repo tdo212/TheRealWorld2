@@ -126,7 +126,7 @@ public class EditGoalsController {
 
 
     // Helper method to show alerts
-    private void showAlert(String message, Alert.AlertType type) {
+    void showAlert(String message, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setContentText(message);
         alert.showAndWait();
