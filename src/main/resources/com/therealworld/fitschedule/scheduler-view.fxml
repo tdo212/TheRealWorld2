@@ -17,8 +17,6 @@
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
-
-
     <!-- Buttons for Scheduling and Logging Off -->
     <HBox alignment="CENTER" spacing="475.0">
         <Button fx:id="scheduleButton" text="Schedule" onAction="#onScheduleButtonClick"/>
@@ -36,9 +34,12 @@
         <Label text="Weekly Schedule Overview"/>
     </HBox>
 
-    <!-- Table for schedule, with columns for each day of the week -->
-    <TableView fx:id="scheduleTable">
+    <!-- Updated TableView for schedule, including a column for time slots -->
+    <TableView fx:id="scheduleTable" prefHeight="400.0" prefWidth="600.0">
         <columns>
+            <!-- Time slot column -->
+            <TableColumn fx:id="timeSlotColumn" text="Time Slot"/>
+            <!-- Columns for each day of the week -->
             <TableColumn fx:id="mondayColumn" text="Monday"/>
             <TableColumn fx:id="tuesdayColumn" text="Tuesday"/>
             <TableColumn fx:id="wednesdayColumn" text="Wednesday"/>
@@ -51,10 +52,11 @@
 
     <!-- Buttons for changing, updating the current schedule, and generating a new schedule -->
     <HBox alignment="CENTER" spacing="20.0">
-        <Button fx:id="changeScheduleButton" text="Change Schedule" onAction="#onChangeScheduleButtonClick"/>
-        <Button fx:id="updateScheduleButton" text="Update Schedule" onAction="#onUpdateScheduleButtonClick"/>
-        <Button fx:id="generateNewScheduleButton" text="Generate New Schedule" onAction="#onGenerateNewScheduleButtonClick"/>
+        <Button fx:id="changeScheduleButton" text="Clear Schedule" onAction="#onChangeScheduleButtonClick"/>
+        <Button fx:id="updateScheduleButton" text="Update Event" onAction="#onUpdateScheduleButtonClick"/>
+        <Button fx:id="generateNewScheduleButton" text="Add New Event" onAction="#onGenerateNewScheduleButtonClick"/>
     </HBox>
+
     <!-- Include the navigation bar -->
     <fx:include source="navbar.fxml"/>
 </VBox>
