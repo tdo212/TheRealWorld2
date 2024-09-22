@@ -28,28 +28,28 @@ public class SchedulerController {
     private VBox rootContainer;  // Main container that will hold all UI elements
 
     @FXML
-    private TableView<ScheduleRow> scheduleTable;  // Updated TableView to use ScheduleRow
+    TableView<ScheduleRow> scheduleTable;  // Updated TableView to use ScheduleRow
 
     @FXML
-    private TableColumn<ScheduleRow, String> timeSlotColumn;  // New column for time slots
+    TableColumn<ScheduleRow, String> timeSlotColumn;  // New column for time slots
     @FXML
-    private TableColumn<ScheduleRow, String> mondayColumn;
+    TableColumn<ScheduleRow, String> mondayColumn;
     @FXML
-    private TableColumn<ScheduleRow, String> tuesdayColumn;
+    TableColumn<ScheduleRow, String> tuesdayColumn;
     @FXML
-    private TableColumn<ScheduleRow, String> wednesdayColumn;
+    TableColumn<ScheduleRow, String> wednesdayColumn;
     @FXML
-    private TableColumn<ScheduleRow, String> thursdayColumn;
+    TableColumn<ScheduleRow, String> thursdayColumn;
     @FXML
-    private TableColumn<ScheduleRow, String> fridayColumn;
+    TableColumn<ScheduleRow, String> fridayColumn;
     @FXML
-    private TableColumn<ScheduleRow, String> saturdayColumn;
+    TableColumn<ScheduleRow, String> saturdayColumn;
     @FXML
-    private TableColumn<ScheduleRow, String> sundayColumn;
+    TableColumn<ScheduleRow, String> sundayColumn;
 
-    private int userId;
+    int userId;
 
-    private final SqliteDAO scheduleDAO = new SqliteDAO();
+    SqliteDAO scheduleDAO = new SqliteDAO();
 
     // Predefined time slots
     private final List<String> timeSlots = Arrays.asList(
@@ -82,7 +82,7 @@ public class SchedulerController {
     }
 
     // Method to populate the schedule table for a specific user
-    private void populateScheduleTable(int userId) {
+    void populateScheduleTable(int userId) {
         List<String> timeSlots = Arrays.asList(
                 "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM", "6:00 AM", "7:00 AM",
                 "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM",
