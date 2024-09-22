@@ -13,6 +13,11 @@
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
 
+    <!-- Button added for logging off -->
+    <HBox alignment="TOP_RIGHT">
+        <Button text="Log Off" onAction="#onLogoffButtonClick" alignment="TOP_RIGHT"/>
+    </HBox>
+
     <!-- Label for Title of Weekly Schedule -->
     <HBox alignment="CENTER">
         <Label text="Your Weekly Schedule" style="-fx-font-size: 24px;"/>
