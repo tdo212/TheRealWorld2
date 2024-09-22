@@ -15,7 +15,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
+import java.util.HashMap;
+import java.util.Map;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -76,40 +77,59 @@ public class SchedulerController {
     }
 
     private void populateScheduleTable(int userId) {
+        // Predefined time slots (12:00 AM to 11:00 PM)
+        List<String> timeSlots = Arrays.asList(
+                "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM", "6:00 AM", "7:00 AM",
+                "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM",
+                "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM"
+        );
+
         // Retrieve the weekly schedule data for the specified user
         List<String[]> scheduleData = scheduleDAO.getWeeklySchedule(userId);
 
+        // Log the retrieved schedule data for debugging
         if (scheduleData == null || scheduleData.isEmpty()) {
             System.out.println("No schedule data found for user " + userId);
-            return;
+        } else {
+            for (String[] row : scheduleData) {
+                System.out.println("Time Slot: " + row[0] + ", Monday: " + row[1] + ", Tuesday: " + row[2] +
+                        ", Wednesday: " + row[3] + ", Thursday: " + row[4] + ", Friday: " + row[5] +
+                        ", Saturday: " + row[6] + ", Sunday: " + row[7]);
+            }
         }
 
-        // Log the retrieved schedule data for debugging
-        for (String[] row : scheduleData) {
-            System.out.println("Time Slot: " + row[0] + ", Monday: " + row[1] + ", Tuesday: " + row[2] + ", Wednesday: " + row[3] +
-                    ", Thursday: " + row[4] + ", Friday: " + row[5] + ", Saturday: " + row[6] + ", Sunday: " + row[7]);
+        // Create a map to store the schedule by time slot for easy lookup
+        Map<String, String[]> scheduleMap = new HashMap<>();
+        if (scheduleData != null) {
+            for (String[] row : scheduleData) {
+                scheduleMap.put(row[0], row);  // Time slot as the key
+            }
         }
 
         ObservableList<ScheduleRow> scheduleRows = FXCollections.observableArrayList();
 
-        // Convert the scheduleData into ScheduleRow objects for display in the TableView
-        for (String[] row : scheduleData) {
-            // Create a new ScheduleRow object for each row in the data
+        // Populate the table with predefined time slots and merge with any existing events
+        for (String timeSlot : timeSlots) {
+            // Retrieve the schedule row for this time slot from the map, if available
+            String[] eventRow = scheduleMap.getOrDefault(timeSlot, new String[8]);
+
             scheduleRows.add(new ScheduleRow(
-                    row[0],  // timeSlot (12:00 AM, 1:00 AM, etc.)
-                    row[1] == null ? "" : row[1],  // Monday's event, default to an empty string if null
-                    row[2] == null ? "" : row[2],  // Tuesday's event, default to an empty string if null
-                    row[3] == null ? "" : row[3],  // Wednesday's event
-                    row[4] == null ? "" : row[4],  // Thursday's event
-                    row[5] == null ? "" : row[5],  // Friday's event
-                    row[6] == null ? "" : row[6],  // Saturday's event
-                    row[7] == null ? "" : row[7]   // Sunday's event
+                    timeSlot, // Always add the predefined time slot
+                    eventRow[1] == null ? "" : eventRow[1],  // Monday's event
+                    eventRow[2] == null ? "" : eventRow[2],  // Tuesday's event
+                    eventRow[3] == null ? "" : eventRow[3],  // Wednesday's event
+                    eventRow[4] == null ? "" : eventRow[4],  // Thursday's event
+                    eventRow[5] == null ? "" : eventRow[5],  // Friday's event
+                    eventRow[6] == null ? "" : eventRow[6],  // Saturday's event
+                    eventRow[7] == null ? "" : eventRow[7]   // Sunday's event
             ));
         }
 
         // Bind the scheduleRows data to the TableView
         scheduleTable.setItems(scheduleRows);
+        scheduleTable.refresh();  // Refresh the table view to reflect the new data
     }
+
 
     // Method to set the user ID and load the schedule
     public void setUserId(int userId) {
