@@ -1,14 +1,16 @@
 package com.therealworld.fitschedule.model;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 public class User {
     public static String username;
-    public String password;
+    public String hashedPassword;
     public String email;
     public String phoneNumber;
 
     public User(String username, String password, String email, String phoneNumber) {
         this.username = username;
-        this.password = password;
+        this.hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
         this.email = email;
         this.phoneNumber = phoneNumber;
     }
@@ -17,8 +19,9 @@ public class User {
     public static String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
 
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    public void setPassword(String password) {
+        this.hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt()); // Hash password
+    }
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
