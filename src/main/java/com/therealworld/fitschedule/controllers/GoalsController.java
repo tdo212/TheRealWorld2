@@ -150,7 +150,10 @@ public class GoalsController {
         Goal selectedGoal = contactsListView.getSelectionModel().getSelectedItem();
 
         if (selectedGoal != null) {
-            contactsListView.getItems().remove(selectedGoal); // Remove the selected goal from the ListView
+            databaseHelper.deleteGoalFromDatabase(selectedGoal.getGoalId()); // Delete from database
+
+            // Refresh the goal list after deletion
+            refreshGoalsList();
         }
     }
     @FXML

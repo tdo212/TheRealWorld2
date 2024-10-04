@@ -332,7 +332,7 @@ public class SqliteDAO {
 
 
     // Delete a goal by ID
-    public void deleteGoal(int goalId) {
+    public void deleteGoalFromDatabase(int goalId) {
         String query = "DELETE FROM goals WHERE id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setInt(1, goalId);
