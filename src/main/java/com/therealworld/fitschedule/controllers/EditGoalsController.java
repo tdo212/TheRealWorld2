@@ -93,8 +93,11 @@ public class EditGoalsController {
             // Assuming userId is available, you should pass it from the logged-in user's session
             int userId = 1; // Example user ID, replace with actual user ID
 
-            // Save the goal to the database, now using the integer value for goal durations
-            goalsDAO.addGoal(userId, goalType, goalDuration, durationType, "Goal Description");
+            // Since we're adding a new goal, it's not completed, so set goalCompleted to 0 (false)
+            int goalCompleted = 0;
+
+            // Save the goal to the database, now including the goal_completed field
+            goalsDAO.addGoal(userId, goalType, goalDuration, durationType, "Goal Description", goalCompleted);
 
             showAlert("Goal saved successfully!", Alert.AlertType.INFORMATION);
 

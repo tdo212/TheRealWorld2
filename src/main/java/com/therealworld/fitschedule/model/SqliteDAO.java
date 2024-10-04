@@ -60,6 +60,7 @@ public class SqliteDAO {
                             "goal_duration INTEGER NOT NULL, " +  // Store goal duration as INTEGER for weeks
                             "goal_period TEXT NOT NULL, " +
                             "goal_description TEXT, " +
+                            "goal_completed INTEGER NOT NULL DEFAULT 0, " +  // Add this column to track if the goal is completed (0 = false, 1 = true)
                             "FOREIGN KEY(user_id) REFERENCES users(id))"
             );
             System.out.println("Goals table created or already exists.");
@@ -309,35 +310,26 @@ public class SqliteDAO {
     }
 
     // Add a goal for a user
-    public void addGoal(int userId, String goalType, int goalDuration, String goalPeriod, String goalDescription) {
-        String query = "INSERT INTO goals (user_id, goal_type, goal_duration, goal_period, goal_description) VALUES (?, ?, ?, ?, ?)";
+    public void addGoal(int userId, String goalType, int goalDuration, String goalPeriod, String goalDescription, int goalCompleted) {
+        String query = "INSERT INTO goals (user_id, goal_type, goal_duration, goal_period, goal_description, goal_completed) VALUES (?, ?, ?, ?, ?, ?)";
+
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setInt(1, userId);
             pstmt.setString(2, goalType);
             pstmt.setInt(3, goalDuration);
             pstmt.setString(4, goalPeriod);
             pstmt.setString(5, goalDescription);
+            pstmt.setInt(6, goalCompleted); // Add the goal_completed parameter
+
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+
     // Get all goals for a user
-    public List<String> getGoalsForUser(int userId) {
-        List<String> goals = new ArrayList<>();
-        String query = "SELECT * FROM goals WHERE user_id = ?";
-        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setInt(1, userId);
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                goals.add(rs.getString("goal_description"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return goals;
-    }
+
 
     // Delete a goal by ID
     public void deleteGoal(int goalId) {
@@ -427,8 +419,8 @@ public class SqliteDAO {
         }
         return false;  // Return false if user not found or error occurred
     }
-    public static ObservableList<String> getAllGoals() {
-        ObservableList<String> data = FXCollections.observableArrayList();
+    public static ObservableList<Goal> getAllGoals() {
+        ObservableList<Goal> data = FXCollections.observableArrayList();
         String url = "jdbc:sqlite:FitScheduleDBConnection.db"; // Make sure this path is correct
 
         try (Connection conn = DriverManager.getConnection(url)) {
@@ -438,18 +430,17 @@ public class SqliteDAO {
             ResultSet rs = stmt.executeQuery("SELECT * FROM goals");
 
             while (rs.next()) {
-                // Construct a string with all the columns in the goals table
-                String goalEntry = String.format(
-                        "ID: %d, User ID: %d, Type: %s, Duration: %d, Period: %s, Description: %s",
-                        rs.getInt("id"),
-                        rs.getInt("user_id"),
-                        rs.getString("goal_type"),
-                        rs.getInt("goal_duration"),
-                        rs.getString("goal_period"),
-                        rs.getString("goal_description")
+                // Construct a Goal object with all the columns in the goals table
+                Goal goalEntry = new Goal(
+                        rs.getInt("id"),              // goalId
+                        rs.getString("goal_type"),     // goalType
+                        rs.getInt("goal_duration"),    // goalDuration
+                        rs.getString("goal_period"),   // goalPeriod
+                        rs.getString("goal_description"), // goalDescription
+                        rs.getBoolean("goal_completed")  // goalCompleted
                 );
                 System.out.println("Fetched goal entry: " + goalEntry);
-                data.add(goalEntry);
+                data.add(goalEntry);  // Add the Goal object to the ObservableList
             }
 
             rs.close();
@@ -461,6 +452,7 @@ public class SqliteDAO {
         System.out.println("Data loaded: " + data.size() + " items.");
         return data;
     }
+
     public int countGoals() {
         String sql = "SELECT COUNT(*) AS count FROM goals";
         int count = 0;

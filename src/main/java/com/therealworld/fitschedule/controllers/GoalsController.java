@@ -1,6 +1,7 @@
 package com.therealworld.fitschedule.controllers;
 
 import com.therealworld.fitschedule.FitScheduleApp;
+import com.therealworld.fitschedule.model.Goal;
 import com.therealworld.fitschedule.model.SqliteDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,8 +11,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.stage.Modality;
@@ -22,7 +23,7 @@ import java.io.IOException;
 public class GoalsController {
 
     @FXML
-    private ListView<String> contactsListView;
+    private ListView<Goal> contactsListView;
     @FXML
     private Label goalCountLabel; // Label to display goal count
     @FXML
@@ -46,9 +47,35 @@ public class GoalsController {
 
     // Method to refresh the list of goals and update the UI
     public void refreshGoalsList() {
-        ObservableList<String> data = SqliteDAO.getAllGoals(); // Fetch goals from the database
+        ObservableList<Goal> data = databaseHelper.getAllGoals(); // Ensure SqliteDAO returns ObservableList<Goal>
+
         System.out.println("Number of items to display: " + data.size());
-        contactsListView.setItems(data); // Set goals in the ListView
+
+        // Set the items in the ListView
+        contactsListView.setItems(data);
+        // Customize how each Goal is displayed in the ListView
+        contactsListView.setCellFactory(param -> new ListCell<Goal>() {
+            @Override
+            protected void updateItem(Goal goal, boolean empty) {
+                super.updateItem(goal, empty);
+                if (empty || goal == null) {
+                    setText(null);
+                } else {
+                    // Format the display string to show all goal details
+                    String goalDetails = String.format(
+                            "ID: %d, Type: %s, Duration: %d weeks, Period: %s, Description: %s, Completed: %s",
+                            goal.getGoalId(),
+                            goal.getGoalType(),
+                            goal.getGoalDuration(),
+                            goal.getGoalPeriod(),
+                            goal.getGoalDescription(),
+                            goal.isGoalCompleted() ? "Yes" : "No" // Display if the goal is completed
+                    );
+                    setText(goalDetails);
+                }
+            }
+        });
+
         displayGoalCount();
         displayPieChart();
         updateProgressBar();
@@ -108,7 +135,7 @@ public class GoalsController {
 
     @FXML
     public void onCompleteGoalsClick(ActionEvent event) {
-        String selectedGoal = contactsListView.getSelectionModel().getSelectedItem();
+        Goal selectedGoal = contactsListView.getSelectionModel().getSelectedItem();
 
         if (selectedGoal != null) {
             contactsListView.getItems().remove(selectedGoal); // Remove the selected goal from the ListView
@@ -120,7 +147,7 @@ public class GoalsController {
 
     @FXML
     public void onDeleteGoalsClick(ActionEvent event) {
-        String selectedGoal = contactsListView.getSelectionModel().getSelectedItem();
+        Goal selectedGoal = contactsListView.getSelectionModel().getSelectedItem();
 
         if (selectedGoal != null) {
             contactsListView.getItems().remove(selectedGoal); // Remove the selected goal from the ListView
