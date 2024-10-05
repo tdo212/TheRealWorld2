@@ -79,6 +79,8 @@ public class GoalsController {
         displayGoalCount();
         displayPieChart();
         updateProgressBar();
+        updateGoalsCompleted();
+
     }
 
     public void displayGoalCount() {
@@ -87,26 +89,41 @@ public class GoalsController {
     }
 
     public void updateGoalsCompleted() {
-        goalsCompleted += 1;
-        goalCompletedLabel.setText("Goals Completed: " + goalsCompleted);
+        int goalsCompleted = 0;
+        goalCompletedLabel.setText("Goals Completed: " + completedGoals);
     }
 
     public void displayPieChart() {
         int goalCount = databaseHelper.countGoals();
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-                new PieChart.Data("Completed", goalsCompleted),
+                new PieChart.Data("Completed", completedGoals),
                 new PieChart.Data("Incomplete", goalCount)
         );
         pieChart.setData(pieChartData); // Update pie chart with new data
     }
 
     public void updateProgressBar() {
-        int goalCount = databaseHelper.countGoals();
-        double progressgoals = (double) goalsCompleted / goalCount;
+        int goalCount = databaseHelper.countGoals(); // Fetch the total number of goals
+       int completedGoals = databaseHelper.getCompletedGoalsCount(); // Fetch the total number of completed goals
+
+        // Avoid division by zero
+        if (goalCount == 0) {
+            progressBar.setProgress(0);  // Set progress to 0 if no goals exist
+            progressLabel.setText("0%");  // Display 0% progress
+            return;
+        }
+
+        // Calculate progress as a double value
+        double progressgoals = (double) completedGoals / goalCount;
+
+        // Set the progress bar based on the calculated value
         progressBar.setProgress(progressgoals);
-        int progresslabel = (int) (progressgoals * 100);
-        progressLabel.setText(progresslabel + "%");
+
+        // Convert the progress value to a percentage and update the label
+        int progressPercentage = (int) (progressgoals * 100);
+        progressLabel.setText(progressPercentage + "%");
     }
+
 
     @FXML
     public void onEditGoalsClick(ActionEvent event) {
@@ -132,16 +149,22 @@ public class GoalsController {
             e.printStackTrace();
         }
     }
+    private int completedGoals = 0; // New stat for tracking goals completed
 
     @FXML
     public void onCompleteGoalsClick(ActionEvent event) {
         Goal selectedGoal = contactsListView.getSelectionModel().getSelectedItem();
 
-        if (selectedGoal != null) {
+        if (selectedGoal != null && !selectedGoal.isGoalCompleted()) {
             contactsListView.getItems().remove(selectedGoal); // Remove the selected goal from the ListView
+            databaseHelper.updateGoalAsCompleted(selectedGoal.getGoalId());
+            databaseHelper.deleteGoalFromDatabase(selectedGoal.getGoalId()); // Delete from database
+            completedGoals++;
             updateGoalsCompleted(); // Update goals completed count
             updateProgressBar(); // Update progress bar
             displayPieChart(); // Update the pie chart
+            displayGoalCount();
+
         }
     }
 

@@ -467,4 +467,35 @@ public class SqliteDAO {
         }
         return count;
     }
+    public void updateGoalAsCompleted(int goalId) {
+        String query = "UPDATE goals SET goal_completed = 1 WHERE id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setInt(1, goalId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public int getCompletedGoalsCount() {
+        String query = "SELECT COUNT(*) FROM goals WHERE goal_completed = 1";
+        int count = 0;
+
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:FitScheduleDBConnection.db");
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            // Execute the query
+            ResultSet rs = pstmt.executeQuery();
+
+            // Retrieve the count
+            if (rs.next()) {
+                count = rs.getInt(1); // Get the first column from the result set (the count)
+            }
+
+            rs.close(); // Close the ResultSet
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
 }
