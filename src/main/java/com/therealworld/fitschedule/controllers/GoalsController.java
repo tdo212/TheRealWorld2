@@ -43,7 +43,7 @@ public class GoalsController {
 
     private SqliteDAO databaseHelper = new SqliteDAO();
     private int goalsCompleted = 0;
-    private int userId = 2334; // Replace with the actual logged-in user ID
+    private int userId = 2342; // Replace with the actual logged-in user ID
 
 
     public void initialize() {
@@ -109,19 +109,20 @@ public class GoalsController {
     }
 
     public void checkBadges() {
-        if (completedGoals == 2) {
+        int totalGoalsCompleted = databaseHelper.getTotalGoalsCompleted(userId);
+        if (totalGoalsCompleted == 2) {
             databaseHelper.awardBadge(userId, "2 Goals Completed");
         }
-        if (completedGoals == 4) {
+        if (totalGoalsCompleted == 4) {
             databaseHelper.awardBadge(userId, "4 Goals Completed");
         }
-        if (completedGoals == 8) {
+        if (totalGoalsCompleted == 8) {
             databaseHelper.awardBadge(userId, "8 Goals Completed");
         }
-        if (completedGoals == 10) {
+        if (totalGoalsCompleted == 10) {
             databaseHelper.awardBadge(userId, "10 Goals Completed");
         }
-        if (completedGoals == 20) {
+        if (totalGoalsCompleted == 20) {
             databaseHelper.awardBadge(userId, "20 Goals Completed");
         }
     }
