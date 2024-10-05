@@ -64,6 +64,24 @@ public class SqliteDAO {
                             "FOREIGN KEY(user_id) REFERENCES users(id))"
             );
             System.out.println("Goals table created or already exists.");
+            // Create badges table
+            stmt.execute(
+                    "CREATE TABLE IF NOT EXISTS badges (" +
+                            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                            "badge_name TEXT NOT NULL," +
+                            "date_of_completion TEXT NOT NULL," +
+                            "user_id INTEGER NOT NULL," +
+                            "FOREIGN KEY(user_id) REFERENCES users(id))"
+            );
+            System.out.println("Badges table created or already exists.");
+            // Create badges table
+            stmt.execute(
+                    "CREATE TABLE IF NOT EXISTS total_goals_completed (" +
+                            "user_id INTEGER PRIMARY KEY," +
+                            "total_completed INTEGER NOT NULL DEFAULT 0," +
+                            "FOREIGN KEY(user_id) REFERENCES users(id))"
+            );
+            System.out.println("Total_Goals table created or already exists.");
         } catch (SQLException ex) {
             System.err.println("Error creating tables: " + ex.getMessage());
         }
@@ -498,4 +516,68 @@ public class SqliteDAO {
 
         return count;
     }
+    public void awardBadge(int userId, String badgeName) {
+        String query = "INSERT INTO badges (user_id, badge_name, date_of_completion) VALUES (?, ?, ?)";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setInt(1, userId);
+            pstmt.setString(2, badgeName);
+            pstmt.setString(3, LocalDate.now().toString());  // Use current date
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ObservableList<String> getUserBadges(int userId) {
+        ObservableList<String> badges = FXCollections.observableArrayList();
+        String query = "SELECT badge_name, date_of_completion FROM badges WHERE user_id = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setInt(1, userId);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                String badge = String.format("%s - Earned on %s", rs.getString("badge_name"), rs.getString("date_of_completion"));
+                badges.add(badge);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return badges;
+    }
+    public void initializeTotalGoalsCompleted(int userId) {
+        String query = "INSERT INTO total_goals_completed (user_id, total_completed) VALUES (?, 0) ON CONFLICT(user_id) DO NOTHING";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setInt(1, userId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public int getTotalGoalsCompleted(int userId) {
+        String query = "SELECT total_completed FROM total_goals_completed WHERE user_id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setInt(1, userId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("total_completed");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;  // Default to 0 if no entry exists
+    }
+
+    public void incrementTotalGoalsCompleted(int userId) {
+        String query = "UPDATE total_goals_completed SET total_completed = total_completed + 1 WHERE user_id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setInt(1, userId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

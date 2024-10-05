@@ -34,15 +34,25 @@ public class GoalsController {
     private ProgressBar progressBar;
     @FXML
     private Label progressLabel;  // Label to display percentage
+    @FXML
+    private Label UserIDLabel;  // Label to display percentage
+    @FXML
+    private ListView<String> badgesListView;
+    @FXML
+    private Label LifetimeCompleted;  // Label to display percentage
 
     private SqliteDAO databaseHelper = new SqliteDAO();
     private int goalsCompleted = 0;
+    private int userId = 2334; // Replace with the actual logged-in user ID
+
 
     public void initialize() {
         refreshGoalsList(); // Initialize the list of goals
         displayGoalCount();
         displayPieChart();
         updateProgressBar();
+        refreshBadgesList();
+        setStats();
     }
 
     // Method to refresh the list of goals and update the UI
@@ -87,10 +97,33 @@ public class GoalsController {
         int goalCount = databaseHelper.countGoals();
         goalCountLabel.setText("Goals Remaining: " + goalCount);
     }
+    public void setStats() {
+        int totalGoalsCompleted = databaseHelper.getTotalGoalsCompleted(userId);
+        UserIDLabel.setText("User ID: " + userId);
+        LifetimeCompleted.setText("Goals Completed (Lifetime): "+  totalGoalsCompleted);
+    }
 
     public void updateGoalsCompleted() {
         int goalsCompleted = 0;
-        goalCompletedLabel.setText("Goals Completed: " + completedGoals);
+        goalCompletedLabel.setText("Goals Completed (Session): " + completedGoals);
+    }
+
+    public void checkBadges() {
+        if (completedGoals == 2) {
+            databaseHelper.awardBadge(userId, "2 Goals Completed");
+        }
+        if (completedGoals == 4) {
+            databaseHelper.awardBadge(userId, "4 Goals Completed");
+        }
+        if (completedGoals == 8) {
+            databaseHelper.awardBadge(userId, "8 Goals Completed");
+        }
+        if (completedGoals == 10) {
+            databaseHelper.awardBadge(userId, "10 Goals Completed");
+        }
+        if (completedGoals == 20) {
+            databaseHelper.awardBadge(userId, "20 Goals Completed");
+        }
     }
 
     public void displayPieChart() {
@@ -164,7 +197,11 @@ public class GoalsController {
             updateProgressBar(); // Update progress bar
             displayPieChart(); // Update the pie chart
             displayGoalCount();
-
+            checkBadges();
+            refreshBadgesList();
+            databaseHelper.initializeTotalGoalsCompleted(userId);
+            databaseHelper.incrementTotalGoalsCompleted(userId);
+            setStats();
         }
     }
 
@@ -186,4 +223,9 @@ public class GoalsController {
         Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
         stage.setScene(scene);
     }
+    public void refreshBadgesList() {
+        ObservableList<String> badges = databaseHelper.getUserBadges(userId);
+        badgesListView.setItems(badges);
+    }
+
 }
