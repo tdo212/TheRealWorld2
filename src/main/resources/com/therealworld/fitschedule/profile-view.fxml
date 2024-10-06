@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.therealworld.fitschedule.controllers.ProfileController" spacing="20">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Button for profile and logging off -->
+    <HBox alignment="CENTER" spacing="475.0">
+        <Button text="Profile" onAction="#onProfileButtonClick"/>
+        <Button text="Log Off" onAction="#onLogoffButtonClick"/>
+    </HBox>
+
+    <VBox alignment="CENTER" spacing="20" style="-fx-padding: 30 0 30 0;">
+        <HBox alignment="CENTER"><Label fx:id="profileNameLabel" text="Account Name" style="-fx-font-size: 24px;"/></HBox>
+        <HBox alignment="CENTER"><Label fx:id="profileEmailLabel" text="Email" style="-fx-font-size: 20px;"/></HBox>
+        <HBox alignment="CENTER"><Label fx:id="profileTrainingFrequency" text="Training Frequency" style="-fx-font-size: 20px;"/></HBox>
+        <HBox alignment="CENTER"><Label fx:id="profileCreationDate" text="Account creation date" style="-fx-font-size: 20px;"/></HBox>
+        <HBox alignment="CENTER"><Label fx:id="profileTrainingTimePreferences" text="Preferred Training Time" style="-fx-font-size: 20px;"/></HBox>
+
+        <HBox alignment="CENTER" spacing="40" style="-fx-padding: 54 0 54 0;">
+            <Button text="Edit Details" onAction="#onEditDetailsButtonClick"/>
+            <Button text="Change Password" onAction="#onChangePasswordButtonClick"/>
+        </HBox>
+    </VBox>
+    <!-- Include the navigation bar -->
+    <fx:include source="navbar.fxml"/>
+</VBox>

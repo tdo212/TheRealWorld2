@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.therealworld.fitschedule.controllers.DashboardController" alignment="CENTER" spacing="10.0">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Button added for logging off -->
+    <HBox alignment="TOP_RIGHT">
+        <Button text="Log Off" onAction="#onLogoffButtonClick" alignment="TOP_RIGHT"/>
+    </HBox>
+
+    <!-- Label for Title of Weekly Schedule -->
+    <HBox alignment="CENTER">
+        <Label text="Your Weekly Schedule" style="-fx-font-size: 24px;"/>
+    </HBox>
+
+    <!-- Three tables side by side with equal width and height -->
+    <HBox alignment="CENTER" spacing="40"> <!-- Spacing between tables -->
+
+        <VBox alignment="TOP_CENTER" spacing="5">
+            <Label text="Today's Schedule" style="-fx-font-size: 20px;"/>
+            <TableView fx:id="todaySchedule" prefWidth="200" prefHeight="300">
+                <columns>
+                    <TableColumn fx:id="timeSlotColumn" text="Time Slot" />
+                    <TableColumn fx:id="eventColumn" text="Event" />
+                </columns>
+            </TableView>
+        </VBox>
+
+        <!-- Fitness Streak -->
+        <VBox alignment="TOP_CENTER" spacing="5">
+            <Label text="Fitness Streak" style="-fx-font-size: 20px;"/>
+            <TableView fx:id="fitnessStreak" prefWidth="200" prefHeight="300"> <!-- Uniform table width and height -->
+                <columns>
+                    <TableColumn fx:id="fitStreak" text="Streak"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+        <!-- Progress to Goal Tracker -->
+        <VBox alignment="TOP_CENTER" spacing="5">
+            <Label text="Progress to Goal Tracker" style="-fx-font-size: 20px;"/>
+            <TableView fx:id="goalTrackerGraph" prefWidth="200" prefHeight="300"> <!-- Uniform table width and height -->
+                <columns>
+                    <TableColumn fx:id="goalTracker" text="Goal"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+    </HBox>
+
+    <!-- Yes/No Query box for if User successfully followed their training schedule -->
+    <HBox alignment="CENTER" style="-fx-padding: 10 0 10 0;">
+        <VBox style="-fx-padding: 5 10 10 10; -fx-border-color:black; -fx-border-radius: 10 10 10 10;">
+            <Label text="Did you train today?" style="-fx-font-size: 16px; -fx-padding: 5 0 5 0; "/>
+            <HBox alignment="CENTER" spacing="20">
+                <Button text="Yes" onAction="#onYesButtonClick" style="-fx-padding: 5 15 5 15"/>
+                <Button text="No" onAction="#onNoButtonClick" style="-fx-padding: 5 15 5 15;"/>
+            </HBox>
+        </VBox>
+    </HBox>
+
+    <!-- Include the navigation bar -->
+    <fx:include source="navbar.fxml"/>
+</VBox>
