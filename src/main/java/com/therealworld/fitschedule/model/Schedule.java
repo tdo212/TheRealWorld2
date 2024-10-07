@@ -123,6 +123,7 @@ public class Schedule {
         this.dayOfWeek.set(dayOfWeek);
     }
     /**
+     * The string property for the day of the week.
      * @return the day of the week for the schedule entry.
      */
     public StringProperty dayOfWeekProperty() {
