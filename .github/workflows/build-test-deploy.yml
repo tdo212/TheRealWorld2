@@ -23,7 +23,7 @@ jobs:
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'  # Use 'temurin' or 'corretto' as preferred
+          distribution: 'corretto'
           java-version: '21'
           cache: maven  # Cache Maven dependencies to speed up the build
 
@@ -74,7 +74,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Javadoc
-          path: target/site/apidocs  # Ensure this path matches your Javadoc output directory
+          path: target/docs/javadoc  # Ensure this path matches your Javadoc output directory
 
   # Job 3: Deploy Javadoc to GitHub Pages (runs only on main branch after Javadoc generation)
   deploy-javadoc:
