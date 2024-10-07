@@ -1,5 +1,8 @@
 package com.therealworld.fitschedule.model;
 
+/**
+ * A simple model class representing a User with a Username, Password, email, and phone number.
+ */
 public class User {
     public static String username;
     public String password;
