@@ -37,7 +37,6 @@ jobs:
           folder: target/docs/javadoc  # Ensure this path matches your javadoc output directory
           branch: gh-pages  # Optional: Specify the branch to deploy to
           clean: true       # Optional: Remove previous files from the branch
-          token: ${{ secrets.GITHUB_TOKEN }}  # Use GITHUB_TOKEN for authentication
 
         env:
          ACTIONS_RUNNER_DEBUG: true
