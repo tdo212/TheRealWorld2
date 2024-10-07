@@ -1,109 +1,50 @@
-# This unified workflow will build the Java project, run tests, generate Javadoc, and deploy Javadoc to GitHub Pages.
-name: Build, Test, and Deploy Javadoc
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time.
+name: Java CI with Maven
 
 on:
-  # Trigger the workflow on pushes and pull requests to the main and Int-Actions branches
   push:
-    branches: [ "main", "Int-Actions" ]  # Modify to include other branches as needed
+    branches: [ "Int-Actions" ]
   pull_request:
-    branches: [ "main", "Int-Actions" ]
+    branches: [ "Int-Actions" ]
 
 jobs:
-  # Job 1: Build and Test the Project
-  build-and-test:
-    name: Build and Test
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout Code from the repository
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
-      # Step 2: Set up JDK 21 for the environment
       - name: Set up JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v3
         with:
           distribution: 'corretto'
           java-version: '21'
-          cache: maven  # Cache Maven dependencies to speed up the build
+          cache: maven
 
-      # Step 3: Verify the Java version
-      - name: Verify Java Version
+      - name: Verify Java version
         run: java -version
 
-      # Step 4: Build the project with Maven
       - name: Build with Maven
-        run: mvn clean install
+        run: mvn -B package --file pom.xml
 
-      # Step 5: Run Tests with Maven
-      - name: Run Tests with Maven
-        run: mvn test
-
-      # Step 6: Publish Test Reports as an artifact (optional)
-      - name: Publish Test Reports
-        if: always()  # This ensures that the test reports are published even if tests fail
-        uses: actions/upload-artifact@v4
-        with:
-          name: Test-Results
-          path: target/surefire-reports  # Adjust this path if your reports are elsewhere
-
-  # Job 2: Generate and Upload Javadoc (runs only after build-and-test succeeds)
-  generate-javadoc:
-    name: Generate and Upload Javadoc
-    runs-on: ubuntu-latest
-    needs: build-and-test  # This job runs only after build-and-test is successful
-
-    steps:
-      # Step 1: Checkout the code again (each job needs to have its own checkout step)
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      # Step 2: Set up JDK 21 for Javadoc generation
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'corretto'
-          java-version: '21'
-
-      # Step 3: Generate Javadoc using Maven
       - name: Generate Javadoc
         run: mvn javadoc:javadoc
 
-      # Step 4: Upload the generated Javadoc as an artifact (optional)
-      - name: Upload Javadoc
-        uses: actions/upload-artifact@v4
-        with:
-          name: Javadoc
-          path: target/docs/javadoc  # Ensure this path matches your Javadoc output directory
-
-  # Job 3: Deploy Javadoc to GitHub Pages (runs only on main branch after Javadoc generation)
-  deploy-javadoc:
-    name: Deploy Javadoc to GitHub Pages
-    runs-on: ubuntu-latest
-    needs: generate-javadoc  # This job runs only after generate-javadoc job is successful
-    if: github.ref == 'refs/heads/main'  # Run only on the main branch
-
-    steps:
-      # Step 1: Checkout code again for the deployment step
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      # Step 2: Configure Git for Deployment
       - name: Configure Git for Deployment
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
 
-      # Step 3: Publish Javadoc to GitHub Pages using the GitHub Pages Deploy Action
       - name: Publish Javadoc
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: target/site/apidocs  # Ensure this path matches your Javadoc output directory
-          branch: gh-pages  # Specify the branch to deploy to (default for GitHub Pages)
-          clean: true       # Clean existing files in the branch before deploying
-          token: ${{ secrets.GITHUB_TOKEN }}  # Use GitHub's auto-generated token for authentication
-          debug: true       # Enable debug mode for detailed logging
+          folder: target/docs/javadoc  # Ensure this path matches your Javadoc output directory
+          branch: gh-pages
+          clean: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          debug: true
 
     env:
       ACTIONS_RUNNER_DEBUG: true
