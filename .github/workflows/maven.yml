@@ -1,11 +1,4 @@
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
-
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time.
 name: Java CI with Maven
 
 on:
@@ -16,27 +9,37 @@ on:
 
 jobs:
   build:
-
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 21
-      uses: actions/setup-java@v4
-      with:
-        java-version: '21'
-        distribution: 'corretto'
-        cache: maven
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
-    - name: Generate Javadoc
-      run: mvn javadoc:javadoc
-    - name: Publish Javadoc
-      uses: JamesIves/github-pages-deploy-action@v4
-      with:
-        folder: target/docs/javadoc
+      - name: Checkout Code
+        uses: actions/checkout@v3  # Use the latest version available
 
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3  # Use the latest version available
+        with:
+          distribution: 'temurin'  # You can switch between 'temurin' or 'corretto'
+          java-version: '21'
+          cache: maven
 
+      - name: Verify Java version
+        run: java -version
+
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+
+      - name: Generate Javadoc
+        run: mvn javadoc:javadoc
+
+      - name: Publish Javadoc
+        uses: JamesIves/github-pages-deploy-action@v4  # Ensure this is correctly set
+        with:
+          folder: target/site/apidocs  # Ensure this path matches your javadoc output directory
+          branch: gh-pages  # Optional: Specify the branch to deploy to
+          clean: true       # Optional: Remove previous files from the branch
+          token: ${{ secrets.GITHUB_TOKEN }}  # Use GITHUB_TOKEN for authentication
+
+        env:
+         ACTIONS_RUNNER_DEBUG: true
 
 
