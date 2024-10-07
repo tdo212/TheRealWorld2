@@ -1,4 +1,3 @@
-
 package com.therealworld.fitschedule.model;
 
 import javafx.collections.FXCollections;
@@ -9,10 +8,22 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Data Access Object (DAO) class responsible for interacting with the SQLite database for the FitSchedule application.
+ * Provides methods to perform CRUD operations on users, schedules, goals, badges, and other data entities.
+ */
 public class SqliteDAO {
 
+    /**
+     * Connection instance for the SQLite database.
+     * Used for executing SQL queries and managing transactions.
+     */
     private Connection connection;
 
+    /**
+     * Default constructor that initializes the DAO with a shared database connection.
+     * Creates necessary tables if they do not exist.
+     */
     public SqliteDAO() {
         this.connection = FitScheduleDBConnection.getInstance();  // Shared database connection
         try {
@@ -23,88 +34,85 @@ public class SqliteDAO {
         createTables();  // Create users, schedules, and goals tables
     }
 
-    // Create tables for users, schedules, and goals
+    /**
+     * Creates tables for users, schedules, goals, badges, and total goals completed.
+     * This method will only create tables if they do not already exist.
+     */
     private void createTables() {
         try (Statement stmt = connection.createStatement()) {
             // Create users table
-            stmt.execute(
-                    "CREATE TABLE IF NOT EXISTS users (" +
-                            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                            "username VARCHAR(50) UNIQUE NOT NULL, " +
-                            "password VARCHAR(60) NOT NULL, " +
-                            "email VARCHAR(50) NOT NULL, " +
-                            "phoneNumber VARCHAR(15) NOT NULL)"
-            );
+            stmt.execute("CREATE TABLE IF NOT EXISTS users (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "username VARCHAR(50) UNIQUE NOT NULL, " +
+                    "password VARCHAR(60) NOT NULL, " +
+                    "email VARCHAR(50) NOT NULL, " +
+                    "phoneNumber VARCHAR(15) NOT NULL)");
             System.out.println("Users table created or already exists.");
 
             // Create currentSchedule table
-            stmt.execute(
-                    "CREATE TABLE IF NOT EXISTS currentSchedule (" +
-                            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                            "user_id INTEGER NOT NULL, " +
-                            "dayOfWeek VARCHAR(50) NOT NULL, " +
-                            "eventName VARCHAR(50), " +
-                            "eventDescription VARCHAR(250), " +
-                            "eventStartTime VARCHAR(50), " +
-                            "eventEndTime VARCHAR(50), " +
-                            "FOREIGN KEY(user_id) REFERENCES users(id))"
-            );
+            stmt.execute("CREATE TABLE IF NOT EXISTS currentSchedule (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "user_id INTEGER NOT NULL, " +
+                    "dayOfWeek VARCHAR(50) NOT NULL, " +
+                    "eventName VARCHAR(50), " +
+                    "eventDescription VARCHAR(250), " +
+                    "eventStartTime VARCHAR(50), " +
+                    "eventEndTime VARCHAR(50), " +
+                    "FOREIGN KEY(user_id) REFERENCES users(id))");
             System.out.println("currentSchedule table created or already exists.");
 
             // Create goals table
-            stmt.execute(
-                    "CREATE TABLE IF NOT EXISTS goals (" +
-                            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                            "user_id INTEGER NOT NULL, " +
-                            "goal_type TEXT NOT NULL, " +
-                            "goal_duration INTEGER NOT NULL, " +  // Store goal duration as INTEGER for weeks
-                            "goal_period TEXT NOT NULL, " +
-                            "goal_description TEXT, " +
-                            "goal_completed INTEGER NOT NULL DEFAULT 0, " +  // Add this column to track if the goal is completed (0 = false, 1 = true)
-                            "FOREIGN KEY(user_id) REFERENCES users(id))"
-            );
+            stmt.execute("CREATE TABLE IF NOT EXISTS goals (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "user_id INTEGER NOT NULL, " +
+                    "goal_type TEXT NOT NULL, " +
+                    "goal_duration INTEGER NOT NULL, " +  // Store goal duration as INTEGER for weeks
+                    "goal_period TEXT NOT NULL, " +
+                    "goal_description TEXT, " +
+                    "goal_completed INTEGER NOT NULL DEFAULT 0, " +  // Track if the goal is completed (0 = false, 1 = true)
+                    "FOREIGN KEY(user_id) REFERENCES users(id))");
             System.out.println("Goals table created or already exists.");
+
             // Create badges table
-            stmt.execute(
-                    "CREATE TABLE IF NOT EXISTS badges (" +
-                            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                            "badge_name TEXT NOT NULL," +
-                            "date_of_completion TEXT NOT NULL," +
-                            "user_id INTEGER NOT NULL," +
-                            "FOREIGN KEY(user_id) REFERENCES users(id))"
-            );
+            stmt.execute("CREATE TABLE IF NOT EXISTS badges (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "badge_name TEXT NOT NULL, " +
+                    "date_of_completion TEXT NOT NULL, " +
+                    "user_id INTEGER NOT NULL, " +
+                    "FOREIGN KEY(user_id) REFERENCES users(id))");
             System.out.println("Badges table created or already exists.");
-            // Create badges table
-            stmt.execute(
-                    "CREATE TABLE IF NOT EXISTS total_goals_completed (" +
-                            "user_id INTEGER PRIMARY KEY," +
-                            "total_completed INTEGER NOT NULL DEFAULT 0," +
-                            "FOREIGN KEY(user_id) REFERENCES users(id))"
-            );
+
+            // Create total_goals_completed table
+            stmt.execute("CREATE TABLE IF NOT EXISTS total_goals_completed (" +
+                    "user_id INTEGER PRIMARY KEY, " +
+                    "total_completed INTEGER NOT NULL DEFAULT 0, " +
+                    "FOREIGN KEY(user_id) REFERENCES users(id))");
             System.out.println("Total_Goals table created or already exists.");
         } catch (SQLException ex) {
             System.err.println("Error creating tables: " + ex.getMessage());
         }
     }
 
-    // Create the weekly schedule table linked with the users table
+    /**
+     * Creates the weekly schedule table for a specified user.
+     * This table is used to store the weekly events for a user.
+     *
+     * @param userId the ID of the user for whom the weekly schedule table should be created.
+     */
     public void createWeeklyScheduleTable(int userId) {
         try (Statement stmt = connection.createStatement()) {
-            // Create the weekly schedule table if it doesn't exist
-            stmt.execute(
-                    "CREATE TABLE IF NOT EXISTS weeklySchedule (" +
-                            "timeSlot VARCHAR(10) NOT NULL, " +
-                            "user_id INTEGER NOT NULL, " +
-                            "Monday TEXT, " +
-                            "Tuesday TEXT, " +
-                            "Wednesday TEXT, " +
-                            "Thursday TEXT, " +
-                            "Friday TEXT, " +
-                            "Saturday TEXT, " +
-                            "Sunday TEXT, " +
-                            "PRIMARY KEY (timeSlot, user_id), " +  // Composite primary key: timeSlot + user_id
-                            "FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE)"
-            );
+            stmt.execute("CREATE TABLE IF NOT EXISTS weeklySchedule (" +
+                    "timeSlot VARCHAR(10) NOT NULL, " +
+                    "user_id INTEGER NOT NULL, " +
+                    "Monday TEXT, " +
+                    "Tuesday TEXT, " +
+                    "Wednesday TEXT, " +
+                    "Thursday TEXT, " +
+                    "Friday TEXT, " +
+                    "Saturday TEXT, " +
+                    "Sunday TEXT, " +
+                    "PRIMARY KEY (timeSlot, user_id), " +  // Composite primary key: timeSlot + user_id
+                    "FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE)");
             System.out.println("Weekly schedule table created or already exists.");
         } catch (SQLException ex) {
             System.err.println("Error creating weekly schedule table: " + ex.getMessage());
@@ -112,8 +120,12 @@ public class SqliteDAO {
     }
 
 
-
-    // Helper method to get user ID by username
+    /**
+     * Retrieves the user ID for a given username.
+     *
+     * @param username the username to search for.
+     * @return the user ID if found, otherwise -1.
+     */
     public int getUserId(String username) {
         String query = "SELECT id FROM users WHERE username = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -128,7 +140,11 @@ public class SqliteDAO {
         return -1;  // Return -1 if user is not found
     }
 
-    // Populate the weekly schedule with time slots for a user
+    /**
+     * Populates the weekly schedule table with predefined time slots for a specific user.
+     *
+     * @param userId the ID of the user for whom the time slots should be populated.
+     */
     public void populateTimeSlots(int userId) {
         String[] timeSlots = {
                 "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM", "6:00 AM", "7:00 AM", "8:00 AM",
@@ -152,7 +168,14 @@ public class SqliteDAO {
         }
     }
 
-    // Insert a weekly event for a user
+    /**
+     * Inserts a weekly event for a specified user.
+     *
+     * @param userId           the ID of the user to insert the event for.
+     * @param timeSlot         the time slot of the event.
+     * @param dayOfWeek        the day of the week for the event.
+     * @param eventDescription a description of the event.
+     */
     public void insertWeeklyEvent(int userId, String timeSlot, String dayOfWeek, String eventDescription) {
         String query = "UPDATE weeklySchedule SET " + dayOfWeek + " = ? WHERE timeSlot = ? AND user_id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -165,7 +188,13 @@ public class SqliteDAO {
         }
     }
 
-    // Retrieve the full weekly schedule for a specific user
+    /**
+     * Retrieves the full weekly schedule for a specific user.
+     *
+     * @param userId the ID of the user to retrieve the schedule for.
+     * @return a list of String arrays where each array represents a row in the schedule table
+     * with time slots and events for each day of the week.
+     */
     public List<String[]> getWeeklySchedule(int userId) {
         List<String[]> schedule = new ArrayList<>();
         String query = "SELECT * FROM weeklySchedule WHERE user_id = ?";
@@ -190,7 +219,11 @@ public class SqliteDAO {
         return schedule;
     }
 
-    // Retrieve all users
+    /**
+     * Retrieves all users from the database.
+     *
+     * @return a list of User objects containing details of each user.
+     */
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         String query = "SELECT * FROM users";  // Retrieve all details of the users
@@ -213,7 +246,11 @@ public class SqliteDAO {
         return users;
     }
 
-    // Retrieve all user IDs
+    /**
+     * Retrieves all user IDs from the database.
+     *
+     * @return a list of integers representing user IDs.
+     */
     public List<Integer> getAllUserIds() {
         List<Integer> userIds = new ArrayList<>();
         String query = "SELECT id FROM users";  // Query to retrieve only user IDs
@@ -230,9 +267,14 @@ public class SqliteDAO {
     }
 
 
-
-
-    // Add a new user
+    /**
+     * Adds a new user to the database.
+     *
+     * @param username    the username of the new user.
+     * @param password    the plaintext password of the new user.
+     * @param email       the email address of the new user.
+     * @param phoneNumber the phone number of the new user.
+     */
     public void addUser(String username, String password, String email, String phoneNumber) {
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
         String query = "INSERT INTO users (username, password, email, phoneNumber) VALUES (?, ?, ?, ?)";
@@ -247,7 +289,16 @@ public class SqliteDAO {
         }
     }
 
-    // Insert a schedule into the currentSchedule table
+    /**
+     * Inserts a schedule into the `currentSchedule` table for a specific user.
+     *
+     * @param userId           the ID of the user for whom the schedule should be added.
+     * @param dayOfWeek        the day of the week (e.g., "Monday") for the schedule.
+     * @param eventName        the name of the event.
+     * @param eventDescription a brief description of the event.
+     * @param eventStartTime   the start time of the event.
+     * @param eventEndTime     the end time of the event.
+     */
     public void insertSchedule(int userId, String dayOfWeek, String eventName, String eventDescription, String eventStartTime, String eventEndTime) {
         String query = "INSERT INTO currentSchedule (user_id, dayOfWeek, eventName, eventDescription, eventStartTime, eventEndTime) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -263,7 +314,12 @@ public class SqliteDAO {
         }
     }
 
-    // Retrieve schedules for a specific user and day
+    /**
+     * Retrieves the schedules for a specific user and day of the week.
+     *
+     * @param userId the ID of the user to retrieve schedules for.
+     * @return a list of `Schedule` objects representing the user's schedule for the current day.
+     */
     public List<Schedule> getScheduleForUser(int userId) {
         List<Schedule> schedules = new ArrayList<>();
         String query = "SELECT * FROM currentSchedule WHERE user_id = ? AND dayOfWeek = ?";
@@ -290,8 +346,13 @@ public class SqliteDAO {
         return schedules;
     }
 
-
-    // Get commitments for a specific day
+    /**
+     * Retrieves the commitments for a specific user and day of the week.
+     *
+     * @param userId    the ID of the user to retrieve commitments for.
+     * @param dayOfWeek the day of the week to retrieve commitments for (e.g., "Monday").
+     * @return a list of `Schedule` objects representing the user's commitments for the specified day.
+     */
     public List<Schedule> getCommitmentsForDay(int userId, String dayOfWeek) {
         List<Schedule> schedules = new ArrayList<>();
         String query = "SELECT * FROM currentSchedule WHERE user_id = ? AND dayOfWeek = ?";
@@ -316,7 +377,11 @@ public class SqliteDAO {
         return schedules;
     }
 
-    // Delete a schedule by ID
+    /**
+     * Deletes a schedule entry from the `currentSchedule` table based on its ID.
+     *
+     * @param scheduleId the ID of the schedule entry to be deleted.
+     */
     public void deleteSchedule(int scheduleId) {
         String query = "DELETE FROM currentSchedule WHERE id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -327,7 +392,16 @@ public class SqliteDAO {
         }
     }
 
-    // Add a goal for a user
+    /**
+     * Adds a goal for a specific user in the `goals` table.
+     *
+     * @param userId          the ID of the user to whom the goal belongs.
+     * @param goalType        the type of goal (e.g., "Fitness", "Academic").
+     * @param goalDuration    the duration of the goal (e.g., number of weeks).
+     * @param goalPeriod      the period of the goal (e.g., "Weekly").
+     * @param goalDescription a brief description of the goal.
+     * @param goalCompleted   the completion status of the goal (0 for incomplete, 1 for complete).
+     */
     public void addGoal(int userId, String goalType, int goalDuration, String goalPeriod, String goalDescription, int goalCompleted) {
         String query = "INSERT INTO goals (user_id, goal_type, goal_duration, goal_period, goal_description, goal_completed) VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -345,11 +419,11 @@ public class SqliteDAO {
         }
     }
 
-
-    // Get all goals for a user
-
-
-    // Delete a goal by ID
+    /**
+     * Deletes a goal entry from the `goals` table based on its ID.
+     *
+     * @param goalId the ID of the goal entry to be deleted.
+     */
     public void deleteGoalFromDatabase(int goalId) {
         String query = "DELETE FROM goals WHERE id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -360,7 +434,11 @@ public class SqliteDAO {
         }
     }
 
-    // Update a schedule
+    /**
+     * Updates a schedule entry in the `currentSchedule` table.
+     *
+     * @param schedule the `Schedule` object containing updated values for the schedule.
+     */
     public void updateSchedule(Schedule schedule) {
         String query = "UPDATE currentSchedule SET dayOfWeek = ?, eventName = ?, eventDescription = ?, eventStartTime = ?, eventEndTime = ? WHERE id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -376,7 +454,15 @@ public class SqliteDAO {
         }
     }
 
-    // Update a goal
+    /**
+     * Updates a goal entry in the `goals` table based on its ID.
+     *
+     * @param goalId          the ID of the goal entry to be updated.
+     * @param goalType        the type of the goal (e.g., "Fitness", "Academic").
+     * @param goalDuration    the duration of the goal (e.g., number of weeks).
+     * @param goalPeriod      the period of the goal (e.g., "Weekly").
+     * @param goalDescription a brief description of the goal.
+     */
     public void updateGoal(int goalId, String goalType, int goalDuration, String goalPeriod, String goalDescription) {
         String query = "UPDATE goals SET goal_type = ?, goal_duration = ?, goal_period = ?, goal_description = ? WHERE id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -391,7 +477,11 @@ public class SqliteDAO {
         }
     }
 
-    // Clear the schedule for a user
+    /**
+     * Clears all schedule entries for a specific user from the `currentSchedule` table.
+     *
+     * @param userId the ID of the user whose schedule should be cleared.
+     */
     public void clearScheduleForUser(int userId) {
         String query = "DELETE FROM currentSchedule WHERE user_id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -403,7 +493,13 @@ public class SqliteDAO {
         }
     }
 
-    // Method to validate password
+    /**
+     * Validates the provided password against the stored hashed password in the `users` table.
+     *
+     * @param username the username of the user.
+     * @param password the plaintext password provided by the user.
+     * @return `true` if the password matches the stored hash; `false` otherwise.
+     */
     public boolean validatePassword(String username, String password) {
         String query = "SELECT password FROM users WHERE username = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -421,6 +517,13 @@ public class SqliteDAO {
         return false;  // Return false if user is not found or if there is an error
     }
 
+    /**
+     * Authenticates a user based on the provided username and password.
+     *
+     * @param username the username provided by the user.
+     * @param password the plaintext password provided by the user.
+     * @return `true` if the user is authenticated successfully; otherwise, `false`.
+     */
     public boolean authenticateUser(String username, String password) {
         String query = "SELECT password FROM users WHERE username = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -437,6 +540,12 @@ public class SqliteDAO {
         }
         return false;  // Return false if user not found or error occurred
     }
+
+    /**
+     * Retrieves all goals stored in the `goals` table.
+     *
+     * @return an `ObservableList` of `Goal` objects representing all goals in the database.
+     */
     public static ObservableList<Goal> getAllGoals() {
         ObservableList<Goal> data = FXCollections.observableArrayList();
         String url = "jdbc:sqlite:FitScheduleDBConnection.db"; // Make sure this path is correct
@@ -471,6 +580,11 @@ public class SqliteDAO {
         return data;
     }
 
+    /**
+     * Counts the total number of goals stored in the `goals` table.
+     *
+     * @return the total count of goals.
+     */
     public int countGoals() {
         String sql = "SELECT COUNT(*) AS count FROM goals";
         int count = 0;
@@ -485,6 +599,12 @@ public class SqliteDAO {
         }
         return count;
     }
+
+    /**
+     * Marks a goal as completed by updating the `goal_completed` field to 1.
+     *
+     * @param goalId the ID of the goal to mark as completed.
+     */
     public void updateGoalAsCompleted(int goalId) {
         String query = "UPDATE goals SET goal_completed = 1 WHERE id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -494,6 +614,12 @@ public class SqliteDAO {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Retrieves the count of goals marked as completed in the `goals` table.
+     *
+     * @return the number of completed goals.
+     */
     public int getCompletedGoalsCount() {
         String query = "SELECT COUNT(*) FROM goals WHERE goal_completed = 1";
         int count = 0;
@@ -516,6 +642,13 @@ public class SqliteDAO {
 
         return count;
     }
+
+    /**
+     * Awards a badge to a user by inserting a new entry into the `badges` table.
+     *
+     * @param userId    the ID of the user who earned the badge.
+     * @param badgeName the name of the badge.
+     */
     public void awardBadge(int userId, String badgeName) {
         String query = "INSERT INTO badges (user_id, badge_name, date_of_completion) VALUES (?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -528,6 +661,12 @@ public class SqliteDAO {
         }
     }
 
+    /**
+     * Retrieves all badges earned by a user from the `badges` table.
+     *
+     * @param userId the ID of the user to retrieve badges for.
+     * @return an `ObservableList` of badges (as strings) earned by the user.
+     */
     public ObservableList<String> getUserBadges(int userId) {
         ObservableList<String> badges = FXCollections.observableArrayList();
         String query = "SELECT badge_name, date_of_completion FROM badges WHERE user_id = ?";
@@ -546,6 +685,12 @@ public class SqliteDAO {
 
         return badges;
     }
+
+    /**
+     * Initializes the `total_goals_completed` table for a user with a default value of 0.
+     *
+     * @param userId the ID of the user for whom to initialize the total goals completed.
+     */
     public void initializeTotalGoalsCompleted(int userId) {
         String query = "INSERT INTO total_goals_completed (user_id, total_completed) VALUES (?, 0) ON CONFLICT(user_id) DO NOTHING";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -555,6 +700,13 @@ public class SqliteDAO {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Retrieves the total number of goals completed by a user from the `total_goals_completed` table.
+     *
+     * @param userId the ID of the user.
+     * @return the total number of goals completed by the user.
+     */
     public int getTotalGoalsCompleted(int userId) {
         String query = "SELECT total_completed FROM total_goals_completed WHERE user_id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -569,6 +721,11 @@ public class SqliteDAO {
         return 0;  // Default to 0 if no entry exists
     }
 
+    /**
+     * Increments the total number of goals completed by a user in the `total_goals_completed` table.
+     *
+     * @param userId the ID of the user whose total goals completed should be incremented.
+     */
     public void incrementTotalGoalsCompleted(int userId) {
         String query = "UPDATE total_goals_completed SET total_completed = total_completed + 1 WHERE user_id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -578,6 +735,4 @@ public class SqliteDAO {
             e.printStackTrace();
         }
     }
-
-
 }

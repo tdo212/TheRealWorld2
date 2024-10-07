@@ -18,6 +18,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller class responsible for handling user registration in the FitSchedule application.
+ * Provides functionality to validate user inputs, register new users, and navigate between views.
+ */
 public class RegisterController {
 
     private SqliteDAO userDAO;
@@ -25,35 +29,57 @@ public class RegisterController {
     private static final String REGISTRATION_SUCCESS = "User registered successfully.";
     private static final String REGISTRATION_FAILED = "Registration failed.";
 
+    /**
+     * Default constructor. Initializes the `SqliteDAO` instance for interacting with the user database.
+     */
     public RegisterController() {
         this.userDAO = new SqliteDAO(); // Default behavior
     }
 
-    // Setter for injecting a mock DAO in tests
+    /**
+     * Setter method for injecting a mock DAO for testing purposes.
+     *
+     * @param userDAO the `SqliteDAO` instance to set.
+     */
     public void setUserDAO(SqliteDAO userDAO) {
         this.userDAO = userDAO;
     }
 
     @FXML
-    protected TextField usernameField;
-    @FXML
-    protected PasswordField passwordField;
-    @FXML
-    protected PasswordField confirmPasswordField;
-    @FXML
-    protected TextField emailField;
-    @FXML
-    protected TextField phoneNumberField;
-    @FXML
-    protected Button registerButton;
-    @FXML
-    protected Button backToLoginButton;
+    protected TextField usernameField;  // TextField for entering the username
 
+    @FXML
+    protected PasswordField passwordField;  // PasswordField for entering the password
+
+    @FXML
+    protected PasswordField confirmPasswordField;  // PasswordField for confirming the password
+
+    @FXML
+    protected TextField emailField;  // TextField for entering the email address
+
+    @FXML
+    protected TextField phoneNumberField;  // TextField for entering the phone number
+
+    @FXML
+    protected Button registerButton;  // Button to trigger the registration process
+
+    @FXML
+    protected Button backToLoginButton;  // Button to navigate back to the login view
+
+    /**
+     * Initializes the registration view components after the FXML elements are loaded.
+     * Sets the default focus on the root element of the scene.
+     */
     @FXML
     public void initialize() {
         Platform.runLater(() -> registerButton.getScene().getRoot().requestFocus());
     }
 
+    /**
+     * Handles the registration button click event.
+     * Validates user inputs and attempts to register a new user.
+     * If registration is successful, displays a success message; otherwise, shows an error message.
+     */
     @FXML
     protected void onRegisterButtonClick() {
         String username = usernameField.getText().trim();
@@ -94,11 +120,16 @@ public class RegisterController {
         }
     }
 
-
-
-
-
-    // Method to collect empty fields
+    /**
+     * Retrieves a list of empty fields based on user inputs.
+     *
+     * @param username       the username entered by the user.
+     * @param password       the password entered by the user.
+     * @param confirmPassword the confirmed password entered by the user.
+     * @param email          the email entered by the user.
+     * @param phoneNumber    the phone number entered by the user.
+     * @return a list of empty field names as strings.
+     */
     private List<String> getEmptyFields(String username, String password, String confirmPassword, String email, String phoneNumber) {
         List<String> emptyFields = new ArrayList<>();
 
@@ -111,8 +142,14 @@ public class RegisterController {
         return emptyFields;
     }
 
+    /**
+     * Displays an alert dialog with the specified message and alert type.
+     * Used to show error messages or notifications to the user.
+     *
+     * @param message the message to be displayed in the alert.
+     * @param type    the type of alert (e.g., information, error).
+     */
     private void showAlert(String message, Alert.AlertType type) {
-        // In real usage, this shows an alert
         Platform.runLater(() -> {
             Alert alert = new Alert(type);
             alert.setContentText(message);
@@ -120,6 +157,10 @@ public class RegisterController {
         });
     }
 
+    /**
+     * Handles the show users button click event.
+     * Retrieves and displays all users in the console.
+     */
     @FXML
     protected void onShowUsersButtonClick() {
         List<User> users = userDAO.getAllUsers();
@@ -131,6 +172,13 @@ public class RegisterController {
         }
     }
 
+    /**
+     * Handles the back to login button click event.
+     * Navigates the user back to the login view.
+     *
+     * @param event the event triggered by the button click.
+     * @throws IOException if there is an error loading the login view FXML file.
+     */
     @FXML
     protected void onBackToLoginClick(ActionEvent event) throws IOException {
         Stage stage = (Stage) registerButton.getScene().getWindow();
@@ -139,22 +187,33 @@ public class RegisterController {
         stage.setScene(scene);
     }
 
+    /**
+     * Clears the focus from all text fields and buttons in the registration form.
+     */
     @FXML
     protected void clearFocus() {
         Platform.runLater(() -> registerButton.getScene().getRoot().requestFocus());
     }
 
-    // Method to validate email format
+    /**
+     * Validates the format of the provided email.
+     *
+     * @param email the email string to validate.
+     * @return `true` if the email format is valid, otherwise `false`.
+     */
     private boolean isValidEmail(String email) {
         String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"; // Basic regex for email validation
         return email.matches(emailRegex);
     }
 
-    // Method to validate phone number format
+    /**
+     * Validates the format of the provided phone number.
+     *
+     * @param phoneNumber the phone number string to validate.
+     * @return `true` if the phone number format is valid, otherwise `false`.
+     */
     private boolean isValidPhoneNumber(String phoneNumber) {
         String phoneRegex = "^[+]?[0-9]{10,15}$"; // Allows optional '+' and between 10 to 15 digits
         return phoneNumber.matches(phoneRegex);
     }
-
-
 }
