@@ -60,6 +60,14 @@ public class LoginController {
         }
     }
 
+    /**
+     * Handles the login button click event. This method is triggered when the user clicks the login button.
+     * It retrieves the username and password entered by the user, authenticates the user against the database,
+     * and, if successful, sets the user ID in the session and initializes the weekly schedule for the user.
+     * Upon successful login, it loads the dashboard view and displays it in the main stage.
+     *
+     * @throws IOException if there is an error loading the dashboard view FXML file.
+     */
     @FXML
     protected void onLoginButtonClick() throws IOException {
         String username = usernameField.getText();
