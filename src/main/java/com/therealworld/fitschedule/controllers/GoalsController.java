@@ -19,7 +19,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-
+/**
+ * Controller class for managing goals in the FitSchedule application.
+ * Handles UI interactions and communicates with the database through SqliteDAO.
+ */
 public class GoalsController {
 
     @FXML
@@ -43,9 +46,12 @@ public class GoalsController {
 
     private SqliteDAO databaseHelper = new SqliteDAO();
     private int goalsCompleted = 0;
-    private int userId = 2342; // Replace with the actual logged-in user ID
+    private int userId = 4444; // Replace with the actual logged-in user ID
 
-
+    /**
+     * Initializes the controller by refreshing the goals list,
+     * updating goal counts, progress bar, and badges.
+     */
     public void initialize() {
         refreshGoalsList(); // Initialize the list of goals
         displayGoalCount();
@@ -54,7 +60,10 @@ public class GoalsController {
         refreshBadgesList();
         setStats();
     }
-
+    /**
+     * Refreshes the list of goals from the database and updates the ListView.
+     * Also updates goal count, pie chart, and progress bar.
+     */
     // Method to refresh the list of goals and update the UI
     public void refreshGoalsList() {
         ObservableList<Goal> data = databaseHelper.getAllGoals(); // Ensure SqliteDAO returns ObservableList<Goal>
@@ -92,41 +101,53 @@ public class GoalsController {
         updateGoalsCompleted();
 
     }
-
+    /**
+     * Displays the total number of remaining goals in the goalCountLabel.
+     */
     public void displayGoalCount() {
         int goalCount = databaseHelper.countGoals();
         goalCountLabel.setText("Goals Remaining: " + goalCount);
     }
+    /**
+     * Updates the lifetime stats of the user, such as user ID and total goals completed.
+     */
     public void setStats() {
         int totalGoalsCompleted = databaseHelper.getTotalGoalsCompleted(userId);
         UserIDLabel.setText("User ID: " + userId);
         LifetimeCompleted.setText("Goals Completed (Lifetime): "+  totalGoalsCompleted);
     }
-
+    /**
+     * Updates the count of goals completed in the current session.
+     */
     public void updateGoalsCompleted() {
         int goalsCompleted = 0;
         goalCompletedLabel.setText("Goals Completed (Session): " + completedGoals);
     }
-
+    /**
+     * Checks if the user has achieved certain milestones in terms of goals completed,
+     * and awards badges accordingly.
+     */
     public void checkBadges() {
         int totalGoalsCompleted = databaseHelper.getTotalGoalsCompleted(userId);
-        if (totalGoalsCompleted == 2) {
+        if (totalGoalsCompleted == 1) {
             databaseHelper.awardBadge(userId, "2 Goals Completed");
         }
-        if (totalGoalsCompleted == 4) {
+        if (totalGoalsCompleted == 3) {
             databaseHelper.awardBadge(userId, "4 Goals Completed");
         }
-        if (totalGoalsCompleted == 8) {
+        if (totalGoalsCompleted == 7) {
             databaseHelper.awardBadge(userId, "8 Goals Completed");
         }
-        if (totalGoalsCompleted == 10) {
+        if (totalGoalsCompleted == 9) {
             databaseHelper.awardBadge(userId, "10 Goals Completed");
         }
-        if (totalGoalsCompleted == 20) {
+        if (totalGoalsCompleted == 19) {
             databaseHelper.awardBadge(userId, "20 Goals Completed");
         }
     }
-
+    /**
+     * Displays the progress of goals in a pie chart (completed vs incomplete).
+     */
     public void displayPieChart() {
         int goalCount = databaseHelper.countGoals();
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
@@ -135,7 +156,9 @@ public class GoalsController {
         );
         pieChart.setData(pieChartData); // Update pie chart with new data
     }
-
+    /**
+     * Updates the progress bar and progress label based on the completion percentage of goals.
+     */
     public void updateProgressBar() {
         int goalCount = databaseHelper.countGoals(); // Fetch the total number of goals
        int completedGoals = databaseHelper.getCompletedGoalsCount(); // Fetch the total number of completed goals
@@ -158,7 +181,12 @@ public class GoalsController {
         progressLabel.setText(progressPercentage + "%");
     }
 
-
+    /**
+     * Opens a new window for editing the selected goal.
+     * After editing, the goals list is refreshed.
+     *
+     * @param event ActionEvent triggered when the Edit button is clicked.
+     */
     @FXML
     public void onEditGoalsClick(ActionEvent event) {
         try {
@@ -184,6 +212,12 @@ public class GoalsController {
         }
     }
     private int completedGoals = 0; // New stat for tracking goals completed
+    /**
+     * Marks the selected goal as completed, updates the database, and refreshes the UI.
+     * Also checks for any new badges awarded based on the number of completed goals.
+     *
+     * @param event ActionEvent triggered when the Complete button is clicked.
+     */
 
     @FXML
     public void onCompleteGoalsClick(ActionEvent event) {
@@ -205,7 +239,11 @@ public class GoalsController {
             setStats();
         }
     }
-
+    /**
+     * Deletes the selected goal from the database and refreshes the goals list.
+     *
+     * @param event ActionEvent triggered when the Delete button is clicked.
+     */
     @FXML
     public void onDeleteGoalsClick(ActionEvent event) {
         Goal selectedGoal = contactsListView.getSelectionModel().getSelectedItem();
@@ -217,6 +255,12 @@ public class GoalsController {
             refreshGoalsList();
         }
     }
+    /**
+     * Logs the user off and redirects to the login screen.
+     *
+     * @param event ActionEvent triggered when the Logoff button is clicked.
+     * @throws IOException If an error occurs while loading the login view.
+     */
     @FXML
     protected void onLogoffButtonClick(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
@@ -224,6 +268,9 @@ public class GoalsController {
         Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
         stage.setScene(scene);
     }
+    /**
+     * Refreshes the list of badges earned by the user.
+     */
     public void refreshBadgesList() {
         ObservableList<String> badges = databaseHelper.getUserBadges(userId);
         badgesListView.setItems(badges);

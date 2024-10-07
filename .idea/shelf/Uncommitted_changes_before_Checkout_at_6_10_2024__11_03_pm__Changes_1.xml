@@ -1,0 +1,14 @@
+<changelist name="Uncommitted_changes_before_Checkout_at_6_10_2024,_11_03_pm_[Changes]1" date="1728219801288" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_10_2024,_11_03_pm_[Changes]1/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 6/10/2024, 11:03 pm [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/therealworld/fitschedule/controllers/GoalsController.class" />
+    <option name="AFTER_PATH" value="target/classes/com/therealworld/fitschedule/controllers/GoalsController.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_10_2024,_11_03_pm_[Changes]1/GoalsController.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="FitScheduleDBConnection.db" />
+    <option name="AFTER_PATH" value="FitScheduleDBConnection.db" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_10_2024,_11_03_pm_[Changes]1/FitScheduleDBConnection.db" />
+  </binary>
+</changelist>
