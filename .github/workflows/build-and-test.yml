@@ -1,0 +1,57 @@
+# This workflow automates the build and test process for your Java project using Maven.
+name: Build and Test
+
+# Triggers for this workflow
+on:
+  # Trigger the workflow on pushes and pull requests to specific branches
+  push:
+    branches: [ "main", "Int-Actions" ]  # Add other branches as needed
+  pull_request:
+    branches: [ "main", "Int-Actions" ]
+
+# Define the jobs to be run
+jobs:
+  build-and-test:
+    # Define the runner to use. Using ubuntu-latest as an example.
+    runs-on: ubuntu-latest
+
+    # Steps for the job
+    steps:
+      # Step 1: Check out the repository code
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Step 2: Set up the JDK environment
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto'
+          java-version: '21'
+          cache: maven
+
+      # Step 3: Verify the Java version (optional)
+      - name: Verify Java Version
+        run: java -version
+
+      # Step 4: Build the project using Maven
+      - name: Build with Maven
+        run: mvn clean install
+
+      # Step 5: Run Tests with Maven
+      - name: Run Tests
+        run: mvn test
+
+      # Step 6: Upload Test Results (Optional, but useful for debugging and viewing reports)
+      - name: Upload Test Results
+        if: always()  # Upload reports even if tests fail
+        uses: actions/upload-artifact@v4
+        with:
+          name: Test-Results
+          path: target/surefire-reports  # Ensure this path matches the location of your test reports
+
+      # Step 7: Upload Build Artifacts (Optional, can be the compiled JAR or other files)
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Build-Artifacts
+          path: target/*.jar  # Adjust this path to match your build artifacts (e.g., JAR files)
