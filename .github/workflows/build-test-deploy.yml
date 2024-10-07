@@ -17,11 +17,11 @@ jobs:
     steps:
       # Step 1: Checkout Code from the repository
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Step 2: Set up JDK 21 for the environment
       - name: Set up JDK 21
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'  # Use 'temurin' or 'corretto' as preferred
           java-version: '21'
@@ -42,7 +42,7 @@ jobs:
       # Step 6: Publish Test Reports as an artifact (optional)
       - name: Publish Test Reports
         if: always()  # This ensures that the test reports are published even if tests fail
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Test-Results
           path: target/surefire-reports  # Adjust this path if your reports are elsewhere
@@ -56,11 +56,11 @@ jobs:
     steps:
       # Step 1: Checkout the code again (each job needs to have its own checkout step)
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Step 2: Set up JDK 21 for Javadoc generation
       - name: Set up JDK 21
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
@@ -71,7 +71,7 @@ jobs:
 
       # Step 4: Upload the generated Javadoc as an artifact (optional)
       - name: Upload Javadoc
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Javadoc
           path: target/site/apidocs  # Ensure this path matches your Javadoc output directory
@@ -86,7 +86,7 @@ jobs:
     steps:
       # Step 1: Checkout code again for the deployment step
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Step 2: Configure Git for Deployment
       - name: Configure Git for Deployment
