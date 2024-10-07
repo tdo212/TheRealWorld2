@@ -6,6 +6,14 @@ import java.sql.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This class is for general database unit tests
+ * <p>
+ * These tests verify that the database behaves as expected and includes
+ * creation, insertion, updating and deletion test methods with appropriate edge cases and
+ * conditional tests.
+ * </p>
+ */
 public class DataTest {
 
     File testSchedulingDatabaseFile;

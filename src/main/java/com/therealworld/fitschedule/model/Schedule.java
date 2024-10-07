@@ -123,8 +123,6 @@ public class Schedule {
         this.dayOfWeek.set(dayOfWeek);
     }
     /**
-     * Gets the day of the week for the schedule entry.
-     *
      * @return the day of the week for the schedule entry.
      */
     public StringProperty dayOfWeekProperty() {
@@ -156,6 +154,7 @@ public class Schedule {
     }
 
     /**
+     * The string property for the event name.
      * @return the property representing the name of the event for the schedule entry.
      */
     public StringProperty eventNameProperty() {
@@ -184,6 +183,7 @@ public class Schedule {
     }
 
     /**
+     * The string property for the event description.
      * @return the property representing the description of the event for the schedule entry.
      */
     public StringProperty eventDescriptionProperty() {
@@ -212,6 +212,7 @@ public class Schedule {
     }
 
     /**
+     * The string property for the starting time of the event.
      * @return the property representing the starting time of the event for the schedule entry.
      */
     public StringProperty eventStartTimeProperty() {
@@ -240,6 +241,7 @@ public class Schedule {
     }
 
     /**
+     * The string property for the ending time of the event.
      * @return the property representing the ending time of the event for the schedule entry.
      */
     public StringProperty eventEndTimeProperty() {
@@ -247,7 +249,7 @@ public class Schedule {
     }
 
     /**
-     * Gets the custom property for Monday.
+     * The string property for Monday.
      *
      * @return a StringProperty containing the event name if the current day of the week
      * is Monday, otherwise, returns an empty StringProperty if it isn't Monday.
@@ -258,7 +260,7 @@ public class Schedule {
     }
 
     /**
-     * Gets the custom property for Tuesday.
+     * The string property for Tuesday.
      *
      * @return a StringProperty containing the event name if the current day of the week
      * is Tuesday, otherwise, returns an empty StringProperty if it isn't Tuesday.
@@ -268,7 +270,7 @@ public class Schedule {
     }
 
     /**
-     * Gets the custom property for Wednesday.
+     * The string property for Wednesday.
      *
      * @return a StringProperty containing the event name if the current day of the week
      * is Wednesday, otherwise, returns an empty StringProperty if it isn't Wednesday.
@@ -278,7 +280,7 @@ public class Schedule {
     }
 
     /**
-     * Gets the custom property for Thursday.
+     * The string property for Thursday.
      *
      * @return a StringProperty containing the event name if the current day of the week
      * is Thursday, otherwise, returns an empty StringProperty if it isn't Thursday.
@@ -288,7 +290,7 @@ public class Schedule {
     }
 
     /**
-     * Gets the custom property for Friday.
+     * The string property for Friday.
      *
      * @return a StringProperty containing the event name if the current day of the week
      * is Friday, otherwise, returns an empty StringProperty if it isn't Friday.
@@ -298,7 +300,7 @@ public class Schedule {
     }
 
     /**
-     * Gets the custom property for Saturday.
+     * The string property for Saturday.
      *
      * @return a StringProperty containing the event name if the current day of the week
      * is Saturday, otherwise, returns an empty StringProperty if it isn't Saturday.
@@ -308,7 +310,7 @@ public class Schedule {
     }
 
     /**
-     * Gets the custom property for Sunday.
+     * The string property for Sunday.
      *
      * @return a StringProperty containing the event name if the current day of the week
      * is Sunday, otherwise, returns an empty StringProperty if it isn't Sunday.
