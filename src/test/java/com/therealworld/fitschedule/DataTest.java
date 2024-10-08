@@ -1,3 +1,5 @@
+package com.therealworld.fitschedule;
+
 import com.therealworld.fitschedule.model.FitScheduleDBConnection;
 import org.junit.jupiter.api.*;
 
@@ -16,10 +18,32 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class DataTest {
 
+    /**
+     * The file object representing the database file to be created on the filesystem.
+     */
     File testSchedulingDatabaseFile;
+    /**
+     * A single instance of the database connection.
+     * This field is static so that there is only one single instance of the connection in the application.
+     */
     private static Connection connection;
+    /**
+     * The JDBC URL used for the SQite database.
+     * This field specifies the type of database, SQLite, and the path of the database file
+     * "testschedulingdatabase.db".
+     */
     String url = "jdbc:sqlite:testschedulingdatabase.db";
 
+    /**
+     * Creates a fresh database environment and database Table before each test.
+     * <p>
+     * This method is used for creating the database file if it doesn't already exist and
+     * establishing a connection to the database. Upon connecting, a create statement is executed
+     * to create a new test table used by the unit tests for a clean environment for isolated tests.
+     * </p>
+     *
+     * @throws SQLException if there is an error connection to the database or creating the table.
+     */
     @BeforeEach
     void setUp() throws SQLException {
         // Set up a fresh database for each test and initialize the test file
@@ -39,6 +63,16 @@ public class DataTest {
         }
     }
 
+    /**
+     * Removes the test table from the test database after each test.
+     * <p>
+     * This method is used for isolating tests and test data so that they don't depend on the results
+     * of previous tests affecting data in the database table. An SQL statement is executed to drop
+     * the table if it exists in the database after every test.
+     *
+     * @throws SQLException if an error occurs while attempting to delete the table.
+     * </p>
+     */
     @AfterEach
     void tearDown() throws SQLException {
         try (Statement dropTable = connection.createStatement()) {
@@ -46,6 +80,17 @@ public class DataTest {
         }
     }
 
+    /**
+     * This is a test method for ensuring the connection to the database is established and
+     * is not closed or null.
+     * <p>
+     * Retrieves the database connection by getting the instance object of the database and
+     * asserts that the both the connection made is not null and that the connection is not closed.
+     *
+     * @throws SQLException error and prints the error message to the terminal if the connection
+     * cannot be established.
+     * </p>
+     */
     @Test
     void connectionToDatabaseShouldNotBeClosedOrNull() {
         try (Connection connection = FitScheduleDBConnection.getInstance()) {
@@ -56,6 +101,15 @@ public class DataTest {
         }
     }
 
+    /**
+     * This is a test method for ensuring the database file is created, asserting that it exists
+     * and is not null.
+     *
+     * <p>
+     * Asserts that the data base test file is not null and that it does indeed exist, with a message
+     * that says the file should exist.
+     * </p>
+     */
     @Test
     void databaseFileIsCreated() {
         // Verify that the database file was created
@@ -63,6 +117,26 @@ public class DataTest {
         assertTrue(testSchedulingDatabaseFile.exists(), "Database file should exist.");
     }
 
+
+    /**
+     * This is a test method for ensuring a table can be created in the database, and if it is found to exist,
+     * it is deleted.
+     *
+     * <p>
+     * An SQL create statement is executed to create a temporary table in the database instance.
+     * @throws SQLException if there is an error creating the table.
+     *
+     * A boolean value denotes the existence of the table by retrieving the return type from another
+     * method "testIfTableExists", which attempts to select the name of the table created from the sqlite
+     * database and if there is a value in the Result set, meaning that there are rows in the table created,
+     * confirming it exists, it is returned as true, otherwise, it remains false.
+     * @throws SQLException if there is an error finding the table in the database
+     *
+     * One last method is called to that drops the table if the boolean returned for denoting if the table
+     * exists is true.
+     * @throws SQLException if there is an error in the SQL statement to drop the table.
+     * </p>
+     */
     @Test
     void createTableAndIfExistsDeleteIt() throws SQLException {
         try (Statement createTable = connection.createStatement()) {
@@ -98,6 +172,17 @@ public class DataTest {
         }
     }
 
+    /**
+     * This is a test method for ensuring that records can inserted into a table in the database.
+     * <p>
+     * Inserts 'Friday' into the 'dayOfWeek' column in the database table by executing an SQL statement.
+     * Selects the data from the table that was just inserted to test if it exists. If a row is found
+     * to exist in the table, it is asserted that the row must have the string value of 'Friday'
+     * which was inserted.
+     *
+     * @throws SQLException if there is an error inserting the data into the table or fetching it after insertion.
+     * </p>
+     */
     @Test
     void recordsCanBeInsertedIntoDatabaseTable() throws SQLException {
         try (Statement insertRecords = connection.createStatement()) {
@@ -112,6 +197,19 @@ public class DataTest {
         }
     }
 
+    /**
+     * This is a test method for ensuring that records can retrieved from a table in the database.
+     * <p>
+     * Executes an SQL query to select an id and day of the week from table if the day of the week is a certain
+     * value, e.g 'Monday'.
+     *
+     * If there is a valid row in the database table after retrieving it, it is asserted that result set
+     * is consistent with the specific selected row in the table e.g containing the id of '2' and the
+     * day of week as 'Monday'.
+     *
+     * @throws SQLException if there is an error retrieving the data.
+     * </p>
+     */
     @Test
     void recordsCanBeRetrieved() throws SQLException {
         try (Statement retrieveRecords = connection.createStatement();
@@ -125,6 +223,18 @@ public class DataTest {
         }
     }
 
+    /**
+     * This is a test method for testing an edge case of attempting to retrieve a record that is null
+     * in a database table.
+     * <p>
+     * Executes an SQL query to select an id that shouldn't exist in the table.
+     * If the result set returns false from no rows being found, then a boolean value for
+     * 'recordNotFound' is changed to true and is asserted to be true to ensure that the null record was not
+     * in the result set.
+     *
+     * @throws SQLException for the error produce from retrieving a record in table that doesn't exist.
+     * </p>
+     */
     @Test
     void retrieveNullRecordInTable() throws SQLException {
         boolean recordNotFound = false;
@@ -137,6 +247,19 @@ public class DataTest {
         assertTrue(recordNotFound);
     }
 
+    /**
+     * This is a test method for testing that records in a database table can be updated.
+     * <p>
+     * Executes an SQL query to update the table to set the day of the week as 'Sunday' where the id
+     * of the record is '1'.
+     *
+     * A query is executed to select the record with the updated fields, and if the result set denotes
+     * that the updated row does exist, it is asserted that the fields for the particular row is consistent
+     * with the updated changes of 'Sunday' and the id as '1'.
+     *
+     * @throws SQLException if there is an error updating the record or the updated record cannot be found.
+     * </p>
+     */
     @Test
     void recordsCanBeUpdated() throws SQLException {
         try (Statement updateRecords = connection.createStatement()) {
@@ -153,6 +276,21 @@ public class DataTest {
         }
     }
 
+    /**
+     * This is a test method to test under the conditions of inserting incorrect data types for columns
+     * in a database table.
+     * <p>
+     * Executes an SQL insert statement to intentionally insert a string value into the 'id' column which
+     * is integer only.
+     *
+     * @throws SQLException for the consequent data type mismatch error cause due to the test and prints
+     * the error to the terminal.
+     *
+     * A boolean value is changed to true based on the error denoting an incorrect data type was inserted.
+     *
+     * This error is expected and the boolean is asserted as true.
+     * </p>
+     */
     @Test
     void incorrectDataTypeCantBeInserted() {
         boolean incorrectDataTypeInserted = false;
@@ -166,6 +304,20 @@ public class DataTest {
         assertTrue(incorrectDataTypeInserted, "Expected a data type mismatch error, but no error occurred.");
     }
 
+    /**
+     * This is a test method to test under the conditions of inserting a duplicate unique field into
+     * a database table.
+     * <p>
+     * Executes an SQL insert statement to intentionally insert two rows with the same day of the week of
+     * which has a 'unique' constraint.
+     *
+     * @throws SQLException for the consequent error caused by inserting two of the same 'unique' values.
+     *
+     * A boolean value is changed to true based on the error.
+     *
+     * This error is expected and the boolean is asserted as true.
+     * </p>
+     */
     @Test
     void throwExceptionIfDuplicateUniqueFieldsInserted() {
         boolean isThereADuplicateRecord = false;
@@ -181,6 +333,21 @@ public class DataTest {
         assertTrue(isThereADuplicateRecord, "Expected a duplicate 'dayOfWeek' error, but no error occurred.");
     }
 
+    /**
+     * This is a test method to test under the conditions of inserting data into the incorrect column
+     * name in a database table.
+     * <p>
+     * Executes an SQL insert statement to intentionally insert data into a misspelled column name that
+     * doesn't exist in the table.
+     *
+     * @throws SQLException for the consequent error caused by inserting into a non-existent column and
+     * prints the error to the terminal.
+     *
+     * A boolean value for the column name being correct is changed to false due to the error.
+     *
+     * This error is expected and the boolean is asserted as false,
+     * </p>
+     */
     @Test
     void testInsertIncorrectColumnName() {
         boolean isColumnNameCorrect = true;
@@ -198,6 +365,15 @@ public class DataTest {
                 "Expected error message indicating missing column, but got: " + errorMessage);
     }
 
+    /**
+     * Closes the connection to the database after all tests are completed.
+     * <p>
+     * Ensures there is a connection to the database before closing it.
+     *
+     * @throws SQLException if there is no connection or the connection is being closed while changes are
+     * being made to the database.
+     * </p>
+     */
     @AfterAll
     static void removeTestDatabase() throws SQLException {
         if (connection != null) {
