@@ -14,7 +14,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
- * Controller class for handling the user profile view and related actions.
+ * Default constructor for ProfileController.
+ * Initializes the controller and sets up UI components.
  */
 public class ProfileController {
 
