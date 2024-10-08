@@ -34,6 +34,7 @@ public class UserProfile {
 
     /**
      * Constructs a new `UserProfile` instance with the provided attributes.
+     * This constructor is used when all details are available for the user.
      *
      * @param username             the username of the user.
      * @param email                the email address of the user.
@@ -47,6 +48,21 @@ public class UserProfile {
         this.trainingFrequency = trainingFrequency;
         this.accountCreationDate = accountCreationDate;
         this.preferredTrainingTime = preferredTrainingTime;
+    }
+
+    /**
+     * Constructs a new `UserProfile` instance with only the username and email.
+     * This constructor can be used when limited profile information is available.
+     *
+     * @param username the username of the user.
+     * @param email    the email address of the user.
+     */
+    public UserProfile(String username, String email) {
+        this.username = username;
+        this.email = email;
+        this.trainingFrequency = "";        // Default value for training frequency
+        this.accountCreationDate = "";      // Default value for account creation date
+        this.preferredTrainingTime = "";    // Default value for preferred training time
     }
 
     /**

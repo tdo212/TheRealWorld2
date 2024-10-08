@@ -735,4 +735,37 @@ public class SqliteDAO {
             e.printStackTrace();
         }
     }
+    /**
+     * Fetches the user profile details based on the provided user ID.
+     *
+     * @param userId The ID of the user whose profile is to be fetched.
+     * @return A UserProfile object containing the profile details or null if not found.
+     */
+    /**
+     * Fetches the username and email details for the provided user ID.
+     *
+     * @param userId The ID of the user whose profile is to be fetched.
+     * @return A UserProfile object containing the username and email, or null if not found.
+     */
+    public UserProfile fetchProfileDetails(int userId) {
+        String query = "SELECT username, email FROM users WHERE id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setInt(1, userId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                // Use the new constructor with only username and email
+                return new UserProfile(
+                        rs.getString("username"),
+                        rs.getString("email")
+                );
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching profile details for user ID " + userId + ": " + e.getMessage());
+        }
+        return null;  // Return null if no user profile is found
+    }
+
+
+
 }
