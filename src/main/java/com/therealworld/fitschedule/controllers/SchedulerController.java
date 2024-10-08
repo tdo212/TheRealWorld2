@@ -295,4 +295,8 @@ public class SchedulerController {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
+    public void onUpdateScheduleButtonClick(ActionEvent actionEvent) {
+
+    }
 }

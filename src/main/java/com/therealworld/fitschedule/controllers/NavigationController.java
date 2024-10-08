@@ -36,12 +36,21 @@ public class NavigationController {
      * @param event the ActionEvent triggered by clicking the schedule navigation button.
      * @throws IOException if there is an error loading the FXML file for the scheduler view.
      */
-    public void onScheduleNavButtonClick(ActionEvent event) throws IOException {
-        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("scheduler-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
-        stage.setScene(scene);
+    public void onScheduleNavButtonClick(ActionEvent event) {
+        try {
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            System.out.println("Navigating to scheduler-view.fxml...");
+            FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("scheduler-view.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
+            stage.setScene(scene);
+            stage.show();
+            System.out.println("Scheduler view loaded successfully.");
+        } catch (IOException e) {
+            System.out.println("Failed to load scheduler-view.fxml: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
+
 
     /**
      * Handles the navigation to the goals view.
