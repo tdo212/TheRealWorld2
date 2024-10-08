@@ -16,6 +16,14 @@ import java.io.IOException;
 public class NavigationController {
 
     /**
+     * Default constructor for NavigationController.
+     * Initializes the controller and sets up UI components.
+     */
+    public NavigationController() {
+        // Default constructor
+    }
+
+    /**
      * Handles the navigation to the home (dashboard) view.
      * This method is triggered when the home navigation button is clicked.
      *
@@ -34,7 +42,6 @@ public class NavigationController {
      * This method is triggered when the schedule navigation button is clicked.
      *
      * @param event the ActionEvent triggered by clicking the schedule navigation button.
-     * @throws IOException if there is an error loading the FXML file for the scheduler view.
      */
     public void onScheduleNavButtonClick(ActionEvent event) {
         try {
@@ -50,7 +57,6 @@ public class NavigationController {
             e.printStackTrace();
         }
     }
-
 
     /**
      * Handles the navigation to the goals view.
