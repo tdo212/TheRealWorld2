@@ -1,5 +1,6 @@
 package com.therealworld.fitschedule.controllers;
 
+import com.therealworld.fitschedule.model.DateUtil;
 import com.therealworld.fitschedule.model.UserSession;
 import com.therealworld.fitschedule.FitScheduleApp;
 import com.therealworld.fitschedule.model.SqliteDAO;
@@ -77,7 +78,8 @@ public class LoginController {
 
 
             SqliteDAO dao = new SqliteDAO();
-            dao.createWeeklyScheduleTable(userId);
+            String weekStartDate = DateUtil.getWeekStartDate(0);
+            dao.createWeeklyScheduleTable(weekStartDate, userId);
             dao.populateTimeSlots(userId);
 
             // Load and display the dashboard view

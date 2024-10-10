@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.mindrot.jbcrypt.BCrypt;
 import java.sql.*;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -87,29 +88,32 @@ public class SqliteDAO {
         }
     }
 
-    // Create the weekly schedule table linked with the users table
-    public void createWeeklyScheduleTable(int userId) {
+    public void createWeeklyScheduleTable(String weekStartDate, int userId) {
+        String tableName = "weeklySchedule_" + weekStartDate.replace("-", "_");  // Create a unique table name using the start date
+        String createTableQuery = "CREATE TABLE IF NOT EXISTS " + tableName + " ("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "user_id INTEGER NOT NULL, "
+                + "timeSlot TEXT NOT NULL, "
+                + "Monday TEXT, "
+                + "Tuesday TEXT, "
+                + "Wednesday TEXT, "
+                + "Thursday TEXT, "
+                + "Friday TEXT, "
+                + "Saturday TEXT, "
+                + "Sunday TEXT, "
+                + "FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE, "
+                + "UNIQUE (user_id, timeSlot))";  // Unique constraint for user and time slot
+
         try (Statement stmt = connection.createStatement()) {
-            // Create the weekly schedule table if it doesn't exist
-            stmt.execute(
-                    "CREATE TABLE IF NOT EXISTS weeklySchedule (" +
-                            "timeSlot VARCHAR(10) NOT NULL, " +
-                            "user_id INTEGER NOT NULL, " +
-                            "Monday TEXT, " +
-                            "Tuesday TEXT, " +
-                            "Wednesday TEXT, " +
-                            "Thursday TEXT, " +
-                            "Friday TEXT, " +
-                            "Saturday TEXT, " +
-                            "Sunday TEXT, " +
-                            "PRIMARY KEY (timeSlot, user_id), " +  // Composite primary key: timeSlot + user_id
-                            "FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE)"
-            );
-            System.out.println("Weekly schedule table created or already exists.");
+            stmt.execute(createTableQuery);
+            System.out.println("Weekly schedule table for week " + weekStartDate + " created or already exists.");
         } catch (SQLException ex) {
-            System.err.println("Error creating weekly schedule table: " + ex.getMessage());
+            System.err.println("Error creating new weekly schedule table: " + ex.getMessage());
         }
     }
+
+
+
 
 
 
@@ -165,30 +169,54 @@ public class SqliteDAO {
         }
     }
 
-    // Retrieve the full weekly schedule for a specific user
-    public List<String[]> getWeeklySchedule(int userId) {
+    // Retrieve the weekly schedule for a specific user and week offset
+    public List<String[]> getWeeklyScheduleForWeek(int userId, int weekOffset) {
         List<String[]> schedule = new ArrayList<>();
-        String query = "SELECT * FROM weeklySchedule WHERE user_id = ?";
+
+        // Calculate the start and end dates for the specified week offset
+        LocalDate startDate = LocalDate.now().plusWeeks(weekOffset).with(DayOfWeek.MONDAY);
+        LocalDate endDate = startDate.plusDays(6); // Sunday of the same week
+
+        String query = "SELECT timeSlot, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday " +
+                "FROM weeklySchedule " +
+                "WHERE user_id = ?";
+
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setInt(1, userId);
             ResultSet rs = pstmt.executeQuery();
+
             while (rs.next()) {
                 String[] row = new String[8];
-                row[0] = rs.getString("timeSlot");
-                row[1] = rs.getString("Monday");
-                row[2] = rs.getString("Tuesday");
-                row[3] = rs.getString("Wednesday");
-                row[4] = rs.getString("Thursday");
-                row[5] = rs.getString("Friday");
-                row[6] = rs.getString("Saturday");
-                row[7] = rs.getString("Sunday");
+                row[0] = rs.getString("timeSlot");      // timeSlot column
+                row[1] = rs.getString("Monday");        // Monday column
+                row[2] = rs.getString("Tuesday");       // Tuesday column
+                row[3] = rs.getString("Wednesday");     // Wednesday column
+                row[4] = rs.getString("Thursday");      // Thursday column
+                row[5] = rs.getString("Friday");        // Friday column
+                row[6] = rs.getString("Saturday");      // Saturday column
+                row[7] = rs.getString("Sunday");        // Sunday column
                 schedule.add(row);
             }
         } catch (SQLException ex) {
-            System.err.println("Error retrieving weekly schedule for user " + userId + ": " + ex.getMessage());
+            System.err.println("Error retrieving weekly schedule for user " + userId + " with week offset " + weekOffset + ": " + ex.getMessage());
         }
         return schedule;
     }
+
+    private boolean doesTableExist(String tableName) {
+        String checkTableQuery = "SELECT name FROM sqlite_master WHERE type='table' AND name=?";
+        try (PreparedStatement pstmt = connection.prepareStatement(checkTableQuery)) {
+            pstmt.setString(1, tableName);
+            ResultSet rs = pstmt.executeQuery();
+            return rs.next();  // Return true if a table with this name exists
+        } catch (SQLException ex) {
+            System.err.println("Error checking if table exists: " + ex.getMessage());
+            return false;
+        }
+    }
+
+
+
 
     // Retrieve all users
     public List<User> getAllUsers() {

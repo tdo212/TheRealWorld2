@@ -16,13 +16,22 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.therealworld.fitschedule.model.DateUtil.getWeekStartDate;
+
 public class SchedulerController {
+
+    private int currentWeekOffset = 0;
+
 
     @FXML
     private VBox rootContainer;  // Main container that will hold all UI elements
@@ -66,7 +75,10 @@ public class SchedulerController {
         System.out.println("User ID in SchedulerController: " + userId);
         // Bind the TableColumns to ScheduleRow properties
         bindTableColumns();
-        populateScheduleTable(userId);
+        System.out.println("Current Week Start Date: " + getWeekStartDate(0));  // Current week
+        System.out.println("Previous Week Start Date: " + getWeekStartDate(-1));  // Previous week
+        System.out.println("Next Week Start Date: " + getWeekStartDate(1));  // Next week
+        populateScheduleTable(userId, currentWeekOffset);
     }
 
     // Bind the TableColumns to ScheduleRow properties
@@ -81,27 +93,16 @@ public class SchedulerController {
         sundayColumn.setCellValueFactory(cellData -> cellData.getValue().sundayProperty());
     }
 
-    // Method to populate the schedule table for a specific user
-    private void populateScheduleTable(int userId) {
+    // Method to populate the schedule table for a specific user and week offset
+    private void populateScheduleTable(int userId, int weekOffset) {
         List<String> timeSlots = Arrays.asList(
                 "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM", "6:00 AM", "7:00 AM",
                 "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM",
                 "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM"
         );
 
-        // Retrieve the weekly schedule data for the specified user
-        List<String[]> scheduleData = scheduleDAO.getWeeklySchedule(userId);
-
-        // Log the retrieved schedule data for debugging
-        if (scheduleData == null || scheduleData.isEmpty()) {
-            System.out.println("No schedule data found for user " + userId);
-        } else {
-            for (String[] row : scheduleData) {
-                System.out.println("Time Slot: " + row[0] + ", Monday: " + row[1] + ", Tuesday: " + row[2] +
-                        ", Wednesday: " + row[3] + ", Thursday: " + row[4] + ", Friday: " + row[5] +
-                        ", Saturday: " + row[6] + ", Sunday: " + row[7]);
-            }
-        }
+        // Retrieve the weekly schedule data for the specified user and week
+        List<String[]> scheduleData = scheduleDAO.getWeeklyScheduleForWeek(userId, weekOffset);
 
         // Create a map to store the schedule by time slot for easy lookup
         Map<String, String[]> scheduleMap = new HashMap<>();
@@ -138,6 +139,7 @@ public class SchedulerController {
     }
 
 
+
     // Logoff button action
     @FXML
     protected void onLogoffButtonClick(ActionEvent event) throws IOException {
@@ -153,24 +155,30 @@ public class SchedulerController {
         // Access the userId from the global session
         int userId = UserSession.getInstance().getUserId();
         System.out.println("User ID in SchedulerController: " + userId);;
-        populateScheduleTable(userId);
+        populateScheduleTable(userId, currentWeekOffset);
     }
 
-    // Week navigation button actions
     @FXML
     protected void onPreviousWeekButtonClick() {
-        showAlert("Previous Week", "Display previous week's schedule.", Alert.AlertType.INFORMATION);
+        currentWeekOffset--;
+        System.out.println("Current Week Start Date: " + getWeekStartDate(currentWeekOffset));
+        populateScheduleTable(userId, currentWeekOffset);  // Load the previous week's schedule
     }
 
     @FXML
     protected void onCurrentWeekButtonClick() {
-        showAlert("Current Week", "Display current week's schedule.", Alert.AlertType.INFORMATION);
+        currentWeekOffset = 0;
+        System.out.println("Current Week Start Date: " + getWeekStartDate(currentWeekOffset));
+        populateScheduleTable(userId, currentWeekOffset);  // Load the current week's schedule
     }
 
     @FXML
     protected void onNextWeekButtonClick() {
-        showAlert("Next Week", "Display next week's schedule.", Alert.AlertType.INFORMATION);
+        currentWeekOffset++;
+        System.out.println("Current Week Start Date: " + getWeekStartDate(currentWeekOffset));
+        populateScheduleTable(userId, currentWeekOffset);  // Load the next week's schedule
     }
+
 
     // Clear Schedule Button
     @FXML
@@ -197,8 +205,11 @@ public class SchedulerController {
     @FXML
     protected void onGenerateNewScheduleButtonClick() {
         try {
+            // Calculate the start date for the current week offset
+            String currentWeekStartDate = getWeekStartDate(currentWeekOffset);  // Get the current week's start date based on offset
+
             rootContainer.getChildren().clear();
-            Label formTitle = new Label("Add a New Commitment");
+            Label formTitle = new Label("Add a New Commitment For Week Start Date: " + currentWeekStartDate);
 
             ComboBox<String> dayComboBox = new ComboBox<>(FXCollections.observableArrayList("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"));
             ComboBox<String> timeSlotComboBox = new ComboBox<>(FXCollections.observableArrayList(timeSlots));
@@ -228,7 +239,7 @@ public class SchedulerController {
                     showAlert("Success", "Commitment added successfully!", Alert.AlertType.INFORMATION);
 
                     // Refresh the table to display the new event
-                    populateScheduleTable(userId);
+                    populateScheduleTable(userId, currentWeekOffset);
 
                     buildInitialLayout();
                 } catch (Exception e) {
@@ -258,6 +269,9 @@ public class SchedulerController {
     @FXML
     protected void onUpdateScheduleButtonClick() {
         try {
+
+            // Calculate the start date for the current week offset
+            String currentWeekStartDate = getWeekStartDate(currentWeekOffset);  // Get the current week's start date based on offset
             rootContainer.getChildren().clear();
             Label formTitle = new Label("Update an Existing Commitment");
 
@@ -304,7 +318,7 @@ public class SchedulerController {
                     showAlert("Success", "Commitment added successfully!", Alert.AlertType.INFORMATION);
 
                     // Refresh the table to display the new event
-                    populateScheduleTable(userId);
+                    populateScheduleTable(userId, currentWeekOffset);
 
                     buildInitialLayout();
                 } catch (Exception e) {
