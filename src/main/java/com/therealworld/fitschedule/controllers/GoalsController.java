@@ -110,19 +110,19 @@ public class GoalsController {
 
     public void checkBadges() {
         int totalGoalsCompleted = databaseHelper.getTotalGoalsCompleted(userId);
-        if (totalGoalsCompleted == 2) {
+        if (totalGoalsCompleted == 1) {
             databaseHelper.awardBadge(userId, "2 Goals Completed");
         }
-        if (totalGoalsCompleted == 4) {
+        if (totalGoalsCompleted == 3) {
             databaseHelper.awardBadge(userId, "4 Goals Completed");
         }
-        if (totalGoalsCompleted == 8) {
+        if (totalGoalsCompleted == 7) {
             databaseHelper.awardBadge(userId, "8 Goals Completed");
         }
-        if (totalGoalsCompleted == 10) {
+        if (totalGoalsCompleted == 9) {
             databaseHelper.awardBadge(userId, "10 Goals Completed");
         }
-        if (totalGoalsCompleted == 20) {
+        if (totalGoalsCompleted == 19) {
             databaseHelper.awardBadge(userId, "20 Goals Completed");
         }
     }
@@ -137,15 +137,11 @@ public class GoalsController {
     }
 
     public void updateProgressBar() {
-        int goalCount = databaseHelper.countGoals(); // Fetch the total number of goals
-       int completedGoals = databaseHelper.getCompletedGoalsCount(); // Fetch the total number of completed goals
+        double goalCount = databaseHelper.countGoals(); // Fetch the total number of goals
+
 
         // Avoid division by zero
-        if (goalCount == 0) {
-            progressBar.setProgress(0);  // Set progress to 0 if no goals exist
-            progressLabel.setText("0%");  // Display 0% progress
-            return;
-        }
+
 
         // Calculate progress as a double value
         double progressgoals = (double) completedGoals / goalCount;
@@ -154,7 +150,7 @@ public class GoalsController {
         progressBar.setProgress(progressgoals);
 
         // Convert the progress value to a percentage and update the label
-        int progressPercentage = (int) (progressgoals * 100);
+        double progressPercentage = (double) (progressgoals * 100);
         progressLabel.setText(progressPercentage + "%");
     }
 
@@ -184,7 +180,7 @@ public class GoalsController {
         }
     }
     private int completedGoals = 0; // New stat for tracking goals completed
-
+    private int goalsProgress = 0;
     @FXML
     public void onCompleteGoalsClick(ActionEvent event) {
         Goal selectedGoal = contactsListView.getSelectionModel().getSelectedItem();
@@ -195,6 +191,7 @@ public class GoalsController {
             databaseHelper.deleteGoalFromDatabase(selectedGoal.getGoalId()); // Delete from database
             completedGoals++;
             updateGoalsCompleted(); // Update goals completed count
+            goalsProgress++;
             updateProgressBar(); // Update progress bar
             displayPieChart(); // Update the pie chart
             displayGoalCount();

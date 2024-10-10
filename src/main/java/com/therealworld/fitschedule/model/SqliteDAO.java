@@ -468,7 +468,7 @@ public class SqliteDAO {
     public static ObservableList<Goal> getAllGoals(int userId) {
         ObservableList<Goal> data = FXCollections.observableArrayList();
         String url = "jdbc:sqlite:FitScheduleDBConnection.db"; // Make sure this path is correct
-        String query = "SELECT * FROM goals WHERE user_id = ?"; // Query to fetch goals for a specific user
+        String query = "SELECT * FROM goals WHERE user_id = ? AND goal_completed = 0"; // Query to fetch goals for a specific user
         try (Connection conn = DriverManager.getConnection(url);
 
              PreparedStatement pstmt = conn.prepareStatement(query)) {  // Use PreparedStatement
