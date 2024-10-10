@@ -465,15 +465,15 @@ public class SqliteDAO {
         }
         return false;  // Return false if user not found or error occurred
     }
-    public static ObservableList<Goal> getAllGoals() {
+    public static ObservableList<Goal> getAllGoals(int userId) {
         ObservableList<Goal> data = FXCollections.observableArrayList();
         String url = "jdbc:sqlite:FitScheduleDBConnection.db"; // Make sure this path is correct
+        String query = "SELECT * FROM goals WHERE user_id = ?"; // Query to fetch goals for a specific user
+        try (Connection conn = DriverManager.getConnection(url);
 
-        try (Connection conn = DriverManager.getConnection(url)) {
-            System.out.println("Database connection established.");
-
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM goals");
+             PreparedStatement pstmt = conn.prepareStatement(query)) {  // Use PreparedStatement
+            pstmt.setInt(1, userId);
+            ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 // Construct a Goal object with all the columns in the goals table
@@ -490,7 +490,7 @@ public class SqliteDAO {
             }
 
             rs.close();
-            stmt.close();
+            pstmt.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

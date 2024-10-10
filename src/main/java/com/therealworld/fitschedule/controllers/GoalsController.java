@@ -43,7 +43,7 @@ public class GoalsController {
 
     private SqliteDAO databaseHelper = new SqliteDAO();
     private int goalsCompleted = 0;
-    private int userId = 2342; // Replace with the actual logged-in user ID
+    private int userId = 12; // Replace with the actual logged-in user ID
 
 
     public void initialize() {
@@ -57,7 +57,7 @@ public class GoalsController {
 
     // Method to refresh the list of goals and update the UI
     public void refreshGoalsList() {
-        ObservableList<Goal> data = databaseHelper.getAllGoals(); // Ensure SqliteDAO returns ObservableList<Goal>
+        ObservableList<Goal> data = databaseHelper.getAllGoals(userId); // Ensure SqliteDAO returns ObservableList<Goal>
 
         System.out.println("Number of items to display: " + data.size());
 
