@@ -40,10 +40,12 @@ public class GoalsController {
     private ListView<String> badgesListView;
     @FXML
     private Label LifetimeCompleted;  // Label to display percentage
+    @FXML
+    private Label goalCountLabel1;  // Label to display percentage
 
     private SqliteDAO databaseHelper = new SqliteDAO();
-    private int goalsCompleted = 0;
-    private int userId = 12; // Replace with the actual logged-in user ID
+    private int sessionGoalsCompleted = 0;
+    private int userId = 9993; // Replace with the actual logged-in user ID
 
 
     public void initialize() {
@@ -94,13 +96,16 @@ public class GoalsController {
     }
 
     public void displayGoalCount() {
-        int goalCount = databaseHelper.countGoals();
+        int goalCount = databaseHelper.countGoalsRemaining();
         goalCountLabel.setText("Goals Remaining: " + goalCount);
     }
     public void setStats() {
         int totalGoalsCompleted = databaseHelper.getTotalGoalsCompleted(userId);
+        int totalGoalCount = databaseHelper.countGoals();
         UserIDLabel.setText("User ID: " + userId);
         LifetimeCompleted.setText("Goals Completed (Lifetime): "+  totalGoalsCompleted);
+        goalCountLabel1.setText("Total Goals Completed: " + totalGoalCount);
+
     }
 
     public void updateGoalsCompleted() {
@@ -110,6 +115,10 @@ public class GoalsController {
 
     public void checkBadges() {
         int totalGoalsCompleted = databaseHelper.getTotalGoalsCompleted(userId);
+
+        if (totalGoalsCompleted == 0) {
+            databaseHelper.awardBadge(userId, "New Beginnings: Account Created");
+        }
         if (totalGoalsCompleted == 1) {
             databaseHelper.awardBadge(userId, "2 Goals Completed");
         }
@@ -128,7 +137,7 @@ public class GoalsController {
     }
 
     public void displayPieChart() {
-        int goalCount = databaseHelper.countGoals();
+        int goalCount = databaseHelper.countGoalsRemaining();
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
                 new PieChart.Data("Completed", completedGoals),
                 new PieChart.Data("Incomplete", goalCount)
@@ -137,14 +146,16 @@ public class GoalsController {
     }
 
     public void updateProgressBar() {
-        double goalCount = databaseHelper.countGoals(); // Fetch the total number of goals
+        double goalRemaining = databaseHelper.countGoalsRemaining(); // Fetch the total number of goals
 
 
         // Avoid division by zero
 
-
+        if (goalRemaining == 0 && completedGoals == 0) {
+            progressBar.setProgress(0);
+        }
         // Calculate progress as a double value
-        double progressgoals = (double) completedGoals / goalCount;
+        double progressgoals = (double) completedGoals / goalRemaining;
 
         // Set the progress bar based on the calculated value
         progressBar.setProgress(progressgoals);
@@ -188,9 +199,10 @@ public class GoalsController {
         if (selectedGoal != null && !selectedGoal.isGoalCompleted()) {
             contactsListView.getItems().remove(selectedGoal); // Remove the selected goal from the ListView
             databaseHelper.updateGoalAsCompleted(selectedGoal.getGoalId());
-            databaseHelper.deleteGoalFromDatabase(selectedGoal.getGoalId()); // Delete from database
+           // databaseHelper.deleteGoalFromDatabase(selectedGoal.getGoalId()); // Delete from database
             completedGoals++;
             updateGoalsCompleted(); // Update goals completed count
+            sessionGoalsCompleted++;
             goalsProgress++;
             updateProgressBar(); // Update progress bar
             displayPieChart(); // Update the pie chart

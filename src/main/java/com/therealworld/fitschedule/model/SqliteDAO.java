@@ -513,6 +513,20 @@ public class SqliteDAO {
         }
         return count;
     }
+    public int countGoalsRemaining() {
+        String sql = "SELECT COUNT(*) AS count FROM goals WHERE goal_completed = 0";
+        int count = 0;
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return count;
+    }
     public void updateGoalAsCompleted(int goalId) {
         String query = "UPDATE goals SET goal_completed = 1 WHERE id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
