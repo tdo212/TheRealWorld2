@@ -137,12 +137,22 @@ public class GoalsController {
     }
 
     public void displayPieChart() {
-        int goalCount = databaseHelper.countGoalsRemaining();
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-                new PieChart.Data("Completed", completedGoals),
-                new PieChart.Data("Incomplete", goalCount)
         );
-        pieChart.setData(pieChartData); // Update pie chart with new data
+        int goalCount = databaseHelper.countGoalsRemaining();
+        if (goalCount == 0 && completedGoals == 0) {
+            pieChart.setData(pieChartData); // Update pie chart with new data
+            pieChartData.add(new PieChart.Data("No Goals", 1));
+        } else {
+            ObservableList<PieChart.Data> pieChartDatda = FXCollections.observableArrayList(
+                           new PieChart.Data("Completed", completedGoals),
+                           new PieChart.Data("Incomplete", goalCount)
+            );
+            pieChart.setData(pieChartDatda); // Update pie chart with new data
+        }
+
+
+
     }
 
     public void updateProgressBar() {
