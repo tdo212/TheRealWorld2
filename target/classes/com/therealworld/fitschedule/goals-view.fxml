@@ -37,7 +37,7 @@
                   <Label fx:id="UserIDLabel" layoutX="18.0" layoutY="66.0" prefHeight="17.0" prefWidth="187.0" text="User ID:" />
                   <Label fx:id="goalCompletedLabel" layoutX="17.0" layoutY="126.0" prefHeight="17.0" prefWidth="181.0" text="Goals Completed (Session): 0" />
                   <Label fx:id="LifetimeCompleted" layoutX="18.0" layoutY="159.0" prefHeight="17.0" prefWidth="184.0" text="Goals Completed (Lifetime): 0" />
-                  <Label fx:id="UserIDLabel1" layoutX="18.0" layoutY="96.0" prefHeight="17.0" prefWidth="188.0" text="Username:" />
+                  <Label fx:id="UsernameLabel" layoutX="18.0" layoutY="96.0" prefHeight="17.0" prefWidth="188.0" text="Username:" />
                   <Label fx:id="goalCountLabel1" layoutX="19.0" layoutY="223.0" prefHeight="17.0" prefWidth="205.0" />
                     </children>
                 </AnchorPane>

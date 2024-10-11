@@ -75,6 +75,7 @@ public class LoginController {
             int userId = userDAO.getUserId(username);  // Get the user ID from the database
             UserSession userSession = UserSession.getInstance();
             userSession.getInstance().setUserId(userId);  // Set the user ID globally
+
             System.out.println("User ID set in session: " + userId);
 
 

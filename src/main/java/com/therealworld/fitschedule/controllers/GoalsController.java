@@ -51,10 +51,13 @@ public class GoalsController {
     private ProgressBar lifetimeProgressBar;
     @FXML
     private Label progressLabel2;
+    @FXML
+    private Label UsernameLabel;
     private SqliteDAO databaseHelper = new SqliteDAO();
     private int sessionGoalsCompleted = 0;
     //private int userId = 12; // Replace with the actual logged-in user ID
     int userId = UserSession.getInstance().getUserId();
+    String username = databaseHelper.getUsernameById(userId);
 
 
     public void initialize() {
@@ -110,12 +113,16 @@ public class GoalsController {
         int goalCount = databaseHelper.countGoalsRemaining(userId);
         goalCountLabel.setText("Goals Remaining: " + goalCount);
     }
+
+
+
     public void setStats() {
         int totalGoalsCompleted = databaseHelper.getTotalGoalsCompleted(userId);
         int totalGoalCount = databaseHelper.countGoals();
         UserIDLabel.setText("User ID: " + userId);
         LifetimeCompleted.setText("Goals Completed (Lifetime): "+  totalGoalsCompleted);
         goalCountLabel1.setText("Total Goals Completed: " + totalGoalCount);
+        UsernameLabel.setText("Username: " + username);
 
     }
 

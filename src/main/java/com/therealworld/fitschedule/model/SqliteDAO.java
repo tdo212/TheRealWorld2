@@ -144,6 +144,26 @@ public class SqliteDAO {
         return -1;  // Return -1 if user is not found
     }
 
+    // Helper method to get user ID by username
+    public String getUsernameById(int userId) {
+        String username = null;
+        String query = "SELECT username FROM users WHERE id = ?"; // Adjust table/column names as necessary
+        String url = "jdbc:sqlite:FitScheduleDBConnection.db"; // Make sure this path is correct
+        try (Connection conn = DriverManager.getConnection(url);
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setInt(1, userId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                username = rs.getString("username"); // Assuming 'username' is the column name in your DB
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Handle exceptions as needed
+        }
+        return username;
+    }
+
     // Populate the weekly schedule with time slots for a user
     public void populateTimeSlots(int userId) {
         String[] timeSlots = {
