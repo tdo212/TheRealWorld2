@@ -42,10 +42,15 @@ public class GoalsController {
     private Label LifetimeCompleted;  // Label to display percentage
     @FXML
     private Label goalCountLabel1;  // Label to display percentage
-
+    @FXML
+    private PieChart pieChartLifetime;
+    @FXML
+    private ProgressBar lifetimeProgressBar;
+    @FXML
+    private Label progressLabel2;
     private SqliteDAO databaseHelper = new SqliteDAO();
     private int sessionGoalsCompleted = 0;
-    private int userId = 9993; // Replace with the actual logged-in user ID
+    private int userId = 12; // Replace with the actual logged-in user ID
 
 
     public void initialize() {
@@ -55,6 +60,7 @@ public class GoalsController {
         updateProgressBar();
         refreshBadgesList();
         setStats();
+        updatePieChart();
     }
 
     // Method to refresh the list of goals and update the UI
@@ -92,7 +98,8 @@ public class GoalsController {
         displayPieChart();
         updateProgressBar();
         updateGoalsCompleted();
-
+        updateLifeProgressBar();
+        updatePieChart();
     }
 
     public void displayGoalCount() {
@@ -183,6 +190,39 @@ public class GoalsController {
 
     }
 
+    public void updateLifeProgressBar() {
+        double LifetimeRemaining = databaseHelper.countGoalsRemaining(); // Fetch the total number of goals
+        double LifetimeCompleted = databaseHelper.getTotalGoalsCompleted(userId);
+
+        // Avoid division by zero
+
+
+        // Calculate progress as a double value
+        double progressgoals1 = (double) LifetimeCompleted / (LifetimeCompleted + LifetimeRemaining);
+
+        // Set the progress bar based on the calculated value
+        lifetimeProgressBar.setProgress(progressgoals1);
+
+        // Convert the progress value to a percentage and update the label
+        double progressPercentage = (double) (progressgoals1 * 100);
+        progressLabel2.setText(progressPercentage + "%");
+        
+
+
+    }
+
+    public void updatePieChart() {
+        int goalsCompleted1 = databaseHelper.getCompletedGoalsCount(userId);
+        int goalsRemaining1 = databaseHelper.countGoalsRemaining();
+
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+                new PieChart.Data("Completed Goals", goalsCompleted1),
+                new PieChart.Data("Incomplete Goals", goalsRemaining1)
+        );
+        pieChartLifetime.setData(pieChartData);
+    }
+
+
 
     @FXML
     public void onEditGoalsClick(ActionEvent event) {
@@ -230,6 +270,8 @@ public class GoalsController {
             databaseHelper.initializeTotalGoalsCompleted(userId);
             databaseHelper.incrementTotalGoalsCompleted(userId);
             setStats();
+            updatePieChart();
+            updateLifeProgressBar();
         }
     }
 

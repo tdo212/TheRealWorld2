@@ -140,10 +140,14 @@ public class DashboardController {
         Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
         stage.setScene(scene);
     }
-    private void updatePieChart() {
+    private int userId = 12;
+    public void updatePieChart() {
+        int goalsCompleted = scheduleDAO.getCompletedGoalsCount(userId);
+        int goalsRemaining = scheduleDAO.countGoalsRemaining();
+
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-                new PieChart.Data("COmpleted Goals", 0.5),
-                new PieChart.Data("Incomplete Goals", 0.5)
+                new PieChart.Data("COmpleted Goals", goalsCompleted),
+                new PieChart.Data("Incomplete Goals", goalsRemaining)
         );
         goalsPieChart.setData(pieChartData);
     }

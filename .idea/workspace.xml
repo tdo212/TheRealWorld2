@@ -8,9 +8,16 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FitScheduleDBConnection.db" beforeDir="false" afterPath="$PROJECT_DIR$/FitScheduleDBConnection.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/DashboardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/DashboardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/therealworld/fitschedule/dashboard-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/therealworld/fitschedule/dashboard-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/EditGoalsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/EditGoalsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/GoalsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/GoalsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/SqliteDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/SqliteDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/therealworld/fitschedule/goals-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/therealworld/fitschedule/goals-view.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/DashboardController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/DashboardController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/dashboard-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/dashboard-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/EditGoalsController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/EditGoalsController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/GoalsController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/GoalsController$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/GoalsController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/GoalsController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/goals-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/goals-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/SqliteDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/SqliteDAO.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

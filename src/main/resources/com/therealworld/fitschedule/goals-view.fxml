@@ -49,10 +49,10 @@
                           <Label alignment="CENTER" layoutX="26.0" layoutY="48.0" text="Session Progress:" />
                           <Label alignment="CENTER" layoutX="21.0" layoutY="348.0" prefHeight="23.0" prefWidth="116.0" text="Lifetime Progress:" />
                           <PieChart fx:id="pieChart" animated="false" layoutX="341.0" layoutY="60.0" prefHeight="248.0" prefWidth="316.0" title="Session Progress - Goals" />
-                          <ProgressBar layoutX="19.0" layoutY="381.0" prefHeight="20.0" prefWidth="200.0" progress="0.6" />
-                          <PieChart animated="false" layoutX="344.0" layoutY="348.0" prefHeight="272.0" prefWidth="309.0" title="Lifetime Progress - Goals" />
+                          <ProgressBar fx:id="lifetimeProgressBar" layoutX="19.0" layoutY="381.0" prefHeight="20.0" prefWidth="200.0" progress="0.6" />
+                          <PieChart fx:id="pieChartLifetime" animated="false" layoutX="344.0" layoutY="348.0" prefHeight="272.0" prefWidth="309.0" title="Lifetime Progress - Goals" />
                           <Label fx:id="progressLabel" alignment="CENTER" layoutX="232.0" layoutY="75.0" prefHeight="23.0" prefWidth="42.0" text="0%" />
-                          <Label alignment="CENTER" layoutX="236.0" layoutY="380.0" prefHeight="23.0" prefWidth="42.0" text="65%" />
+                          <Label fx:id="progressLabel2" alignment="CENTER" layoutX="236.0" layoutY="380.0" prefHeight="23.0" prefWidth="42.0" text="0%" />
 
                                       <!-- New Button for editing goals -->
                           <Button fx:id="editGoalsButton" layoutX="580.0" layoutY="14.0" onAction="#onEditGoalsClick" text="Edit Goals" />
