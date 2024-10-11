@@ -151,18 +151,26 @@ public class GoalsController {
 
         // Avoid division by zero
 
-        if (goalRemaining == 0 && completedGoals == 0) {
+        if (goalRemaining <= 0 && completedGoals == 0) {
             progressBar.setProgress(0);
         }
-        // Calculate progress as a double value
-        double progressgoals = (double) completedGoals / goalRemaining;
+        else if (goalRemaining > 0 && completedGoals > 0) {
+            // Calculate progress as a double value
+            double progressgoals = (double) completedGoals / (goalRemaining + completedGoals);
 
-        // Set the progress bar based on the calculated value
-        progressBar.setProgress(progressgoals);
+            // Set the progress bar based on the calculated value
+            progressBar.setProgress(progressgoals);
 
-        // Convert the progress value to a percentage and update the label
-        double progressPercentage = (double) (progressgoals * 100);
-        progressLabel.setText(progressPercentage + "%");
+            // Convert the progress value to a percentage and update the label
+            double progressPercentage = (double) (progressgoals * 100);
+            progressLabel.setText(progressPercentage + "%");
+        }
+        else if (goalRemaining == 0 && completedGoals >= 1) {
+            progressBar.setProgress(1);
+            progressLabel.setText("100%");
+
+        }
+
     }
 
 
