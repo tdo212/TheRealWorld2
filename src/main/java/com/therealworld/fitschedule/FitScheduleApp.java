@@ -12,8 +12,8 @@ public class FitScheduleApp extends Application {
 
     // Constants defining the window title and size
     public static final String TITLE = "Scheduling";
-    public static final int WIDTH = 900;
-    public static final int HEIGHT = 600;
+    public static final int WIDTH = 1920;
+    public static final int HEIGHT = 1080;
 
     @Override
     public void start(Stage stage) throws IOException {

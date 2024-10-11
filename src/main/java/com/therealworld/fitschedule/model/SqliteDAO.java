@@ -83,6 +83,18 @@ public class SqliteDAO {
                             "FOREIGN KEY(user_id) REFERENCES users(id))"
             );
             System.out.println("Total_Goals table created or already exists.");
+            // Create userProfile table
+            stmt.execute(
+                    "CREATE TABLE IF NOT EXISTS userProfile (" +
+                            "profile_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                            "user_id INTEGER NOT NULL, " +
+                            "username TEXT NOT NULL, " +
+                            "email INTEGER NOT NULL, " +  // Store goal duration as INTEGER for weeks
+                            "training_frequency TEXT NULL, " +
+                            "training_time TEXT, " +
+                            "FOREIGN KEY(user_id) REFERENCES users(id))"
+            );
+            System.out.println("Goals table created or already exists.");
         } catch (SQLException ex) {
             System.err.println("Error creating tables: " + ex.getMessage());
         }

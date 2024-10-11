@@ -26,14 +26,14 @@ public class ProfileController {
     @FXML
     private Label profileTrainingTimePreferences;
 
-//    public void setUserId(int userId) {
-//        displayProfileDetails(userId);
-//    }
+    public void setUserId(int userId) {
+        displayProfileDetails(userId);
+    }
 
-//    public void displayProfileDetails(int userId) {
-//        // Fetch profile details for the current user
+    public void displayProfileDetails(int userId) {
+        // Fetch profile details for the current user
 //        UserProfile userProfile = sqliteDAO.fetchProfileDetails(userId);
-//
+
 //        if (userProfile != null) {
 //            // Set profile details to the UI labels
 //            profileNameLabel.setText(userProfile.getUsername());
@@ -44,7 +44,7 @@ public class ProfileController {
 //        } else {
 //            System.out.println("No profile found for user ID: " + userId);
 //        }
-//    }
+    }
 
     public void onChangePasswordButtonClick(ActionEvent event) {
     }
