@@ -1,6 +1,7 @@
 package com.therealworld.fitschedule.controllers;
 
 import com.therealworld.fitschedule.model.SqliteDAO;
+import com.therealworld.fitschedule.model.UserSession;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -11,6 +12,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import static com.therealworld.fitschedule.model.User.username;
 
 public class EditGoalsController {
 
@@ -91,7 +94,8 @@ public class EditGoalsController {
             }
 
             // Assuming userId is available, you should pass it from the logged-in user's session
-            int userId = 12; // Example user ID, replace with actual user ID
+            //int userId = 12; // Example user ID, replace with actual user ID
+            int userId = UserSession.getInstance().getUserId();
 
             // Since we're adding a new goal, it's not completed, so set goalCompleted to 0 (false)
             int goalCompleted = 0;

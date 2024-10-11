@@ -46,6 +46,10 @@ public class ProfileController {
 //        }
     }
 
+    public void displayProfile(int userId) {
+
+    }
+
     public void onChangePasswordButtonClick(ActionEvent event) {
     }
 

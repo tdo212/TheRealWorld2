@@ -3,6 +3,7 @@ package com.therealworld.fitschedule.controllers;
 import com.therealworld.fitschedule.FitScheduleApp;
 import com.therealworld.fitschedule.model.Goal;
 import com.therealworld.fitschedule.model.SqliteDAO;
+import com.therealworld.fitschedule.model.UserSession;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,6 +20,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
+import static com.therealworld.fitschedule.model.User.username;
 
 public class GoalsController {
 
@@ -50,7 +53,8 @@ public class GoalsController {
     private Label progressLabel2;
     private SqliteDAO databaseHelper = new SqliteDAO();
     private int sessionGoalsCompleted = 0;
-    private int userId = 12; // Replace with the actual logged-in user ID
+    //private int userId = 12; // Replace with the actual logged-in user ID
+    int userId = UserSession.getInstance().getUserId();
 
 
     public void initialize() {
@@ -103,7 +107,7 @@ public class GoalsController {
     }
 
     public void displayGoalCount() {
-        int goalCount = databaseHelper.countGoalsRemaining();
+        int goalCount = databaseHelper.countGoalsRemaining(userId);
         goalCountLabel.setText("Goals Remaining: " + goalCount);
     }
     public void setStats() {
@@ -146,7 +150,7 @@ public class GoalsController {
     public void displayPieChart() {
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
         );
-        int goalCount = databaseHelper.countGoalsRemaining();
+        int goalCount = databaseHelper.countGoalsRemaining(userId);
         if (goalCount == 0 && completedGoals == 0) {
             pieChart.setData(pieChartData); // Update pie chart with new data
             pieChartData.add(new PieChart.Data("No Goals", 1));
@@ -163,7 +167,7 @@ public class GoalsController {
     }
 
     public void updateProgressBar() {
-        double goalRemaining = databaseHelper.countGoalsRemaining(); // Fetch the total number of goals
+        double goalRemaining = databaseHelper.countGoalsRemaining(userId); // Fetch the total number of goals
 
 
         // Avoid division by zero
@@ -191,7 +195,7 @@ public class GoalsController {
     }
 
     public void updateLifeProgressBar() {
-        double LifetimeRemaining = databaseHelper.countGoalsRemaining(); // Fetch the total number of goals
+        double LifetimeRemaining = databaseHelper.countGoalsRemaining(userId); // Fetch the total number of goals
         double LifetimeCompleted = databaseHelper.getTotalGoalsCompleted(userId);
 
         // Avoid division by zero
@@ -213,7 +217,7 @@ public class GoalsController {
 
     public void updatePieChart() {
         int goalsCompleted1 = databaseHelper.getCompletedGoalsCount(userId);
-        int goalsRemaining1 = databaseHelper.countGoalsRemaining();
+        int goalsRemaining1 = databaseHelper.countGoalsRemaining(userId);
 
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
                 new PieChart.Data("Completed Goals", goalsCompleted1),

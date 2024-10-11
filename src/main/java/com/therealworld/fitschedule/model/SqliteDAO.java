@@ -525,11 +525,12 @@ public class SqliteDAO {
         }
         return count;
     }
-    public int countGoalsRemaining() {
-        String sql = "SELECT COUNT(*) AS count FROM goals WHERE goal_completed = 0";
+    public int countGoalsRemaining(int userId) {
+        String sql = "SELECT COUNT(*) AS count FROM goals WHERE goal_completed = 0 AND user_id = ?";
         int count = 0;
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 count = rs.getInt("count");
