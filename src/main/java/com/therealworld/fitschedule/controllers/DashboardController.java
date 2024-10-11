@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -28,6 +29,9 @@ public class DashboardController {
     private TableColumn<TodayScheduleRow, String> timeSlotColumn;  // The Time Slot column
     @FXML
     private TableColumn<TodayScheduleRow, String> eventColumn;  // The Event column
+    @FXML
+    private PieChart goalsPieChart;
+    @FXML
 
     private SqliteDAO scheduleDAO = new SqliteDAO();
     private DayTracker dayTracker = new DayTracker();  // Initialize the DayTracker
@@ -90,6 +94,7 @@ public class DashboardController {
     public void initialize() {
         int userId = UserSession.getInstance().getUserId();
         populateTodaySchedule(userId);
+        updatePieChart();
     }
 
     @FXML
@@ -135,6 +140,15 @@ public class DashboardController {
         Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
         stage.setScene(scene);
     }
+    private void updatePieChart() {
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+                new PieChart.Data("COmpleted Goals", 0.5),
+                new PieChart.Data("Incomplete Goals", 0.5)
+        );
+        goalsPieChart.setData(pieChartData);
+    }
+
+
 
     @FXML
     protected void onLogoffButtonClick(ActionEvent event) throws IOException {
@@ -154,4 +168,6 @@ public class DashboardController {
     public void onNoButtonClick(ActionEvent event) {
         System.out.println("No button clicked.");
     }
+
+
 }

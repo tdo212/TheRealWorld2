@@ -537,7 +537,7 @@ public class SqliteDAO {
         }
     }
     public int getCompletedGoalsCount() {
-        String query = "SELECT COUNT(*) FROM goals WHERE goal_completed = 1";
+        String query = "SELECT COUNT(*) FROM goals WHERE goal_completed = 1 AND user_id = ?";
         int count = 0;
 
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:FitScheduleDBConnection.db");
