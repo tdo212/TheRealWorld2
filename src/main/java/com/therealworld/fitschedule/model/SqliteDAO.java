@@ -94,7 +94,7 @@ public class SqliteDAO {
                             "training_time TEXT, " +
                             "FOREIGN KEY(user_id) REFERENCES users(id))"
             );
-            System.out.println("Goals table created or already exists.");
+            System.out.println("User Profile table created or already exists.");
         } catch (SQLException ex) {
             System.err.println("Error creating tables: " + ex.getMessage());
         }
