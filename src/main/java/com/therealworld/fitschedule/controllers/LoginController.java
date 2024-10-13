@@ -80,7 +80,7 @@ public class LoginController {
             SqliteDAO dao = new SqliteDAO();
             String weekStartDate = DateUtil.getWeekStartDate(0);
             dao.createWeeklyScheduleTable(weekStartDate, userId);
-            dao.populateTimeSlots(userId);
+            dao.populateTimeSlots(userId, weekStartDate);
 
             // Load and display the dashboard view
             FXMLLoader dashboardLoader = new FXMLLoader(FitScheduleApp.class.getResource("/com/therealworld/fitschedule/dashboard-view.fxml"));
