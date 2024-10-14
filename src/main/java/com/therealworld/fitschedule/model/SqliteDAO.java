@@ -8,6 +8,7 @@ import java.sql.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SqliteDAO {
@@ -102,7 +103,9 @@ public class SqliteDAO {
 
     public void createWeeklyScheduleTable(String weekStartDate, int userId) {
         String tableName = "weeklySchedule_" + weekStartDate.replace("-", "_");  // Create a unique table name using the start date
-        String createTableQuery = "CREATE TABLE IF NOT EXISTS " + tableName + " ("
+
+        // Add backticks around the table name for proper escaping
+        String createTableQuery = "CREATE TABLE IF NOT EXISTS `" + tableName + "` ("
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "user_id INTEGER NOT NULL, "
                 + "timeSlot TEXT NOT NULL, "
@@ -123,6 +126,7 @@ public class SqliteDAO {
             System.err.println("Error creating new weekly schedule table: " + ex.getMessage());
         }
     }
+
 
 
 
@@ -165,14 +169,14 @@ public class SqliteDAO {
     }
 
     // Populate the weekly schedule with time slots for a user
-    public void populateTimeSlots(int userId) {
+    public void populateTimeSlots(int userId, String currentWeekStartDate) {
         String[] timeSlots = {
                 "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM", "6:00 AM", "7:00 AM", "8:00 AM",
                 "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM",
                 "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM"
         };
 
-        String insertQuery = "INSERT OR IGNORE INTO weeklySchedule (timeSlot, user_id) VALUES (?, ?)";
+        String insertQuery = "INSERT OR IGNORE INTO `" + currentWeekStartDate + "` (timeSlot, user_id) VALUES (?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(insertQuery)) {
             List<Integer> userIds = getAllUserIds();  // Get all user IDs to populate for each user
             for (int currentUserId : userIds) {
@@ -188,33 +192,63 @@ public class SqliteDAO {
         }
     }
 
-    // Insert a weekly event for a user
-    public void insertWeeklyEvent(int userId, String timeSlot, String dayOfWeek, String eventDescription) {
-        String query = "UPDATE weeklySchedule SET " + dayOfWeek + " = ? WHERE timeSlot = ? AND user_id = ?";
+    // Insert a weekly event for a user into the correct weekly table
+    public void insertWeeklyEvent(int userId, String timeSlot, String dayOfWeek, String eventDescription, String currentWeekStartDate) {
+        // Dynamically generate the table name based on the week start date
+        String tableName = "weeklySchedule_" + currentWeekStartDate.replace("-", "_");
+
+        // Validate the dayOfWeek to ensure it is one of the valid columns
+        List<String> validDays = Arrays.asList("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
+        if (!validDays.contains(dayOfWeek)) {
+            throw new IllegalArgumentException("Invalid day of the week: " + dayOfWeek);
+        }
+
+        // Check if the table exists, if not, create it
+        if (!doesTableExist(tableName)) {
+            createWeeklyScheduleTable(currentWeekStartDate, userId);  // Ensure this method creates the table with the correct format
+        }
+
+        // Insert or update the event for the specific user, timeSlot, and dayOfWeek
+        String query = "INSERT OR REPLACE INTO " + tableName + " (timeSlot, user_id, " + dayOfWeek + ") VALUES (?, ?, ?)";
+
+        // Debug output to verify the correct table is being used
+        System.out.println("Inserting event into table: " + tableName + " for week starting: " + currentWeekStartDate);
+
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setString(1, eventDescription);
-            pstmt.setString(2, timeSlot);
-            pstmt.setInt(3, userId);
+            pstmt.setString(1, timeSlot);          // Set time slot
+            pstmt.setInt(2, userId);               // Set user ID
+            pstmt.setString(3, eventDescription);  // Set event description
             pstmt.executeUpdate();
+
+            // Debug output to confirm insertion
+            System.out.println("Event inserted for " + dayOfWeek + " at " + timeSlot + " in table " + tableName);
         } catch (SQLException ex) {
-            System.err.println("Error inserting weekly event: " + ex.getMessage());
+            System.err.println("Error inserting weekly event into table " + tableName + ": " + ex.getMessage());
         }
     }
 
-    // Retrieve the weekly schedule for a specific user and week offset
-    public List<String[]> getWeeklyScheduleForWeek(int userId, int weekOffset) {
+
+
+    // Retrieve the weekly schedule for a specific user from the dynamically named table
+    public List<String[]> getWeeklyScheduleForWeek(int userId, String currentWeekStartDate) {
         List<String[]> schedule = new ArrayList<>();
+        // Dynamically generate the table name based on the week start date
+        String tableName = "weeklySchedule_" + currentWeekStartDate.replace("-", "_");
+        System.out.println("Querying table: " + tableName + " for user ID: " + userId);
 
-        // Calculate the start and end dates for the specified week offset
-        LocalDate startDate = LocalDate.now().plusWeeks(weekOffset).with(DayOfWeek.MONDAY);
-        LocalDate endDate = startDate.plusDays(6); // Sunday of the same week
+        // Check if the table exists, if not, create it
+        if (!doesTableExist(tableName)) {
+            createWeeklyScheduleTable(tableName, userId);
+        }
 
+        // Updated query to retrieve from the dynamically named table without filtering by date
         String query = "SELECT timeSlot, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday " +
-                "FROM weeklySchedule " +
-                "WHERE user_id = ?";
+                "FROM `" + tableName + "` WHERE user_id = ?";
+
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setInt(1, userId);
+            pstmt.setInt(1, userId);  // Set the userId parameter
+
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -230,16 +264,19 @@ public class SqliteDAO {
                 schedule.add(row);
             }
         } catch (SQLException ex) {
-            System.err.println("Error retrieving weekly schedule for user " + userId + " with week offset " + weekOffset + ": " + ex.getMessage());
+            System.err.println("Error retrieving weekly schedule for user " + userId + " from table " + tableName + ": " + ex.getMessage());
         }
         return schedule;
     }
 
-    private boolean doesTableExist(String tableName) {
+
+
+    public boolean doesTableExist(String tableName) {
         String checkTableQuery = "SELECT name FROM sqlite_master WHERE type='table' AND name=?";
         try (PreparedStatement pstmt = connection.prepareStatement(checkTableQuery)) {
             pstmt.setString(1, tableName);
             ResultSet rs = pstmt.executeQuery();
+            System.out.println("table " + tableName + "does exist");
             return rs.next();  // Return true if a table with this name exists
         } catch (SQLException ex) {
             System.err.println("Error checking if table exists: " + ex.getMessage());
