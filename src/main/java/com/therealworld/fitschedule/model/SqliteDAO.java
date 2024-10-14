@@ -10,6 +10,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.time.DayOfWeek;
+
 
 public class SqliteDAO {
 
@@ -429,23 +431,43 @@ public class SqliteDAO {
     }
 
 
-    // Get commitments for a specific day
     public List<Schedule> getCommitmentsForDay(int userId, String dayOfWeek) {
         List<Schedule> schedules = new ArrayList<>();
-        String query = "SELECT * FROM currentSchedule WHERE user_id = ? AND dayOfWeek = ?";
+
+        // Generate the dynamic table name based on the current week start date
+        String currentWeekStartDate = LocalDate.now().with(DayOfWeek.MONDAY).toString(); // Assuming Monday as the start of the week
+        String tableName = "weeklySchedule_" + currentWeekStartDate.replace("-", "_");
+
+        // Normalize the dayOfWeek (convert "TUESDAY" to "Tuesday")
+        dayOfWeek = capitalizeFirstLetter(dayOfWeek);
+
+        // Ensure the dayOfWeek is valid (e.g., "Monday", "Tuesday", ...)
+        if (!isValidDayOfWeek(dayOfWeek)) {
+            System.err.println("Invalid dayOfWeek: " + dayOfWeek);
+            return schedules;  // Return an empty list if the day is invalid
+        }
+
+        // Check if the table exists, if not, create it
+        if (!doesTableExist(tableName)) {
+            createWeeklyScheduleTable(tableName, userId);
+        }
+
+        // Query the dynamically generated table for the specific day
+        String query = "SELECT id, timeSlot, `" + dayOfWeek + "` AS eventName, isFitnessEvent FROM `" + tableName + "` WHERE user_id = ?";
+
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setInt(1, userId);
-            pstmt.setString(2, dayOfWeek);
+            pstmt.setInt(1, userId); // Set the userId parameter
+
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 Schedule schedule = new Schedule(
-                        rs.getInt("id"),
-                        rs.getString("dayOfWeek"),
-                        rs.getString("eventName"),
-                        rs.getString("eventDescription"),
-                        rs.getString("eventStartTime"),
-                        rs.getString("eventEndTime"),
-                        rs.getInt("isFitnessEvent") == 1  // Convert integer to boolean
+                        rs.getInt("id"),                   // Retrieve the event's id
+                        dayOfWeek,                         // Use the dayOfWeek passed to the method
+                        rs.getString("eventName"),          // Retrieves the event for the specific day
+                        "",                                // Event description (if available elsewhere)
+                        rs.getString("timeSlot"),           // Retrieve the timeSlot
+                        rs.getString("timeSlot"),           // End time would be the next time block, if needed (optional)
+                        rs.getInt("isFitnessEvent") == 1    // Convert integer to boolean
                 );
                 schedules.add(schedule);
             }
@@ -454,6 +476,23 @@ public class SqliteDAO {
         }
         return schedules;
     }
+
+
+    // Helper method to normalize the dayOfWeek string (capitalize first letter)
+    public String capitalizeFirstLetter(String dayOfWeek) {
+        if (dayOfWeek == null || dayOfWeek.isEmpty()) {
+            return dayOfWeek;
+        }
+        return dayOfWeek.substring(0, 1).toUpperCase() + dayOfWeek.substring(1).toLowerCase();
+    }
+
+    // Helper method to validate the day of the week
+    public boolean isValidDayOfWeek(String dayOfWeek) {
+        String[] validDays = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+        return Arrays.asList(validDays).contains(dayOfWeek);
+    }
+
+
 
     // Delete a schedule by ID
     public void deleteSchedule(int scheduleId) {
