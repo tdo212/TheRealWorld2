@@ -54,6 +54,9 @@ public class SchedulerController {
     private TableColumn<ScheduleRow, String> saturdayColumn;
     @FXML
     private TableColumn<ScheduleRow, String> sundayColumn;
+    @FXML
+    private CheckBox fitnessEventCheckBox;
+
 
     private int userId;
 
@@ -235,10 +238,9 @@ public class SchedulerController {
         });
     }
 
-
+@FXML
     public void onGenerateNewScheduleButtonClick() {
         try {
-            // Calculate the start date for the current week offset
             String currentWeekStartDate = getWeekStartDate(currentWeekOffset);
 
             rootContainer.getChildren().clear();
@@ -257,7 +259,12 @@ public class SchedulerController {
             TextField eventDescriptionTextField = new TextField();
             eventDescriptionTextField.setPromptText("Enter Event Description");
 
-            // Submit button logic with adjusted submission code
+            // New Checkbox for Fitness Event
+            // Initialize the fitness event checkbox
+            fitnessEventCheckBox = new CheckBox("Is this a fitness event?");
+
+
+            // Submit button logic
             Button submitButton = new Button("Submit");
             submitButton.setOnAction(event -> {
                 try {
@@ -265,13 +272,13 @@ public class SchedulerController {
                     String startTime = cleanTimeString(timeSlotComboBox.getValue());
                     String endTime = cleanTimeString(endTimeSlotComboBox.getValue());
                     String eventDescription = eventDescriptionTextField.getText();
+                    String eventName = eventNameTextField.getText();
+                    boolean isFitnessEvent = fitnessEventCheckBox.isSelected(); // Correctly capture the checkbox value
                     int userId = UserSession.getInstance().getUserId();
 
-                    System.out.println("Start Time: " + startTime);  // Debug log
-                    System.out.println("End Time: " + endTime);      // Debug log
-
                     // Ensure all fields are filled
-                    if (dayOfWeek == null || startTime.isEmpty() || endTime.isEmpty() || eventDescription.isEmpty()) {
+                    if (dayOfWeek == null || startTime.isEmpty() || endTime.isEmpty() ||
+                            eventDescription.isEmpty() || eventName.isEmpty()) {
                         showAlert("Error", "All fields are required.", Alert.AlertType.ERROR);
                         return;
                     }
@@ -281,19 +288,19 @@ public class SchedulerController {
                         showAlert("Error", "End time must be after start time.", Alert.AlertType.ERROR);
                         return;
                     }
-                    // Populate all the time slots between start and end times
-                    List<String> timeSlotsInRange = getTimeSlotsInRange(startTime, endTime);
 
-                    // Save each time slot in the database
+                    // Insert the event into the database
+                    List<String> timeSlotsInRange = getTimeSlotsInRange(startTime, endTime);
                     for (String timeSlot : timeSlotsInRange) {
-                        scheduleDAO.insertWeeklyEvent(userId, timeSlot, dayOfWeek, eventDescription, getWeekStartDate(currentWeekOffset));
+                        scheduleDAO.insertWeeklyEvent(userId, timeSlot, dayOfWeek, eventDescription,
+                                getWeekStartDate(currentWeekOffset), isFitnessEvent);
                     }
 
                     showAlert("Success", "Event added successfully!", Alert.AlertType.INFORMATION);
-                    populateScheduleTable(userId, getWeekStartDate(currentWeekOffset));
+                    populateScheduleTable(userId, currentWeekStartDate);
                     buildInitialLayout();
                 } catch (Exception e) {
-                    e.printStackTrace();  // Print the stack trace for debugging
+                    e.printStackTrace();
                     showAlert("Error", "An error occurred: " + e.getMessage(), Alert.AlertType.ERROR);
                 }
             });
@@ -311,6 +318,7 @@ public class SchedulerController {
                     new HBox(new Label("End Time: "), endTimeSlotComboBox),
                     new HBox(new Label("Event Name: "), eventNameTextField),
                     new HBox(new Label("Description: "), eventDescriptionTextField),
+                    fitnessEventCheckBox,
                     submitButton,
                     backButton
             );
@@ -320,25 +328,30 @@ public class SchedulerController {
     }
 
 
+
     // Update Event Button
     @FXML
     protected void onUpdateScheduleButtonClick() {
         try {
-
             // Calculate the start date for the current week offset
-            String currentWeekStartDate = getWeekStartDate(currentWeekOffset);  // Get the current week's start date based on offset
+            String currentWeekStartDate = getWeekStartDate(currentWeekOffset);
             rootContainer.getChildren().clear();
             Label formTitle = new Label("Update an Existing Commitment");
 
-            ComboBox<String> dayComboBox = new ComboBox<>(FXCollections.observableArrayList("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"));
+            ComboBox<String> dayComboBox = new ComboBox<>(FXCollections.observableArrayList(
+                    "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"));
             ComboBox<String> timeSlotComboBox = new ComboBox<>(FXCollections.observableArrayList(timeSlots));
             ComboBox<String> endTimeSlotComboBox = new ComboBox<>(FXCollections.observableArrayList(timeSlots));
 
             ComboBox<Schedule> eventComboBox = new ComboBox<>();
+
+            // Add the new fitness event checkbox
+            CheckBox updateFitnessEventCheckBox = new CheckBox("Is this a fitness event?");
+
             dayComboBox.setOnAction(event -> {
                 String selectedDay = dayComboBox.getValue();
                 if (selectedDay != null) {
-                    List<Schedule> commitments = scheduleDAO.getCommitmentsForDay(1, selectedDay);
+                    List<Schedule> commitments = scheduleDAO.getCommitmentsForDay(userId, selectedDay);
                     eventComboBox.setItems(FXCollections.observableArrayList(commitments));
                 }
             });
@@ -352,6 +365,9 @@ public class SchedulerController {
                     eventNameTextField.setText(selectedSchedule.getEventName());
                     eventDescriptionTextField.setText(selectedSchedule.getEventDescription());
                     timeSlotComboBox.setValue(selectedSchedule.getEventStartTime());
+
+                    // Set the fitness checkbox value based on the selected schedule
+                    updateFitnessEventCheckBox.setSelected(selectedSchedule.isFitnessEvent());
                 }
             });
 
@@ -361,27 +377,25 @@ public class SchedulerController {
                     String dayOfWeek = dayComboBox.getValue();
                     String timeSlot = timeSlotComboBox.getValue();
                     String eventDescription = eventDescriptionTextField.getText();
-                    // Access the userId from the global session
+                    boolean isFitnessEvent = updateFitnessEventCheckBox.isSelected(); // Capture checkbox value
+
                     int userId = UserSession.getInstance().getUserId();
-                    System.out.println("User ID in SchedulerController: " + userId);
 
                     if (dayOfWeek == null || timeSlot == null || eventDescription.isEmpty()) {
                         showAlert("Error", "All fields are required.", Alert.AlertType.ERROR);
                         return;
                     }
 
-                    scheduleDAO.insertWeeklyEvent(userId, timeSlot, dayOfWeek, eventDescription, currentWeekStartDate);
+                    scheduleDAO.insertWeeklyEvent(userId, timeSlot, dayOfWeek, eventDescription,
+                            currentWeekStartDate, isFitnessEvent);
+
                     showAlert("Success", "Commitment added successfully!", Alert.AlertType.INFORMATION);
-
-                    // Refresh the table to display the new event
                     populateScheduleTable(userId, currentWeekStartDate);
-
                     buildInitialLayout();
                 } catch (Exception e) {
                     showAlert("Error", "An error occurred: " + e.getMessage(), Alert.AlertType.ERROR);
                 }
             });
-
 
             Button backButton = new Button("Back");
             backButton.setOnAction(event -> buildInitialLayout());
@@ -393,6 +407,7 @@ public class SchedulerController {
                     new HBox(new Label("Event Name: "), eventNameTextField),
                     new HBox(new Label("Description: "), eventDescriptionTextField),
                     new HBox(new Label("Select Event: "), eventComboBox),
+                    updateFitnessEventCheckBox,  // Add the checkbox to the layout
                     submitButton,
                     backButton
             );
@@ -400,6 +415,7 @@ public class SchedulerController {
             showAlert("Error", "An error occurred while updating the schedule: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
+
 
     private void buildInitialLayout() {
         try {
