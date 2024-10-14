@@ -192,9 +192,8 @@ public class SqliteDAO {
         }
     }
 
-    // Insert a weekly event for a user into the correct weekly table
     public void insertWeeklyEvent(int userId, String timeSlot, String dayOfWeek, String eventDescription, String currentWeekStartDate) {
-        // Dynamically generate the table name based on the week start date
+        // Generate the table name dynamically based on the week start date
         String tableName = "weeklySchedule_" + currentWeekStartDate.replace("-", "_");
 
         // Validate the dayOfWeek to ensure it is one of the valid columns
@@ -203,29 +202,41 @@ public class SqliteDAO {
             throw new IllegalArgumentException("Invalid day of the week: " + dayOfWeek);
         }
 
-        // Check if the table exists, if not, create it
+        // Ensure the table exists
         if (!doesTableExist(tableName)) {
-            createWeeklyScheduleTable(currentWeekStartDate, userId);  // Ensure this method creates the table with the correct format
+            createWeeklyScheduleTable(currentWeekStartDate, userId);
+            System.out.println("Table Name: " + tableName);
         }
 
-        // Insert or update the event for the specific user, timeSlot, and dayOfWeek
-        String query = "INSERT OR REPLACE INTO " + tableName + " (timeSlot, user_id, " + dayOfWeek + ") VALUES (?, ?, ?)";
+        // Use UPDATE if the row already exists, otherwise INSERT a new row
+        String updateQuery = "UPDATE " + tableName +
+                " SET " + dayOfWeek + " = ? " +
+                "WHERE timeSlot = ? AND user_id = ?";
 
-        // Debug output to verify the correct table is being used
-        System.out.println("Inserting event into table: " + tableName + " for week starting: " + currentWeekStartDate);
+        try (PreparedStatement updateStmt = connection.prepareStatement(updateQuery)) {
+            updateStmt.setString(1, eventDescription); // Set event description for the specific day
+            updateStmt.setString(2, timeSlot);         // Set time slot
+            updateStmt.setInt(3, userId);              // Set user ID
 
-        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setString(1, timeSlot);          // Set time slot
-            pstmt.setInt(2, userId);               // Set user ID
-            pstmt.setString(3, eventDescription);  // Set event description
-            pstmt.executeUpdate();
+            int rowsAffected = updateStmt.executeUpdate();
+            if (rowsAffected == 0) {
+                // If no row was updated, insert a new row
+                String insertQuery = "INSERT INTO " + tableName +
+                        " (timeSlot, user_id, " + dayOfWeek + ") VALUES (?, ?, ?)";
+                try (PreparedStatement insertStmt = connection.prepareStatement(insertQuery)) {
+                    insertStmt.setString(1, timeSlot);         // Set time slot
+                    insertStmt.setInt(2, userId);              // Set user ID
+                    insertStmt.setString(3, eventDescription); // Set event description
+                    insertStmt.executeUpdate();
+                }
+            }
 
-            // Debug output to confirm insertion
-            System.out.println("Event inserted for " + dayOfWeek + " at " + timeSlot + " in table " + tableName);
+            System.out.println("Event inserted/updated for " + dayOfWeek + " at " + timeSlot + " in table " + tableName);
         } catch (SQLException ex) {
-            System.err.println("Error inserting weekly event into table " + tableName + ": " + ex.getMessage());
+            System.err.println("Error inserting/updating weekly event: " + ex.getMessage());
         }
     }
+
 
 
 
@@ -352,7 +363,7 @@ public class SqliteDAO {
             pstmt.setString(2, dayOfWeek);
             pstmt.setString(3, eventName);
             pstmt.setString(4, eventDescription);
-            pstmt.setString(5, eventStartTime);
+            pstmt.setString(5, eventStartTime.trim());  // Trim spaces before inserting
             pstmt.setString(6, eventEndTime);
             pstmt.executeUpdate();
         } catch (SQLException ex) {
@@ -488,17 +499,30 @@ public class SqliteDAO {
         }
     }
 
-    // Clear the schedule for a user
-    public void clearScheduleForUser(int userId) {
-        String query = "DELETE FROM currentSchedule WHERE user_id = ?";
+    public void clearScheduleForUser(int userId, String currentWeekStartDate) {
+        // Generate the table name dynamically based on the week start date
+        String tableName = "weeklySchedule_" + currentWeekStartDate.replace("-", "_");
+
+        // Check if the table exists to avoid errors
+        if (!doesTableExist(tableName)) {
+            System.out.println("Table " + tableName + " does not exist.");
+            return;
+        }
+
+        // Delete all entries for the user in the specific weekly schedule table
+        String query = "DELETE FROM " + tableName + " WHERE user_id = ?";
+
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setInt(1, userId);
-            pstmt.executeUpdate();
-            System.out.println("Schedule cleared for user " + userId);
+            int rowsAffected = pstmt.executeUpdate();
+
+            System.out.println("Cleared " + rowsAffected + " schedule entries for user " + userId + " in table " + tableName);
         } catch (SQLException ex) {
-            System.err.println("Error clearing schedule: " + ex.getMessage());
+            System.err.println("Error clearing schedule for user " + userId + " in table " + tableName + ": " + ex.getMessage());
         }
     }
+
+
 
     // Method to validate password
     public boolean validatePassword(String username, String password) {
