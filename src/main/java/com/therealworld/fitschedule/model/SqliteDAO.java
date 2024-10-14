@@ -91,7 +91,8 @@ public class SqliteDAO {
                             "username TEXT NOT NULL, " +
                             "email INTEGER NOT NULL, " +  // Store goal duration as INTEGER for weeks
                             "training_frequency TEXT NULL, " +
-                            "training_time TEXT, " +
+                            "account_creation_date TEXT NOT NULL," +
+                            "training_time TEXT," +
                             "FOREIGN KEY(user_id) REFERENCES users(id))"
             );
             System.out.println("User Profile table created or already exists.");
@@ -163,6 +164,26 @@ public class SqliteDAO {
         }
         return username;
     }
+
+    public String getEmailById(int userId) {
+        String email = null;
+        String query = "SELECT email FROM users WHERE id = ?"; // Adjust table/column names as necessary
+        String url = "jdbc:sqlite:FitScheduleDBConnection.db"; // Make sure this path is correct
+        try (Connection conn = DriverManager.getConnection(url);
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setInt(1, userId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                email = rs.getString("email"); // Assuming 'username' is the column name in your DB
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Handle exceptions as needed
+        }
+        return email;
+    }
+
 
     // Populate the weekly schedule with time slots for a user
     public void populateTimeSlots(int userId) {
@@ -653,6 +674,39 @@ public class SqliteDAO {
             e.printStackTrace();
         }
     }
+    
 
+    public ObservableList<UserProfile> fetchProfileDetails(int userId) {
+        javafx.collections.ObservableList<UserProfile> data = FXCollections.observableArrayList();
+        String url = "jdbc:sqlite:FitScheduleDBConnection.db"; // Make sure this path is correct
+        String query = "SELECT * FROM userProfile WHERE user_id = ?"; // Query to fetch user for a specific user
+        try (Connection conn = DriverManager.getConnection(url);
 
+             PreparedStatement pstmt = conn.prepareStatement(query)) {  // Use PreparedStatement
+            pstmt.setInt(1, userId);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                // Construct a Goal object with all the columns in the goals table
+                UserProfile profileEntry = new UserProfile(
+                        rs.getInt("profile_id"), // profile id
+                        rs.getString("username"),              // username
+                        rs.getString("email"),     // email
+                        rs.getString("training_frequency"),    // goalDuration
+                        rs.getString("training_time"),   // training time
+                        rs.getString("account_creation_date")
+                );
+                System.out.println("Fetched user profile: " + profileEntry);
+                data.add(profileEntry);  // Add the Goal object to the ObservableList
+            }
+
+            rs.close();
+            pstmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Data loaded: " + data.size() + " items.");
+        return data;
+    }
 }

@@ -3,6 +3,8 @@ package com.therealworld.fitschedule.controllers;
 import com.therealworld.fitschedule.FitScheduleApp;
 import com.therealworld.fitschedule.model.SqliteDAO;
 import com.therealworld.fitschedule.model.UserProfile;
+import com.therealworld.fitschedule.model.UserSession;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,26 +27,39 @@ public class ProfileController {
     private Label profileCreationDate;
     @FXML
     private Label profileTrainingTimePreferences;
+    private SqliteDAO databaseInstance = new SqliteDAO();
+    int userId = UserSession.getInstance().getUserId();
+    String username = databaseInstance.getUsernameById(userId);
+    String email = databaseInstance.getEmailById(userId);
 
-    public void setUserId(int userId) {
+        public void setUserId(int userId) {
         displayProfileDetails(userId);
     }
 
-    public void displayProfileDetails(int userId) {
-        // Fetch profile details for the current user
-//        UserProfile userProfile = sqliteDAO.fetchProfileDetails(userId);
+    public void initialize(){
+            displayProfileDetails(userId);
 
-//        if (userProfile != null) {
-//            // Set profile details to the UI labels
-//            profileNameLabel.setText(userProfile.getUsername());
+    }
+
+//    displayProfileDetails(userId);
+
+    ObservableList<UserProfile> userProfiles = sqliteDAO.fetchProfileDetails(userId);
+    public void displayProfileDetails(int userID) {
+        // Fetch profile details for the current user
+        profileNameLabel.setText(username);
+        profileEmailLabel.setText(email);
+
+        if (userProfiles != null) {
+            // Set profile details to the UI labels
 //            profileEmailLabel.setText(userProfile.getEmail());
 //            profileTrainingFrequency.setText(userProfile.getTrainingFrequency());
 //            profileCreationDate.setText(userProfile.getAccountCreationDate());
 //            profileTrainingTimePreferences.setText(userProfile.getPreferredTrainingTime());
-//        } else {
-//            System.out.println("No profile found for user ID: " + userId);
-//        }
+        } else {
+            System.out.println("No profile found for user ID: " + userId);
+        }
     }
+
 
     public void displayProfile(int userId) {
 

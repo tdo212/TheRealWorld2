@@ -1,13 +1,15 @@
 package com.therealworld.fitschedule.model;
 
 public class UserProfile {
+    private int profileId;
     private String username;
     private String email;
     private String trainingFrequency;
     private String accountCreationDate;
     private String preferredTrainingTime;
 
-    public UserProfile(String username, String email, String trainingFrequency, String accountCreationDate, String preferredTrainingTime) {
+    public UserProfile(int profileId, String username, String email, String trainingFrequency, String accountCreationDate, String preferredTrainingTime) {
+        this.profileId = profileId;
         this.username = username;
         this.email = email;
         this.trainingFrequency = trainingFrequency;
@@ -16,6 +18,10 @@ public class UserProfile {
     }
 
     // Getters and setters
+
+    public int getProfileID() { return profileId; }
+    public void setProfile_id(int profile_id) { this.profileId = profile_id; }
+
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
 
