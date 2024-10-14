@@ -7,12 +7,14 @@
     <list default="true" id="764ab08b-92db-428a-9811-fe61d0ba3206" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FitScheduleDBConnection.db" beforeDir="false" afterPath="$PROJECT_DIR$/FitScheduleDBConnection.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/SchedulerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/SchedulerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/ProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/ProfileController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/SqliteDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/SqliteDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/LoginController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/SchedulerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/SchedulerController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/UserProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/UserProfile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/therealworld/fitschedule/profile-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/therealworld/fitschedule/profile-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/ProfileController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/ProfileController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/SqliteDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/SqliteDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/UserProfile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/UserProfile.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +83,7 @@
     "Repository.Attach.Sources": "false",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "Merging master",
+    "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/benpt/IdeaProjects/TheRealWorld2",
     "node.js.detected.package.eslint": "true",
@@ -194,16 +196,5 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/SqliteDAO.java</url>
-          <line>86</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

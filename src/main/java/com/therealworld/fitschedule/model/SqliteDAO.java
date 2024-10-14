@@ -4,8 +4,8 @@ package com.therealworld.fitschedule.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.mindrot.jbcrypt.BCrypt;
+
 import java.sql.*;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -692,4 +692,28 @@ public class SqliteDAO {
     }
 
 
+    public UserProfile fetchProfileDetails(int userId) {
+        String email = null;
+        String username = null;
+        String phoneNumber = null;
+        UserProfile userProfile = null;
+        String query = "SELECT username, email, phoneNumber FROM users WHERE users.id = ?";
+        String url = "jdbc:sqlite:FitScheduleDBConnection.db";
+        try (Connection conn = DriverManager.getConnection(url);
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, userId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                username = rs.getString("username");
+                email = rs.getString("email");
+                phoneNumber = rs.getString("phoneNumber");
+
+
+                userProfile = new UserProfile(username,email,phoneNumber); // Creates new user profile object
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userProfile;
+    }
 }
