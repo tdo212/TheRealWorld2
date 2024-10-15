@@ -33,7 +33,7 @@
 
         <!-- Target Sessions/Hours per Week -->
         <HBox spacing="10" alignment="CENTER_LEFT">
-            <Label text="Other Goal Type:"/>
+            <Label fx:id="OtherGoalType" text=""/>
             <TextField fx:id="otherGoalTextField" promptText="Enter desired goal type" prefWidth="300.0"/>
         </HBox>
 
