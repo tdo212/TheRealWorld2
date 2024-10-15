@@ -38,7 +38,8 @@ public class DashboardController {
     @FXML
 
     private SqliteDAO scheduleDAO = new SqliteDAO();
-    private DayTracker dayTracker = new DayTracker();  // Initialize the DayTracker
+    private DayTracker dayTracker = new DayTracker();
+    private ObservableList<Goal> goals;
 
     // Predefined time slots (24-hour format for simplicity)
     private final String[] timeSlots = {
@@ -168,6 +169,8 @@ public class DashboardController {
         Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
         stage.setScene(scene);
     }
+
+
     // Action method for "Yes" button
     @FXML
     public void onYesButtonClick(ActionEvent event) {
@@ -178,6 +181,14 @@ public class DashboardController {
         dayOfWeek = capitalizeFirstLetter(dayOfWeek); // Normalize the format to match the database columns
 
         int userId = UserSession.getInstance().getUserId();
+
+        // Initialize the goals list before using it
+        goals = SqliteDAO.getAllGoals(userId);  // Fetch all goals for the current user from the database
+
+        if (goals == null || goals.isEmpty()) {
+            System.out.println("No goals found for the user.");
+            return;  // Exit if there are no goals
+        }
 
         // Fetch all events for the current day
         List<Schedule> todaysEvents = scheduleDAO.getCommitmentsForDay(userId, dayOfWeek);
@@ -192,18 +203,43 @@ public class DashboardController {
             // Print message if no workout events are found
             System.out.println("No fitness events found for today.");
         } else {
-            // Process the workout events (display them or use them as needed)
-            workoutEvents.forEach(workout -> {
+            // Initialize the workoutHours variable
+            int workoutHours = 0;
+
+            // Process the workout events (display them and add to workoutHours)
+            for (Schedule workout : workoutEvents) {
                 System.out.println("Workout Event: " + workout.getEventName() + " at " + workout.getEventStartTime());
-            });
+
+                // Since each event is 1 hour, increment workoutHours by 1 for each workout event
+                workoutHours++;
+            }
+            System.out.print("Hours spent working out: " + workoutHours);
+            // Now iterate over the goals and update progress
+            for (Goal goal : goals) {
+                System.out.println("Checking goal period: " + goal.getGoalPeriod());
+                // Check if the goal is days per week or hours based
+                if (goal.getGoalPeriod().equalsIgnoreCase("Days per week")) {
+                    int currentProgress = goal.getGoalProgress();
+                    System.out.println("Goal progress before update (Days per week): " + currentProgress);
+                    int newProgress = currentProgress + 1;  // Increment progress by 1 day
+                    scheduleDAO.updateGoalProgress(goal.getGoalId(), newProgress);
+                    System.out.println("Updated weekly goal progress for goal ID: " + goal.getGoalId() + " to " + newProgress);
+
+
+                } else if (goal.getGoalPeriod().equalsIgnoreCase("Hours per week")) {
+                    int currentProgress = goal.getGoalProgress();
+                    System.out.println("Goal progress before update (Hours per week): " + currentProgress);
+                    int newProgress = currentProgress + workoutHours;  // Increment by workout hours
+                    scheduleDAO.updateGoalProgress(goal.getGoalId(), newProgress);
+                    System.out.println("Updated hourly goal progress for goal ID: " + goal.getGoalId() + " to " + newProgress);
+                }
+            }
+
         }
-
     }
-
-
     // Action method for "No" button
     @FXML
-    public void onNoButtonClick(ActionEvent event) {
+    public void onNoButtonClick (ActionEvent event) {
         System.out.println("No button clicked.");
 
         // Get the current day of the week
@@ -225,20 +261,27 @@ public class DashboardController {
             // Print message if no workout events are found
             System.out.println("No fitness events found for today.");
         } else {
-            // Process the workout events (display them or use them as needed)
-            workoutEvents.forEach(workout -> {
+            // Initialize the workoutHours variable
+            int workoutHours = 0;
+
+            // Process the workout events (display them and add to workoutHours)
+            for (Schedule workout : workoutEvents) {
                 System.out.println("Workout Event: " + workout.getEventName() + " at " + workout.getEventStartTime());
-            });
+
+                // Since each event is 1 hour, increment workoutHours by 1 for each workout event
+                workoutHours++;
+                System.out.print("Hours spent working out: " + workoutHours);
+            }
         }
     }
-
     // Helper method to normalize the dayOfWeek string (capitalize first letter)
-    private String capitalizeFirstLetter(String dayOfWeek) {
+    private String capitalizeFirstLetter (String dayOfWeek){
         if (dayOfWeek == null || dayOfWeek.isEmpty()) {
             return dayOfWeek;
         }
         return dayOfWeek.substring(0, 1).toUpperCase() + dayOfWeek.substring(1).toLowerCase();
     }
-
-
 }
+
+
+

@@ -25,7 +25,8 @@ public class SqliteDAO {
             e.printStackTrace();
         }
         createTables();  // Create users, schedules, and goals tables
-        addFitnessEventColumnIfNotExists();  // Ensure column exists
+        addFitnessEventColumnIfNotExists();  // Ensure columns exists
+        addGoalProgressColumnIfNotExists();
     }
 
     // Create tables for users, schedules, and goals
@@ -646,7 +647,8 @@ public class SqliteDAO {
                         rs.getInt("goal_duration"),    // goalDuration
                         rs.getString("goal_period"),   // goalPeriod
                         rs.getString("goal_description"), // goalDescription
-                        rs.getBoolean("goal_completed")  // goalCompleted
+                        rs.getBoolean("goal_completed"), // goalCompleted
+                        rs.getInt("goal_progress")     // goalProgress (retrieved as an integer)
                 );
                 System.out.println("Fetched goal entry: " + goalEntry);
                 data.add(goalEntry);  // Add the Goal object to the ObservableList
@@ -691,6 +693,27 @@ public class SqliteDAO {
         }
         return count;
     }
+
+    public void updateGoalProgress(int goalId, int newProgress) {
+        String query = "UPDATE goals SET goal_progress = ? WHERE id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setInt(1, newProgress);  // Set the new progress
+            pstmt.setInt(2, goalId);       // Specify the goal ID to update
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Goal progress updated successfully for goal ID: " + goalId + " modified by: " + newProgress);
+            } else {
+                System.out.println("No rows updated. Check if goal ID exists.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("Error updating goal progress: " + e.getMessage());
+        }
+    }
+
+
+
     public void updateGoalAsCompleted(int goalId) {
         String query = "UPDATE goals SET goal_completed = 1 WHERE id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -809,6 +832,21 @@ public class SqliteDAO {
             e.printStackTrace();
         }
         return userProfile;
+    }
+
+    // Add goal_progress column to the goals table if it does not already exist
+    private void addGoalProgressColumnIfNotExists() {
+        String query = "ALTER TABLE goals ADD COLUMN goal_progress INTEGER DEFAULT 0";  // Add the new column with a default value of 0
+        try (Statement stmt = connection.createStatement()) {
+            stmt.execute(query);
+            System.out.println("'goal_progress' column added to goals table.");
+        } catch (SQLException ex) {
+            if (ex.getMessage().contains("duplicate column name")) {
+                System.out.println("'goal_progress' column already exists.");
+            } else {
+                System.err.println("Error adding 'goal_progress' column: " + ex.getMessage());
+            }
+        }
     }
 
 }

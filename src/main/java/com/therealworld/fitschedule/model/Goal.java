@@ -7,15 +7,17 @@ public class Goal {
     private String goalPeriod;
     private String goalDescription;
     private boolean goalCompleted;
+    private int goalProgress;
 
     // Constructor
-    public Goal(int goalId, String goalType, int goalDuration, String goalPeriod, String goalDescription, boolean goalCompleted) {
+    public Goal(int goalId, String goalType, int goalDuration, String goalPeriod, String goalDescription, boolean goalCompleted, int goalProgress) {
         this.goalId = goalId;
         this.goalType = goalType;
         this.goalDuration = goalDuration;
         this.goalPeriod = goalPeriod;
         this.goalDescription = goalDescription;
         this.goalCompleted = goalCompleted;
+        this.goalProgress = this.goalProgress;
     }
 
     // Getters and Setters
@@ -36,4 +38,24 @@ public class Goal {
 
     public boolean isGoalCompleted() { return goalCompleted; }
     public void setGoalCompleted(boolean goalCompleted) { this.goalCompleted = goalCompleted; }
+
+    public int getGoalProgress() {
+        return goalProgress;
+    }
+
+    public void setGoalProgress(int goalProgress) {
+        this.goalProgress = goalProgress;
+    }
+
+    @Override
+    public String toString() {
+        return "Goal{id=" + goalId +
+                ", type='" + goalType + '\'' +
+                ", duration=" + goalDuration +
+                ", period='" + goalPeriod + '\'' +
+                ", description='" + goalDescription + '\'' +
+                ", completed=" + goalCompleted +
+                ", progress=" + goalProgress +
+                '}';
+    }
 }
