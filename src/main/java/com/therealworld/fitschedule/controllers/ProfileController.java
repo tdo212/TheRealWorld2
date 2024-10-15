@@ -51,9 +51,9 @@ public class ProfileController {
             profileNameLabel.setText(userProfile.getUsername());
             profileEmailLabel.setText(userProfile.getEmail());
             profilePhoneNumberLabel.setText(userProfile.getPhoneNumber());
-            profileTrainingFrequency.setText(userProfile.getTrainingFrequency());
-            profileCreationDate.setText(userProfile.getAccountCreationDate());
-            profileTrainingTimePreferences.setText(userProfile.getPreferredTrainingTime());
+//            profileTrainingFrequency.setText(userProfile.getTrainingFrequency());
+//            profileCreationDate.setText(userProfile.getAccountCreationDate());
+//            profileTrainingTimePreferences.setText(userProfile.getPreferredTrainingTime());
         } else {
             System.out.println("No profile found for user ID: " + userId);
         }
