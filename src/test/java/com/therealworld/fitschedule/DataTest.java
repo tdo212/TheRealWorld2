@@ -26,7 +26,7 @@ public class DataTest {
      * A single instance of the database connection.
      * This field is static so that there is only one single instance of the connection in the application.
      */
-    private static Connection connection;
+    static Connection connection;
     /**
      * The JDBC URL used for the SQite database.
      * This field specifies the type of database, SQLite, and the path of the database file
