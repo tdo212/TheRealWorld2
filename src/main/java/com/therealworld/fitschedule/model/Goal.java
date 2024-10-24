@@ -17,7 +17,7 @@ public class Goal {
         this.goalPeriod = goalPeriod;
         this.goalDescription = goalDescription;
         this.goalCompleted = goalCompleted;
-        this.goalProgress = this.goalProgress;
+        this.goalProgress = goalProgress;
     }
 
     // Getters and Setters

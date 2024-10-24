@@ -185,6 +185,10 @@ public class DashboardController {
         // Initialize the goals list before using it
         goals = SqliteDAO.getAllGoals(userId);  // Fetch all goals for the current user from the database
 
+        for (Goal goal : goals) {
+            System.out.println("Fetched goal entry: " + goal);  // Print fetched goal data
+        }
+
         if (goals == null || goals.isEmpty()) {
             System.out.println("No goals found for the user.");
             return;  // Exit if there are no goals
