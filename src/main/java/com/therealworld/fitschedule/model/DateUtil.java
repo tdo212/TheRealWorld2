@@ -26,4 +26,14 @@ public class DateUtil {
         // Format the date to "yyyy-MM-dd" and return it as a string
         return desiredWeekStart.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
+
+
+    // Helper method to capitalize the first letter and make the rest lowercase
+    public String capitalizeFirstLetter(String input) {
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+        return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
+    }
+
 }

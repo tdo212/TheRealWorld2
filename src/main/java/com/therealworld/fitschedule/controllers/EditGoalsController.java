@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -27,8 +26,6 @@ public class EditGoalsController {
 
     private SqliteDAO goalsDAO;
     private GoalsController goalsController;  // Reference to GoalsController
-    @FXML
-    private Label OtherGoalType;
 
     // Inject the GoalsController
     public void setGoalsController(GoalsController goalsController) {
@@ -54,23 +51,15 @@ public class EditGoalsController {
 
         // Create DAO instance
         goalsDAO = new SqliteDAO();
-        otherGoalTextField.setVisible(false);
-        otherGoalTextField.setManaged(false);  // Include in layout
-        OtherGoalType.setManaged(false);
+
         // Add listener to the goalTypeComboBox to show/hide the otherGoalTextField
         goalTypeComboBox.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if ("Other".equals(newValue)) {
                     otherGoalTextField.setVisible(true);
-                    otherGoalTextField.setManaged(true);  // Include in layout
-                    OtherGoalType.setManaged(true);
-                    OtherGoalType.setText("Other Goal Type:");
                 } else {
                     otherGoalTextField.setVisible(false);
-                    otherGoalTextField.setManaged(false);  // Include in layout
-                    OtherGoalType.setManaged(false);
-                    OtherGoalType.setText("");
                 }
             }
         });
