@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.image.ImageView?>
+<VBox fx:id="loginContainer" alignment="CENTER" spacing="10.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.therealworld.fitschedule.controllers.LoginController">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <ImageView fx:id="logo" fitHeight="100" fitWidth="100"/>
+
+    <Label text="Login to Fit Schedule"/>
+
+    <TextField fx:id="usernameField" promptText="Username" maxWidth="200"/>
+    <PasswordField fx:id="passwordField" promptText="Password" maxWidth="200"/>
+
+    <Button fx:id="loginButton" text="Login" onAction="#onLoginButtonClick" maxWidth="100"/>
+    <Button fx:id="registerButton" text="Register" onAction="#onRegisterButtonClick" maxWidth="100"/>
+    <Button fx:id="cancelButton" text="Cancel" onAction="#onCancelButtonClick" maxWidth="100"/>
+</VBox>
