@@ -14,20 +14,13 @@ import javafx.stage.Stage;
 import java.io.IOException;
 public class ProfileController {
 
-    private SqliteDAO sqliteDAO = new SqliteDAO();
-
     @FXML
     private Label profileNameLabel;
     @FXML
     private Label profileEmailLabel;
     @FXML
     private Label profilePhoneNumberLabel;
-    @FXML
-    private Label profileTrainingFrequency;
-    @FXML
-    private Label profileCreationDate;
-    @FXML
-    private Label profileTrainingTimePreferences;
+
     private SqliteDAO databaseObject = new SqliteDAO();
     int userId = UserSession.getInstance().getUserId();
 
@@ -35,12 +28,6 @@ public class ProfileController {
     public void initialize(){
         displayProfileDetails(userId);
     }
-
-//    public void setUserId(int userId) {
-//        displayProfileDetails(userId);
-//    }
-
-
 
     public void displayProfileDetails(int userId) {
         UserProfile userProfile = databaseObject.fetchProfileDetails(userId);
@@ -51,22 +38,9 @@ public class ProfileController {
             profileNameLabel.setText(userProfile.getUsername());
             profileEmailLabel.setText(userProfile.getEmail());
             profilePhoneNumberLabel.setText(userProfile.getPhoneNumber());
-            profileTrainingFrequency.setText(userProfile.getTrainingFrequency());
-            profileCreationDate.setText(userProfile.getAccountCreationDate());
-            profileTrainingTimePreferences.setText(userProfile.getPreferredTrainingTime());
         } else {
             System.out.println("No profile found for user ID: " + userId);
         }
-    }
-
-    public void displayProfile(int userId) {
-
-    }
-
-    public void onChangePasswordButtonClick(ActionEvent event) {
-    }
-
-    public void onEditDetailsButtonClick(ActionEvent event) {
     }
 
     // Logoff button action
@@ -78,6 +52,4 @@ public class ProfileController {
         stage.setScene(scene);
     }
 
-    public void onProfileButtonClick(ActionEvent event) {
-    }
 }

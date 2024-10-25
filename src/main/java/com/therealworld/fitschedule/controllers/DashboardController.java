@@ -199,7 +199,7 @@ public class DashboardController {
         int goalsRemaining = scheduleDAO.countGoalsRemaining(userId);
 
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-                new PieChart.Data("COmpleted Goals", goalsCompleted),
+                new PieChart.Data("Completed Goals", goalsCompleted),
                 new PieChart.Data("Incomplete Goals", goalsRemaining)
         );
         goalsPieChart.setData(pieChartData);

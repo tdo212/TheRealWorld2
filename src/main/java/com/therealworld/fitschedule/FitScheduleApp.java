@@ -11,7 +11,7 @@ import java.io.IOException;
 public class FitScheduleApp extends Application {
 
     // Constants defining the window title and size
-    public static final String TITLE = "Scheduling";
+    public static final String TITLE = "FitSchedule";
     public static final int WIDTH = 900;
     public static final int HEIGHT = 600;
 

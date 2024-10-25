@@ -14,8 +14,10 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="800.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.therealworld.fitschedule.controllers.GoalsController">
+<VBox xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.therealworld.fitschedule.controllers.GoalsController">
+
     <children>
+
 
         <!-- SplitPane for stats and goals content -->
         <SplitPane dividerPositions="0.2505567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
@@ -41,47 +43,30 @@
                   <Label fx:id="goalCountLabel1" layoutX="19.0" layoutY="223.0" prefHeight="17.0" prefWidth="205.0" />
                     </children>
                 </AnchorPane>
-                  <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="667.0">
+                  <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="500.0" prefWidth="667.0">
                       <children>
                           <Label alignment="CENTER" font="$x1" layoutX="25.0" layoutY="14.0" text="Goals" underline="true" />
-                          <ListView fx:id="contactsListView" layoutX="21.0" layoutY="110.0" prefHeight="200.0" prefWidth="323.0" />
+                          <ListView fx:id="contactsListView" layoutX="21.0" layoutY="110.0" prefHeight="180.0" prefWidth="323.0" />
                           <ProgressBar fx:id="progressBar" layoutX="21.0" layoutY="77.0" prefHeight="20.0" prefWidth="200.0" />
                           <Label alignment="CENTER" layoutX="26.0" layoutY="48.0" text="Session Progress:" />
-                          <Label alignment="CENTER" layoutX="21.0" layoutY="348.0" prefHeight="23.0" prefWidth="116.0" text="Lifetime Progress:" />
-                          <PieChart fx:id="pieChart" animated="false" layoutX="341.0" layoutY="60.0" prefHeight="248.0" prefWidth="316.0" title="Session Progress - Goals" />
-                          <ProgressBar fx:id="lifetimeProgressBar" layoutX="19.0" layoutY="381.0" prefHeight="20.0" prefWidth="200.0" progress="0.6" />
-                          <PieChart fx:id="pieChartLifetime" animated="false" layoutX="344.0" layoutY="348.0" prefHeight="272.0" prefWidth="309.0" title="Lifetime Progress - Goals" />
+                          <Label alignment="CENTER" layoutX="21.0" layoutY="318.0" prefHeight="23.0" prefWidth="116.0" text="Lifetime Progress:" />
+                          <PieChart fx:id="pieChart" animated="false" layoutX="341.0" layoutY="60.0" prefHeight="215.0" prefWidth="316.0" title="Session Progress - Goals" />
+                          <ProgressBar fx:id="lifetimeProgressBar" layoutX="19.0" layoutY="351.0" prefHeight="20.0" prefWidth="200.0" progress="0.6" />
+                          <PieChart fx:id="pieChartLifetime" animated="false" layoutX="344.0" layoutY="318.0" prefHeight="215.0" prefWidth="309.0" title="Lifetime Progress - Goals" />
                           <Label fx:id="progressLabel" alignment="CENTER" layoutX="232.0" layoutY="75.0" prefHeight="23.0" prefWidth="42.0" text="0%" />
-                          <Label fx:id="progressLabel2" alignment="CENTER" layoutX="236.0" layoutY="380.0" prefHeight="23.0" prefWidth="42.0" text="0%" />
+                          <Label fx:id="progressLabel2" alignment="CENTER" layoutX="236.0" layoutY="350.0" prefHeight="23.0" prefWidth="42.0" text="0%" />
 
                                       <!-- New Button for editing goals -->
-                          <Button fx:id="editGoalsButton" layoutX="580.0" layoutY="14.0" onAction="#onEditGoalsClick" text="Edit Goals" />
+                          <Button fx:id="editGoalsButton" layoutX="320.0" layoutY="13.0" onAction="#onEditGoalsClick" text="Edit Goals" />
                   <Button layoutX="489.0" layoutY="14.0" onAction="#onCompleteGoalsClick" text="Complete" />
                   <Button layoutX="411.0" layoutY="14.0" onAction="#onDeleteGoalsClick" text="Delete" />
-                  <Button layoutX="336.0" layoutY="13.0" onAction="#onLogoffButtonClick" text="Logoff" />
+                  <Button layoutX="580.0" layoutY="14.0" onAction="#onLogoffButtonClick" text="Log Off" />
                       </children>
                   </AnchorPane>
             </items>
         </SplitPane>
 
-        <HBox id="HBox" alignment="CENTER_LEFT" prefHeight="153.0" prefWidth="900.0" spacing="5.0" VBox.vgrow="NEVER">
-            <children>
-                <Label maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="Left status" HBox.hgrow="ALWAYS">
-                    <font>
-                        <Font size="11.0" fx:id="x3" />
-                    </font>
-                    <textFill>
-                        <Color red="0.625" green="0.625" blue="0.625" fx:id="x4" />
-                    </textFill>
-                </Label>
-                <Pane prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS" />
-                <Label font="$x3" maxWidth="-1.0" text="Right status" textFill="$x4" HBox.hgrow="NEVER" />
-            </children>
-            <padding>
-                <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-            </padding>
-        </HBox>
-        <!-- Include the navigation bar -->
-        <fx:include source="navbar.fxml" />
     </children>
+    <!-- Include the navigation bar -->
+    <fx:include source="navbar.fxml" />
 </VBox>

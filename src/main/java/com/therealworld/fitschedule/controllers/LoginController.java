@@ -89,9 +89,10 @@ public class LoginController {
             Parent dashboardRoot = dashboardLoader.load();  // Load the FXML file for the dashboard
 
 
+
             // Display the dashboard scene
             Stage stage = (Stage) loginButton.getScene().getWindow();
-            stage.setScene(new Scene(dashboardRoot));
+            stage.setScene(new Scene(dashboardRoot,FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT));
             stage.show();
         } else {
             System.out.println("Login failed. Invalid username or password.");
