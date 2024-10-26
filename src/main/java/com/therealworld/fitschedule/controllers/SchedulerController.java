@@ -259,7 +259,6 @@ public class SchedulerController {
             TextField eventDescriptionTextField = new TextField();
             eventDescriptionTextField.setPromptText("Enter Event Description");
 
-            // New Checkbox for Fitness Event
             // Initialize the fitness event checkbox
             fitnessEventCheckBox = new CheckBox("Is this a fitness event?");
 
@@ -485,8 +484,6 @@ public class SchedulerController {
     private String cleanTimeString(String time) {
         return time.replaceAll("\\s+", " ").trim();  // Replace multiple spaces with one and trim any extra spaces.
     }
-
-
 
 
 

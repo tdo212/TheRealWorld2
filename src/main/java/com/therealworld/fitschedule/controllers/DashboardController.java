@@ -332,7 +332,7 @@ public class DashboardController {
                 .collect(Collectors.toList());
 
         // Calculate the total duration of the workout events in hours
-        int workoutHours = workoutEvents.size();  // Each event is assumed to be 1 hour
+        int workoutHours = workoutEvents.size();
 
         System.out.println("Total workout hours for today: " + workoutHours);
         findAvailableWorkoutSlots(userId, workoutHours);
@@ -438,12 +438,7 @@ public class DashboardController {
         alert.setContentText("Suggested time slot: " + String.join(", ", timeSlots));
     }
 
-    // Placeholder method to assign workout to the selected time slot
-    private void assignWorkoutToTimeSlot(int userId, String[] timeSlot, int duration) {
-        System.out.println("Assigning workout to time slot: " + String.join(", ", timeSlot));
-        // Add logic here to save the workout rescheduling in the database
-    }
-
+    //Insert rescheduled time into the weekly schedule table
     public void insertAcceptedTimeForWorkout(int userId, String[] acceptedTimeSlots, String dayOfWeek,
                                              String eventName, String eventDescription, boolean isFitnessEvent, String weekStartDate) {
         try {
