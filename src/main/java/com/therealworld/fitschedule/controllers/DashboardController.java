@@ -34,18 +34,17 @@ import static com.therealworld.fitschedule.model.DateUtil.getWeekStartDate;
 public class DashboardController {
 
     @FXML
-    private TableView<TodayScheduleRow> todaySchedule;  // TableView for today's schedule
+    TableView<TodayScheduleRow> todaySchedule;  // TableView for today's schedule
 
     @FXML
-    private TableColumn<TodayScheduleRow, String> timeSlotColumn;  // The Time Slot column
+    TableColumn<TodayScheduleRow, String> timeSlotColumn;  // The Time Slot column
     @FXML
-    private TableColumn<TodayScheduleRow, String> eventColumn;  // The Event column
+    TableColumn<TodayScheduleRow, String> eventColumn;  // The Event column
     @FXML
     private PieChart goalsPieChart;
     @FXML
-
-    private SqliteDAO scheduleDAO = new SqliteDAO();
-    private DayTracker dayTracker = new DayTracker();
+    SqliteDAO scheduleDAO = new SqliteDAO();
+    DayTracker dayTracker = new DayTracker();
     private ObservableList<Goal> goals;
 
     public void showAlert(String title, String message, Alert.AlertType alertType) {
@@ -64,7 +63,7 @@ public class DashboardController {
     };
 
     // Populate today's schedule
-    private void populateTodaySchedule(int userId) {
+    void populateTodaySchedule(int userId) {
         try {
             // Fetch all schedules for the user for today
             String dayOfWeek = dayTracker.getCurrentDay();
@@ -314,13 +313,13 @@ public class DashboardController {
     }
 
     // Helper method to determine the next day of the week
-    private String getNextDay() {
+    String getNextDay() {
         DayOfWeek currentDay = LocalDate.now().getDayOfWeek();
         DayOfWeek nextDay = currentDay.plus(1);  // Get the next day
         return capitalizeFirstLetter(nextDay.toString()); // Ensure formatting matches DB columns
     }
 
-    private int calculateWorkoutHoursToday(int userId) {
+    int calculateWorkoutHoursToday(int userId) {
         // Get the current day
         String dayOfWeek = dayTracker.getCurrentDay();
 
@@ -344,7 +343,7 @@ public class DashboardController {
 
     private boolean workoutRescheduled = false;  // Flag to prevent duplicate scheduling
 
-    private List<String[]> findAvailableWorkoutSlots(int userId, int workoutHours) {
+    List<String[]> findAvailableWorkoutSlots(int userId, int workoutHours) {
         List<String[]> availableSlots = new ArrayList<>();
 
         // Calculate the next day and retrieve its schedule
