@@ -3,6 +3,7 @@ package com.therealworld.fitschedule.controllers;
 import com.therealworld.fitschedule.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,10 +12,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.testfx.framework.junit5.ApplicationExtension;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -93,4 +93,68 @@ public class DashboardControllerTest {
 
         assertTrue(availableSlots.size() > 0, "Should return available slot options for workout.");
     }
+
+    @Test
+    public void testPopulateTodaySchedule_withNoEvents() {
+        int userId = 1;
+        when(scheduleDAO.getCommitmentsForDay(userId, "Monday")).thenReturn(Collections.emptyList());
+
+        dashboardController.populateTodaySchedule(userId);
+
+        // Verify all time slots are marked as free
+        long freeSlots = dashboardController.todaySchedule.getItems().stream()
+                .filter(row -> row.getEventName().isEmpty())
+                .count();
+        assertEquals(24, freeSlots, "All time slots should be free");
+    }
+    @Test
+    public void testGetNextDay() {
+        LocalDate today = LocalDate.now();
+        String expectedNextDay = today.plusDays(1).getDayOfWeek().toString();
+        assertEquals(expectedNextDay, dashboardController.getNextDay().toUpperCase(), "Next day calculation should match");
+    }
+
+    @Test
+    public void testFindAvailableWorkoutSlots_noFreeSlots() {
+        int userId = 1;
+        int workoutHours = 1;
+        String nextDay = dashboardController.getNextDay();
+
+        List<Schedule> fullyBookedSchedule = Arrays.stream(dashboardController.timeSlots)
+                .map(time -> new Schedule(nextDay, "Event", "", time, "", false))
+                .collect(Collectors.toList());
+
+        when(scheduleDAO.getCommitmentsForDay(userId, nextDay)).thenReturn(fullyBookedSchedule);
+
+        List<String[]> availableSlots = dashboardController.findAvailableWorkoutSlots(userId, workoutHours);
+
+        assertTrue(availableSlots.isEmpty(), "There should be no available slots for a fully booked day");
+    }
+
+    @Test
+    public void testCalculateWorkoutHoursToday_mixedEventTypes() {
+        int userId = 1;
+        String today = dayTracker.getCurrentDay();
+
+        List<Schedule> mixedEvents = Arrays.asList(
+                new Schedule(today, "Workout", "", "7:00 AM", "", true),
+                new Schedule(today, "Meeting", "", "9:00 AM", "", false),
+                new Schedule(today, "Gym", "", "6:00 PM", "", true)
+        );
+
+        when(scheduleDAO.getCommitmentsForDay(userId, today)).thenReturn(mixedEvents);
+
+        int workoutHours = dashboardController.calculateWorkoutHoursToday(userId);
+
+        assertEquals(2, workoutHours, "Only fitness events should be counted");
+    }
+
+    @Test
+    public void testCapitalizeFirstLetter() {
+        assertEquals("Monday", dashboardController.capitalizeFirstLetter("monday"));
+        assertEquals("Tuesday", dashboardController.capitalizeFirstLetter("TUESDAY"));
+        assertEquals("", dashboardController.capitalizeFirstLetter(""));
+        assertNull(dashboardController.capitalizeFirstLetter(null));
+    }
+
 }

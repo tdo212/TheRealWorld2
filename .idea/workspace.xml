@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="764ab08b-92db-428a-9811-fe61d0ba3206" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/therealworld/fitschedule/controllers/DashboardControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/DashboardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/DashboardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/DashboardController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/DashboardController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/therealworld/fitschedule/controllers/DashboardControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/therealworld/fitschedule/controllers/DashboardControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,6 +67,7 @@
     "Application.FitScheduleApp.executor": "Run",
     "Application.HelloApplication.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.DashboardControllerTest.executor": "Run",
     "JUnit.LoginControllerTest.executor": "Run",
     "JUnit.RegisterController.executor": "Run",
     "JUnit.RegisterControllerTest.executor": "Run",
@@ -122,7 +119,7 @@
       <recent name="com.therealworld.fitschedule.controllers" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.FitScheduleApp">
+  <component name="RunManager" selected="JUnit.DashboardControllerTest">
     <configuration name="FitScheduleApp" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="corretto-21" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />

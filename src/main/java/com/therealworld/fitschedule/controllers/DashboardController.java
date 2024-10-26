@@ -56,7 +56,7 @@ public class DashboardController {
     }
 
     // Predefined time slots (24-hour format for simplicity)
-    private final String[] timeSlots = {
+    final String[] timeSlots = {
             "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM", "6:00 AM", "7:00 AM", "8:00 AM",
             "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM",
             "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM"
@@ -305,7 +305,7 @@ public class DashboardController {
     }
 
     // Helper method to normalize the dayOfWeek string (capitalize first letter)
-    private String capitalizeFirstLetter (String dayOfWeek){
+    String capitalizeFirstLetter(String dayOfWeek){
         if (dayOfWeek == null || dayOfWeek.isEmpty()) {
             return dayOfWeek;
         }
@@ -388,7 +388,7 @@ public class DashboardController {
 
 
 
-    private void showRescheduleAlert(int userId, List<String[]> availableSlots, int workoutHours) {
+    void showRescheduleAlert(int userId, List<String[]> availableSlots, int workoutHours) {
         if (availableSlots.isEmpty()) {
             System.out.println("No available time slots found for rescheduling.");
             return;
