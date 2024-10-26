@@ -23,11 +23,11 @@ import java.io.IOException;
 
 public class LoginController {
     @FXML
-    private TextField usernameField;
+    TextField usernameField;
     @FXML
-    private PasswordField passwordField;
+    PasswordField passwordField;
     @FXML
-    private Button loginButton;
+    Button loginButton;
     @FXML
     private Button registerButton;
     @FXML
@@ -38,7 +38,7 @@ public class LoginController {
     @FXML
     private ImageView logo; // ImageView for the logo
 
-    private SqliteDAO userDAO = new SqliteDAO();
+    SqliteDAO userDAO = new SqliteDAO();
 
     @FXML
     public void initialize() {
@@ -66,6 +66,12 @@ public class LoginController {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
+        // Check if either the username or password field is empty
+        if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            showAlert("Error", "Username or Password cannot be empty.", Alert.AlertType.ERROR);
+            return; // Stop further processing if fields are empty
+        }
+
         // Authenticate the user
         boolean isAuthenticated = userDAO.authenticateUser(username, password);
 
@@ -78,7 +84,6 @@ public class LoginController {
 
             System.out.println("User ID set in session: " + userId);
 
-
             SqliteDAO dao = new SqliteDAO();
             String weekStartDate = DateUtil.getWeekStartDate(0);
             dao.createWeeklyScheduleTable(weekStartDate, userId);
@@ -88,17 +93,16 @@ public class LoginController {
             FXMLLoader dashboardLoader = new FXMLLoader(FitScheduleApp.class.getResource("/com/therealworld/fitschedule/dashboard-view.fxml"));
             Parent dashboardRoot = dashboardLoader.load();  // Load the FXML file for the dashboard
 
-
-
             // Display the dashboard scene
             Stage stage = (Stage) loginButton.getScene().getWindow();
-            stage.setScene(new Scene(dashboardRoot,FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT));
+            stage.setScene(new Scene(dashboardRoot, FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT));
             stage.show();
         } else {
             System.out.println("Login failed. Invalid username or password.");
             showAlert("Error", "Invalid username or password.", Alert.AlertType.ERROR);
         }
     }
+
 
 
 

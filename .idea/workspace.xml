@@ -5,102 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="764ab08b-92db-428a-9811-fe61d0ba3206" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/allclasses-index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/allpackages-index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/com.therealworld.fitschedule/com/therealworld/fitschedule/FitScheduleApp.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/com.therealworld.fitschedule/com/therealworld/fitschedule/controllers/DashboardController.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/com.therealworld.fitschedule/com/therealworld/fitschedule/controllers/EditGoalsController.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/com.therealworld.fitschedule/com/therealworld/fitschedule/controllers/GoalsController.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/com.therealworld.fitschedule/com/therealworld/fitschedule/controllers/LoginController.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/com.therealworld.fitschedule/com/therealworld/fitschedule/controllers/NavigationController.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/com.therealworld.fitschedule/com/therealworld/fitschedule/controllers/ProfileController.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/com.therealworld.fitschedule/com/therealworld/fitschedule/controllers/RegisterController.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/com.therealworld.fitschedule/com/therealworld/fitschedule/controllers/SchedulerController.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/com.therealworld.fitschedule/com/therealworld/fitschedule/controllers/package-summary.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/com.therealworld.fitschedule/com/therealworld/fitschedule/controllers/package-tree.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/com.therealworld.fitschedule/com/therealworld/fitschedule/model/DayTracker.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/com.therealworld.fitschedule/com/therealworld/fitschedule/model/FitScheduleDBConnection.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/com.therealworld.fitschedule/com/therealworld/fitschedule/model/Goal.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/com.therealworld.fitschedule/com/therealworld/fitschedule/model/Schedule.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/com.therealworld.fitschedule/com/therealworld/fitschedule/model/ScheduleRow.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/com.therealworld.fitschedule/com/therealworld/fitschedule/model/SqliteDAO.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/com.therealworld.fitschedule/com/therealworld/fitschedule/model/TodayScheduleRow.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/com.therealworld.fitschedule/com/therealworld/fitschedule/model/User.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/com.therealworld.fitschedule/com/therealworld/fitschedule/model/UserProfile.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/com.therealworld.fitschedule/com/therealworld/fitschedule/model/UserSession.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/com.therealworld.fitschedule/com/therealworld/fitschedule/model/package-summary.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/com.therealworld.fitschedule/com/therealworld/fitschedule/model/package-tree.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/com.therealworld.fitschedule/com/therealworld/fitschedule/package-summary.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/com.therealworld.fitschedule/com/therealworld/fitschedule/package-tree.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/com.therealworld.fitschedule/module-summary.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/constant-values.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/copy.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/element-list" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/help-doc.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/index-files/index-1.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/index-files/index-10.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/index-files/index-11.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/index-files/index-12.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/index-files/index-13.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/index-files/index-14.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/index-files/index-15.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/index-files/index-16.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/index-files/index-17.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/index-files/index-18.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/index-files/index-19.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/index-files/index-2.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/index-files/index-20.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/index-files/index-3.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/index-files/index-4.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/index-files/index-5.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/index-files/index-6.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/index-files/index-7.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/index-files/index-8.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/index-files/index-9.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/legal/ADDITIONAL_LICENSE_INFO" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/legal/ASSEMBLY_EXCEPTION" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/legal/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/legal/jquery.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/legal/jqueryUI.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/link.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/member-search-index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/module-search-index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/overview-tree.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/package-search-index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/resources/glass.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/resources/x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/script-dir/jquery-3.6.1.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/script-dir/jquery-ui.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/script-dir/jquery-ui.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/script.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/search-page.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/search.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/search.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/stylesheet.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/tag-search-index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/javadoc/type-search-index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fitschedule.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/therealworld/fitschedule/controllers/LoginControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/therealworld/fitschedule/controllers/RegisterControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_10_2024__12_03_pm__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_10_2024__12_03_pm__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_10_2024__12_03_pm__Changes_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_10_2024__12_03_pm__Changes_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FitScheduleDBConnection.db" beforeDir="false" afterPath="$PROJECT_DIR$/FitScheduleDBConnection.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/FitScheduleApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/FitScheduleApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/DashboardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/DashboardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/EditGoalsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/EditGoalsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/SchedulerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/SchedulerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/DateUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/DateUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/DayTracker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/DayTracker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/Goal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/Goal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/Schedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/Schedule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/SqliteDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/model/SqliteDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/therealworld/fitschedule/controllers/LoginController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/FitScheduleApp.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/FitScheduleApp.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/DashboardController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/DashboardController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/EditGoalsController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/EditGoalsController$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/EditGoalsController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/EditGoalsController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/SchedulerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/SchedulerController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/DateUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/DateUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/Goal.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/Goal.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/Schedule.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/Schedule.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/SqliteDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/model/SqliteDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/LoginController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/ProfileController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/ProfileController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/therealworld/fitschedule/mockedStatic.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -162,14 +83,19 @@
     "Application.FitScheduleApp.executor": "Run",
     "Application.HelloApplication.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.LoginControllerTest.executor": "Run",
+    "JUnit.RegisterControllerTest.executor": "Run",
+    "JUnit.Unnamed.executor": "Run",
     "JUnit.databaseTest.executor": "Run",
     "Maven.fitschedule [clean].executor": "Run",
+    "Maven.fitschedule [compile].executor": "Run",
+    "Maven.fitschedule [test].executor": "Run",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
     "Repository.Attach.Sources": "false",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "Merging master",
+    "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/benpt/IdeaProjects/TheRealWorld2",
     "node.js.detected.package.eslint": "true",
@@ -207,7 +133,7 @@
       <recent name="com.therealworld.fitschedule.controllers" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.FitScheduleApp">
+  <component name="RunManager" selected="JUnit.RegisterController">
     <configuration name="FitScheduleApp" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="corretto-21" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -219,6 +145,28 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RegisterController" type="JUnit" factoryName="JUnit">
+      <module name="fitschedule" />
+      <option name="PACKAGE_NAME" value="com.therealworld.fitschedule.controllers" />
+      <option name="MAIN_CLASS_NAME" value="com.therealworld.fitschedule.controllers.RegisterControllerTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="--add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED " />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Unnamed" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="fitschedule" />
+      <option name="PACKAGE_NAME" value="com.therealworld.fitschedule.controllers" />
+      <option name="MAIN_CLASS_NAME" value="com.therealworld.fitschedule.controllers.LoginControllerTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="--add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED --add-exports javafx.base/com.sun.javafx.collections=ALL-UNNAMED " />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -247,6 +195,8 @@
     </configuration>
     <list>
       <item itemvalue="Application.FitScheduleApp" />
+      <item itemvalue="JUnit.RegisterController" />
+      <item itemvalue="JUnit.Unnamed" />
       <item itemvalue="JUnit.databaseTest" />
     </list>
     <recent_temporary>
