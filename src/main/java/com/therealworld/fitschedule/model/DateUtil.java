@@ -28,7 +28,13 @@ public class DateUtil {
     }
 
 
-    // Helper method to capitalize the first letter and make the rest lowercase
+    /**
+     * Capitalizes the first letter of the input string and converts the rest of the characters to lowercase.
+     *
+     * @param input The string to be formatted.
+     * @return The formatted string with the first letter capitalized and the rest in lowercase.
+     *         If the input is null or empty, it returns the input as is.
+     */
     public String capitalizeFirstLetter(String input) {
         if (input == null || input.isEmpty()) {
             return input;

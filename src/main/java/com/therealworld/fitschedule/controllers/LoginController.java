@@ -21,25 +21,31 @@ import javafx.scene.Parent;
 
 import java.io.IOException;
 
+/**
+ * Controller for managing login operations and user authentication.
+ */
 public class LoginController {
     @FXML
-    TextField usernameField;
+    TextField usernameField; // TextField for entering the username
     @FXML
-    PasswordField passwordField;
+    PasswordField passwordField; // PasswordField for entering the password
     @FXML
-    Button loginButton;
+    Button loginButton; // Button to trigger login action
     @FXML
-    private Button registerButton;
+    private Button registerButton; // Button to navigate to registration view
     @FXML
-    private Button cancelButton;
+    private Button cancelButton; // Button to cancel login and close the application
     @FXML
-    private VBox loginContainer;
+    private VBox loginContainer; // Container for login fields and buttons
+    @FXML
+    private ImageView logo; // ImageView to display the application logo
 
-    @FXML
-    private ImageView logo; // ImageView for the logo
+    private SqliteDAO userDAO = new SqliteDAO(); // DAO for interacting with the database
 
-    SqliteDAO userDAO = new SqliteDAO();
-
+    /**
+     * Initializes the login view by setting up focus management, logo image loading, and event handling.
+     * This method is called automatically upon view loading.
+     */
     @FXML
     public void initialize() {
         // Set focus on the VBox after the scene is fully loaded
@@ -61,6 +67,12 @@ public class LoginController {
         }
     }
 
+    /**
+     * Handles the login button click event, authenticating the user with the provided credentials.
+     * If successful, it initializes the session and loads the dashboard view.
+     *
+     * @throws IOException if loading the dashboard view fails.
+     */
     @FXML
     protected void onLoginButtonClick() throws IOException {
         String username = usernameField.getText();
@@ -78,9 +90,9 @@ public class LoginController {
         if (isAuthenticated) {
             System.out.println("Login successful");
 
-            int userId = userDAO.getUserId(username);  // Get the user ID from the database
+            int userId = userDAO.getUserId(username); // Get the user ID from the database
             UserSession userSession = UserSession.getInstance();
-            userSession.getInstance().setUserId(userId);  // Set the user ID globally
+            userSession.setUserId(userId); // Set the user ID globally
 
             System.out.println("User ID set in session: " + userId);
 
@@ -91,7 +103,7 @@ public class LoginController {
 
             // Load and display the dashboard view
             FXMLLoader dashboardLoader = new FXMLLoader(FitScheduleApp.class.getResource("/com/therealworld/fitschedule/dashboard-view.fxml"));
-            Parent dashboardRoot = dashboardLoader.load();  // Load the FXML file for the dashboard
+            Parent dashboardRoot = dashboardLoader.load(); // Load the FXML file for the dashboard
 
             // Display the dashboard scene
             Stage stage = (Stage) loginButton.getScene().getWindow();
@@ -103,9 +115,13 @@ public class LoginController {
         }
     }
 
-
-
-
+    /**
+     * Displays an alert dialog with the specified title, content, and alert type.
+     *
+     * @param title     The title of the alert dialog.
+     * @param content   The message content of the alert dialog.
+     * @param alertType The type of alert (e.g., error, information).
+     */
     @FXML
     private void showAlert(String title, String content, Alert.AlertType alertType) {
         Alert alert = new Alert(alertType);
@@ -114,6 +130,11 @@ public class LoginController {
         alert.showAndWait();
     }
 
+    /**
+     * Handles the register button click event, navigating the user to the registration view.
+     *
+     * @throws IOException if loading the registration view fails.
+     */
     @FXML
     protected void onRegisterButtonClick() throws IOException {
         Stage stage = (Stage) registerButton.getScene().getWindow();
@@ -122,9 +143,13 @@ public class LoginController {
         stage.setScene(scene);
     }
 
+    /**
+     * Handles the cancel button click event, closing the application.
+     */
     @FXML
     protected void onCancelButtonClick() {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }
 }
+
