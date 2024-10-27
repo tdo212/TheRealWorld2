@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -18,6 +19,7 @@ import java.io.IOException;
 
 import static org.mockito.Mockito.*;
 
+@Tag("gui")  // Tag added to exclude this test from CI/CD when specified
 @ExtendWith(ApplicationExtension.class)
 class LoginControllerTest {
 
