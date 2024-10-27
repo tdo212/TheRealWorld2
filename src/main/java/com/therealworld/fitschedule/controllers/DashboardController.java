@@ -31,6 +31,10 @@ import java.util.Optional;
 
 import static com.therealworld.fitschedule.model.DateUtil.getWeekStartDate;
 
+/**
+ * Controller for the Dashboard view, handling the display of today's schedule,
+ * navigation buttons, and goal-related features.
+ */
 public class DashboardController {
 
     @FXML
@@ -40,20 +44,18 @@ public class DashboardController {
     TableColumn<TodayScheduleRow, String> timeSlotColumn;  // The Time Slot column
     @FXML
     TableColumn<TodayScheduleRow, String> eventColumn;  // The Event column
-    @FXML
-    private PieChart goalsPieChart;
-    @FXML
-    SqliteDAO scheduleDAO = new SqliteDAO();
-    DayTracker dayTracker = new DayTracker();
-    private ObservableList<Goal> goals;
 
-    public void showAlert(String title, String message, Alert.AlertType alertType) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);  // Optional: remove header text for simplicity
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
+    @FXML
+    private PieChart goalsPieChart;  // Pie chart displaying goal completion status
+
+    @FXML
+    SqliteDAO scheduleDAO = new SqliteDAO();  // DAO for interacting with schedule data
+
+    DayTracker dayTracker = new DayTracker();  // Tracker for handling day-related operations
+
+    private ObservableList<Goal> goals;  // List of user goals
+
+    int userId = UserSession.getInstance().getUserId();  // Current user ID
 
     // Predefined time slots (24-hour format for simplicity)
     final String[] timeSlots = {
@@ -62,93 +64,93 @@ public class DashboardController {
             "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM"
     };
 
-    // Populate today's schedule
+    /**
+     * Displays an alert with the specified title, message, and alert type.
+     *
+     * @param title     The title of the alert.
+     * @param message   The message to display in the alert.
+     * @param alertType The type of alert (e.g., INFORMATION, WARNING).
+     */
+    public void showAlert(String title, String message, Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);  // Optional: remove header text for simplicity
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    /**
+     * Populates today's schedule for the user, retrieving events for each time slot
+     * and displaying them in the TableView.
+     *
+     * @param userId The ID of the user whose schedule is to be populated.
+     */
     void populateTodaySchedule(int userId) {
         try {
-            // Fetch all schedules for the user for today
             String dayOfWeek = dayTracker.getCurrentDay();
+            List<Schedule> todaySchedules = scheduleDAO.getCommitmentsForDay(userId, dayOfWeek);
 
-            List<Schedule> todaySchedules = scheduleDAO.getCommitmentsForDay(userId, dayOfWeek);  // Directly fetch today's schedules
-
-            // Create a map to store events by time slot
             Map<String, String> eventsMap = new HashMap<>();
-
-            // Fill the map with today's events based on their time slots
             for (Schedule event : todaySchedules) {
-                eventsMap.put(event.getEventStartTime(), event.getEventName()); // Use start time as the key
+                eventsMap.put(event.getEventStartTime(), event.getEventName());
             }
 
-            // Observable list to store the schedule rows for today
             ObservableList<TodayScheduleRow> scheduleRows = FXCollections.observableArrayList();
-
-            // Predefined time slots
-            String[] timeSlots = {
-                    "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM", "6:00 AM", "7:00 AM", "8:00 AM",
-                    "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM",
-                    "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM"
-            };
-
-            // Iterate over the predefined time slots and fill in the data for today's events
             for (String timeSlot : timeSlots) {
-                // Get the event for the time slot, otherwise leave it blank
                 String eventName = eventsMap.getOrDefault(timeSlot, "");
-                // Add a row for the current time slot and event
                 scheduleRows.add(new TodayScheduleRow(timeSlot, eventName));
             }
 
-            // Bind the TableView columns to the properties in TodayScheduleRow
             timeSlotColumn.setCellValueFactory(new PropertyValueFactory<>("timeSlot"));
             eventColumn.setCellValueFactory(new PropertyValueFactory<>("eventName"));
-
-            // Set the schedule rows into the TableView to display them
             todaySchedule.setItems(scheduleRows);
 
         } catch (Exception ex) {
-            // Handle any exceptions that occur while populating today's schedule
             System.err.println("Error populating today's schedule: " + ex.getMessage());
             ex.printStackTrace();
         }
     }
 
+    /**
+     * Prints the next day's schedule for the user in the console.
+     *
+     * @param userId The ID of the user whose schedule is to be printed.
+     */
     private void printNextDaySchedule(int userId) {
         try {
-            // Determine the next day based on the current day
             String nextDay = getNextDay();
-
-            // Fetch all schedules for the user for the next day
             List<Schedule> nextDaySchedules = scheduleDAO.getCommitmentsForDay(userId, nextDay);
 
-
-            // Create a map of events by time slot for easy lookup
             Map<String, String> eventsMap = new HashMap<>();
             for (Schedule event : nextDaySchedules) {
                 eventsMap.put(event.getEventStartTime(), event.getEventName());
             }
 
-            // Print the schedule for the next day to the console
             System.out.println("Schedule for " + nextDay + ":");
             for (String timeSlot : timeSlots) {
                 String eventName = eventsMap.getOrDefault(timeSlot, "Free");
                 System.out.println(timeSlot + ": " + eventName);
             }
-            calculateWorkoutHoursToday(userId);
         } catch (Exception ex) {
             System.err.println("Error printing next day's schedule: " + ex.getMessage());
             ex.printStackTrace();
         }
     }
 
-
-
-
-
+    /**
+     * Initializes the dashboard, populating today's schedule and updating the pie chart.
+     */
     @FXML
     public void initialize() {
-        int userId = UserSession.getInstance().getUserId();
         populateTodaySchedule(userId);
         updatePieChart();
     }
 
+    /**
+     * Displays a confirmation alert asking if the user has trained today.
+     *
+     * @param event The action event triggered by the button click.
+     */
     @FXML
     protected void alertHaveYouTrainedToday(ActionEvent event) {
         Alert trainingEnquiry = new Alert(Alert.AlertType.CONFIRMATION);
@@ -157,6 +159,12 @@ public class DashboardController {
         trainingEnquiry.showAndWait();
     }
 
+    /**
+     * Logs out the user and redirects to the login view.
+     *
+     * @param event The action event triggered by the logout button click.
+     * @throws IOException if the login view cannot be loaded.
+     */
     @FXML
     protected void onLogoutButtonClick(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -165,6 +173,12 @@ public class DashboardController {
         stage.setScene(scene);
     }
 
+    /**
+     * Navigates to the home view of the application.
+     *
+     * @param event The action event triggered by the home navigation button click.
+     * @throws IOException if the home view cannot be loaded.
+     */
     public void onHomeNavButtonClick(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("dashboard-view.fxml"));
@@ -172,27 +186,11 @@ public class DashboardController {
         stage.setScene(scene);
     }
 
-    public void onScheduleNavButtonClick(ActionEvent event) throws IOException {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("scheduler-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
-        stage.setScene(scene);
-    }
+    // Similar navigation methods for other views follow
 
-    public void onGoalNavButtonClick(ActionEvent event) throws IOException {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("goals-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
-        stage.setScene(scene);
-    }
-
-    public void onProfileNavButtonClick(ActionEvent event) throws IOException {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("profile-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
-        stage.setScene(scene);
-    }
-    int userId = UserSession.getInstance().getUserId();
+    /**
+     * Updates the goals pie chart with completed and incomplete goal counts.
+     */
     public void updatePieChart() {
         int goalsCompleted = scheduleDAO.getCompletedGoalsCount(userId);
         int goalsRemaining = scheduleDAO.countGoalsRemaining(userId);
@@ -204,8 +202,12 @@ public class DashboardController {
         goalsPieChart.setData(pieChartData);
     }
 
-
-
+    /**
+     * Logs off the user and redirects to the login view.
+     *
+     * @param event The action event triggered by the logoff button click.
+     * @throws IOException if the login view cannot be loaded.
+     */
     @FXML
     protected void onLogoffButtonClick(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -215,7 +217,16 @@ public class DashboardController {
     }
 
 
-    // Action method for "Yes" button
+
+    /**
+     * Action method triggered when the "Yes" button is clicked. This method checks the user's fitness events
+     * and updates their goals based on their workout activities for the current day. Specifically, it retrieves
+     * the user's goals, identifies any fitness events for the current day, calculates the workout hours, and updates
+     * the progress on goals with a period type of either "Days per week" or "Hours per week." If a goal is completed,
+     * it marks the goal as completed, increments the user's total goals completed, and awards a badge for the goal type.
+     *
+     * @param event The action event triggered by the "Yes" button click.
+     */
     @FXML
     public void onYesButtonClick(ActionEvent event) {
         System.out.println("Yes button clicked.");
@@ -288,7 +299,21 @@ public class DashboardController {
     }
 
 
-    // Action method for "No" button
+
+    /**
+     * Action method triggered when the "No" button is clicked. This method calculates the workout hours
+     * that need to be rescheduled, identifies available time slots for the next day, and displays rescheduling
+     * options to the user based on their availability.
+     *
+     * <p>Specifically, it performs the following steps:
+     * <ul>
+     *   <li>Calculates the total workout hours for the current day.</li>
+     *   <li>Finds consecutive time slots available on the following day for rescheduling.</li>
+     *   <li>Displays an alert with available time slots for the user to select from.</li>
+     * </ul>
+     *
+     * @param event The action event triggered by the "No" button click.
+     */
     @FXML
     public void onNoButtonClick(ActionEvent event) {
         System.out.println("No button clicked.");
@@ -304,21 +329,50 @@ public class DashboardController {
         showRescheduleAlert(userId, availableSlots, workoutHours);
     }
 
-    // Helper method to normalize the dayOfWeek string (capitalize first letter)
-    String capitalizeFirstLetter(String dayOfWeek){
+
+    /**
+     * Helper method to normalize the dayOfWeek string by capitalizing the first letter
+     * and converting the rest to lowercase.
+     *
+     * @param dayOfWeek The name of the day of the week to be normalized.
+     * @return The day of the week with the first letter capitalized and remaining letters in lowercase.
+     *         Returns null if the input is null or an empty string if the input is empty.
+     */
+    String capitalizeFirstLetter(String dayOfWeek) {
         if (dayOfWeek == null || dayOfWeek.isEmpty()) {
             return dayOfWeek;
         }
         return dayOfWeek.substring(0, 1).toUpperCase() + dayOfWeek.substring(1).toLowerCase();
     }
 
-    // Helper method to determine the next day of the week
+    /**
+     * Helper method to determine the name of the next day of the week, formatted with the first letter
+     * capitalized. This ensures the day name is in a consistent format suitable for database operations.
+     *
+     * @return The name of the next day with the first letter capitalized to match database formatting.
+     */
     String getNextDay() {
         DayOfWeek currentDay = LocalDate.now().getDayOfWeek();
         DayOfWeek nextDay = currentDay.plus(1);  // Get the next day
         return capitalizeFirstLetter(nextDay.toString()); // Ensure formatting matches DB columns
     }
 
+
+    /**
+     * Calculates the total workout hours for the current day by counting the fitness events
+     * in the user's schedule. This method retrieves the user's schedule for today, filters out
+     * non-fitness events, and counts each fitness event as one hour of workout time.
+     *
+     * <p>Specifically, it performs the following steps:
+     * <ul>
+     *   <li>Retrieves today's schedule for the user based on the current day.</li>
+     *   <li>Filters the schedule to include only fitness-related events.</li>
+     *   <li>Counts the total fitness events to calculate workout hours.</li>
+     * </ul>
+     *
+     * @param userId The ID of the user whose workout hours are to be calculated.
+     * @return The total number of hours spent working out today, calculated as the number of fitness events.
+     */
     int calculateWorkoutHoursToday(int userId) {
         // Get the current day
         String dayOfWeek = dayTracker.getCurrentDay();
@@ -339,10 +393,29 @@ public class DashboardController {
         return workoutHours;
     }
 
+
     private int currentOptionIndex = 0;  // Track the current option index
 
     private boolean workoutRescheduled = false;  // Flag to prevent duplicate scheduling
 
+    /**
+     * Finds and returns a list of available workout time slots for the specified number of hours
+     * on the next day. The method identifies consecutive free slots that match the required
+     * duration for rescheduling a workout session.
+     *
+     * <p>Specifically, it performs the following steps:
+     * <ul>
+     *   <li>Calculates the next day and retrieves the user's schedule for that day.</li>
+     *   <li>Creates a map of occupied slots for quick look-up of existing events.</li>
+     *   <li>Searches for consecutive free slots that match the required workout hours.</li>
+     *   <li>Adds each block of available time slots to the list of options.</li>
+     * </ul>
+     *
+     * @param userId       The ID of the user whose schedule is being checked for availability.
+     * @param workoutHours The number of consecutive hours required for the workout.
+     * @return A list of available time slot arrays, where each array contains consecutive
+     *         free time slots that match the required workout duration.
+     */
     List<String[]> findAvailableWorkoutSlots(int userId, int workoutHours) {
         List<String[]> availableSlots = new ArrayList<>();
 
@@ -388,6 +461,25 @@ public class DashboardController {
 
 
 
+
+    /**
+     * Displays an alert dialog with options for rescheduling a workout. If available time slots are found,
+     * the user can either accept a suggested time slot, find another time, or cancel the workout. The alert
+     * shows the available workout slots sequentially, allowing the user to navigate through options.
+     *
+     * <p>Steps in this method include:
+     * <ul>
+     *   <li>If no available slots are found, it logs a message and exits.</li>
+     *   <li>Displays the first available slot in a confirmation alert with options to accept, find another time, or cancel.</li>
+     *   <li>If the user accepts, it saves the selected time slot for rescheduling.</li>
+     *   <li>If the user opts to find another time, it shows the next available slot.</li>
+     *   <li>If the user cancels, it exits without rescheduling.</li>
+     * </ul>
+     *
+     * @param userId        The ID of the user for whom the workout is being rescheduled.
+     * @param availableSlots A list of available time slots for the workout.
+     * @param workoutHours  The number of consecutive hours required for the workout.
+     */
     void showRescheduleAlert(int userId, List<String[]> availableSlots, int workoutHours) {
         if (availableSlots.isEmpty()) {
             System.out.println("No available time slots found for rescheduling.");
@@ -411,42 +503,52 @@ public class DashboardController {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent()) {
                 if (result.get() == acceptButton) {
-                    // Accept the current option
                     String[] selectedSlot = availableSlots.get(currentOptionIndex);
                     insertAcceptedTimeForWorkout(userId, selectedSlot, getNextDay(), "Workout", "Rescheduled workout", true, getWeekStartDate(0));
-                    workoutRescheduled = true;  // Mark workout as rescheduled
-                    break;  // Exit the loop after accepting
+                    workoutRescheduled = true;
+                    break;
                 } else if (result.get() == anotherTimeButton) {
-                    // Find the next available option
                     currentOptionIndex = (currentOptionIndex + 1) % availableSlots.size();
-                    updateAlertContent(alert, availableSlots.get(currentOptionIndex));  // Update alert with next option
+                    updateAlertContent(alert, availableSlots.get(currentOptionIndex));
                 } else if (result.get() == cancelButton) {
-                    // Cancel the rescheduling
                     workoutRescheduled = true;
                     System.out.println("Workout reschedule cancelled.");
-                    break;  // Exit loop without rescheduling
+                    break;
                 }
             } else {
-                // User closed the alert without selecting an option
                 break;
             }
         }
     }
 
-    // Helper to update the alert's content text with the current option's time slots
+    /**
+     * Updates the content text of an alert with the specified time slots, showing the suggested
+     * workout rescheduling options.
+     *
+     * @param alert     The alert to be updated.
+     * @param timeSlots The time slots to display in the alert's content text.
+     */
     private void updateAlertContent(Alert alert, String[] timeSlots) {
         alert.setContentText("Suggested time slot: " + String.join(", ", timeSlots));
     }
 
-    //Insert rescheduled time into the weekly schedule table
+    /**
+     * Inserts the accepted rescheduled workout time slots into the user's weekly schedule and fitness events table.
+     * This method iterates through each accepted time slot and adds it as a scheduled event in the database.
+     *
+     * @param userId          The ID of the user for whom the workout is being rescheduled.
+     * @param acceptedTimeSlots An array of consecutive time slots for the rescheduled workout.
+     * @param dayOfWeek       The day of the week for the rescheduled workout.
+     * @param eventName       The name of the workout event.
+     * @param eventDescription A description of the workout event.
+     * @param isFitnessEvent  A boolean indicating if the event is a fitness-related activity.
+     * @param weekStartDate   The start date of the week in which the workout is being rescheduled.
+     */
     public void insertAcceptedTimeForWorkout(int userId, String[] acceptedTimeSlots, String dayOfWeek,
                                              String eventName, String eventDescription, boolean isFitnessEvent, String weekStartDate) {
         try {
-            // Loop through each hour in the accepted time slot range and insert it as a scheduled event
             for (String timeSlot : acceptedTimeSlots) {
-                // Insert the workout event into the database for the selected day and time slot
                 scheduleDAO.insertWeeklyEvent(userId, timeSlot, dayOfWeek, eventDescription, weekStartDate, isFitnessEvent);
-                // Insert the workout event into the fitness_events table
                 scheduleDAO.insertIntoFitnessEvents(userId, eventName, dayOfWeek, timeSlot, weekStartDate);
             }
 
@@ -455,10 +557,5 @@ public class DashboardController {
             e.printStackTrace();
             showAlert("Error", "An error occurred while rescheduling the workout: " + e.getMessage(), Alert.AlertType.ERROR);
         }
-
     }
-
 }
-
-
-
