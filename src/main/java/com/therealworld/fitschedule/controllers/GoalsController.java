@@ -3,6 +3,7 @@ package com.therealworld.fitschedule.controllers;
 import com.therealworld.fitschedule.FitScheduleApp;
 import com.therealworld.fitschedule.model.Goal;
 import com.therealworld.fitschedule.model.SqliteDAO;
+import com.therealworld.fitschedule.model.UserSession;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,10 +20,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-/**
- * Controller class for managing goals in the FitSchedule application.
- * Handles UI interactions and communicates with the database through SqliteDAO.
- */
+
+import static com.therealworld.fitschedule.model.User.username;
+
 public class GoalsController {
 
     @FXML
@@ -43,15 +43,79 @@ public class GoalsController {
     private ListView<String> badgesListView;
     @FXML
     private Label LifetimeCompleted;  // Label to display percentage
-
+    @FXML
+    private Label goalCountLabel1;  // Label to display percentage
+    @FXML
+    private PieChart pieChartLifetime;
+    @FXML
+    private ProgressBar lifetimeProgressBar;
+    @FXML
+    private Label progressLabel2;
+    @FXML
+    private Label UsernameLabel;
     private SqliteDAO databaseHelper = new SqliteDAO();
-    private int goalsCompleted = 0;
-    private int userId = 4444; // Replace with the actual logged-in user ID
+    private int sessionGoalsCompleted = 0;
+    //private int userId = 12; // Replace with the actual logged-in user ID
+    int userId = UserSession.getInstance().getUserId();
+    String username = databaseHelper.getUsernameById(userId);
 
-    /**
-     * Initializes the controller by refreshing the goals list,
-     * updating goal counts, progress bar, and badges.
-     */
+    // Add setter methods for each UI component to allow injection from test classes
+    public void setGoalCountLabel(Label goalCountLabel) {
+        this.goalCountLabel = goalCountLabel;
+    }
+
+    public void setGoalCompletedLabel(Label goalCompletedLabel) {
+        this.goalCompletedLabel = goalCompletedLabel;
+    }
+
+    public void setProgressLabel(Label progressLabel) {
+        this.progressLabel = progressLabel;
+    }
+
+    public void setProgressLabel2(Label progressLabel2) {
+        this.progressLabel2 = progressLabel2;
+    }
+
+    public void setProgressBar(ProgressBar progressBar) {
+        this.progressBar = progressBar;
+    }
+
+    public void setLifetimeProgressBar(ProgressBar lifetimeProgressBar) {
+        this.lifetimeProgressBar = lifetimeProgressBar;
+    }
+
+    public void setContactsListView(ListView<Goal> contactsListView) {
+        this.contactsListView = contactsListView;
+    }
+
+    public void setBadgesListView(ListView<String> badgesListView) {
+        this.badgesListView = badgesListView;
+    }
+
+    public void setPieChart(PieChart pieChart) {
+        this.pieChart = pieChart;
+    }
+
+    public void setPieChartLifetime(PieChart pieChartLifetime) {
+        this.pieChartLifetime = pieChartLifetime;
+    }
+
+    public void setUserIDLabel(Label userIDLabel) {
+        this.UserIDLabel = userIDLabel;
+    }
+
+    public void setLifetimeCompleted(Label lifetimeCompleted) {
+        this.LifetimeCompleted = lifetimeCompleted;
+    }
+
+    public void setGoalCountLabel1(Label goalCountLabel1) {
+        this.goalCountLabel1 = goalCountLabel1;
+    }
+
+    public void setUsernameLabel(Label usernameLabel) {
+        this.UsernameLabel = usernameLabel;
+    }
+
     public void initialize() {
         refreshGoalsList(); // Initialize the list of goals
         displayGoalCount();
@@ -59,14 +123,12 @@ public class GoalsController {
         updateProgressBar();
         refreshBadgesList();
         setStats();
+        updatePieChart();
     }
-    /**
-     * Refreshes the list of goals from the database and updates the ListView.
-     * Also updates goal count, pie chart, and progress bar.
-     */
+
     // Method to refresh the list of goals and update the UI
     public void refreshGoalsList() {
-        ObservableList<Goal> data = databaseHelper.getAllGoals(); // Ensure SqliteDAO returns ObservableList<Goal>
+        ObservableList<Goal> data = databaseHelper.getAllGoals(userId); // Ensure SqliteDAO returns ObservableList<Goal>
 
         System.out.println("Number of items to display: " + data.size());
 
@@ -99,36 +161,38 @@ public class GoalsController {
         displayPieChart();
         updateProgressBar();
         updateGoalsCompleted();
-
+        updateLifeProgressBar();
+        updatePieChart();
     }
-    /**
-     * Displays the total number of remaining goals in the goalCountLabel.
-     */
+
     public void displayGoalCount() {
-        int goalCount = databaseHelper.countGoals();
+        int goalCount = databaseHelper.countGoalsRemaining(userId);
         goalCountLabel.setText("Goals Remaining: " + goalCount);
     }
-    /**
-     * Updates the lifetime stats of the user, such as user ID and total goals completed.
-     */
+
+
+
     public void setStats() {
         int totalGoalsCompleted = databaseHelper.getTotalGoalsCompleted(userId);
+        int totalGoalCount = databaseHelper.countGoals();
         UserIDLabel.setText("User ID: " + userId);
         LifetimeCompleted.setText("Goals Completed (Lifetime): "+  totalGoalsCompleted);
+        goalCountLabel1.setText("Total Goals Completed: " + totalGoalCount);
+        UsernameLabel.setText("Username: " + username);
+
     }
-    /**
-     * Updates the count of goals completed in the current session.
-     */
+
     public void updateGoalsCompleted() {
         int goalsCompleted = 0;
         goalCompletedLabel.setText("Goals Completed (Session): " + completedGoals);
     }
-    /**
-     * Checks if the user has achieved certain milestones in terms of goals completed,
-     * and awards badges accordingly.
-     */
+
     public void checkBadges() {
         int totalGoalsCompleted = databaseHelper.getTotalGoalsCompleted(userId);
+
+        if (totalGoalsCompleted == 0) {
+            databaseHelper.awardBadge(userId, "New Beginnings: Account Created");
+        }
         if (totalGoalsCompleted == 1) {
             databaseHelper.awardBadge(userId, "2 Goals Completed");
         }
@@ -145,48 +209,88 @@ public class GoalsController {
             databaseHelper.awardBadge(userId, "20 Goals Completed");
         }
     }
-    /**
-     * Displays the progress of goals in a pie chart (completed vs incomplete).
-     */
-    public void displayPieChart() {
-        int goalCount = databaseHelper.countGoals();
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-                new PieChart.Data("Completed", completedGoals),
-                new PieChart.Data("Incomplete", goalCount)
-        );
-        pieChart.setData(pieChartData); // Update pie chart with new data
-    }
-    /**
-     * Updates the progress bar and progress label based on the completion percentage of goals.
-     */
-    public void updateProgressBar() {
-        int goalCount = databaseHelper.countGoals(); // Fetch the total number of goals
-       int completedGoals = databaseHelper.getCompletedGoalsCount(); // Fetch the total number of completed goals
 
-        // Avoid division by zero
-        if (goalCount == 0) {
-            progressBar.setProgress(0);  // Set progress to 0 if no goals exist
-            progressLabel.setText("0%");  // Display 0% progress
-            return;
+    public void displayPieChart() {
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+        );
+        int goalCount = databaseHelper.countGoalsRemaining(userId);
+        if (goalCount == 0 && completedGoals == 0) {
+            pieChart.setData(pieChartData); // Update pie chart with new data
+            pieChartData.add(new PieChart.Data("No Goals", 1));
+        } else {
+            ObservableList<PieChart.Data> pieChartDatda = FXCollections.observableArrayList(
+                           new PieChart.Data("Completed", completedGoals),
+                           new PieChart.Data("Incomplete", goalCount)
+            );
+            pieChart.setData(pieChartDatda); // Update pie chart with new data
         }
 
-        // Calculate progress as a double value
-        double progressgoals = (double) completedGoals / goalCount;
 
-        // Set the progress bar based on the calculated value
-        progressBar.setProgress(progressgoals);
 
-        // Convert the progress value to a percentage and update the label
-        int progressPercentage = (int) (progressgoals * 100);
-        progressLabel.setText(progressPercentage + "%");
     }
 
-    /**
-     * Opens a new window for editing the selected goal.
-     * After editing, the goals list is refreshed.
-     *
-     * @param event ActionEvent triggered when the Edit button is clicked.
-     */
+    public void updateProgressBar() {
+        double goalRemaining = databaseHelper.countGoalsRemaining(userId); // Fetch the total number of goals
+
+
+        // Avoid division by zero
+
+        if (goalRemaining <= 0 && completedGoals == 0) {
+            progressBar.setProgress(0);
+        }
+        else if (goalRemaining > 0 && completedGoals > 0) {
+            // Calculate progress as a double value
+            double progressgoals = (double) completedGoals / (goalRemaining + completedGoals);
+
+            // Set the progress bar based on the calculated value
+            progressBar.setProgress(progressgoals);
+
+            // Convert the progress value to a percentage and update the label
+            double progressPercentage = (double) (progressgoals * 100);
+            progressLabel.setText(progressPercentage + "%");
+        }
+        else if (goalRemaining == 0 && completedGoals >= 1) {
+            progressBar.setProgress(1);
+            progressLabel.setText("100%");
+
+        }
+
+    }
+
+    public void updateLifeProgressBar() {
+        double LifetimeRemaining = databaseHelper.countGoalsRemaining(userId); // Fetch the total number of goals
+        double LifetimeCompleted = databaseHelper.getTotalGoalsCompleted(userId);
+
+        // Avoid division by zero
+
+
+        // Calculate progress as a double value
+        double progressgoals1 = (double) LifetimeCompleted / (LifetimeCompleted + LifetimeRemaining);
+
+        // Set the progress bar based on the calculated value
+        lifetimeProgressBar.setProgress(progressgoals1);
+
+        // Convert the progress value to a percentage and update the label
+        double progressPercentage = (double) (progressgoals1 * 100);
+        progressLabel2.setText(progressPercentage + "%");
+        
+
+
+    }
+
+    public void updatePieChart() {
+        int goalsCompleted1 = databaseHelper.getCompletedGoalsCount(userId);
+        int goalsRemaining1 = databaseHelper.countGoalsRemaining(userId);
+
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+                new PieChart.Data("Completed Goals", goalsCompleted1),
+                new PieChart.Data("Incomplete Goals", goalsRemaining1)
+        );
+        pieChartLifetime.setData(pieChartData);
+    }
+
+
+
     @FXML
     public void onEditGoalsClick(ActionEvent event) {
         try {
@@ -212,13 +316,7 @@ public class GoalsController {
         }
     }
     private int completedGoals = 0; // New stat for tracking goals completed
-    /**
-     * Marks the selected goal as completed, updates the database, and refreshes the UI.
-     * Also checks for any new badges awarded based on the number of completed goals.
-     *
-     * @param event ActionEvent triggered when the Complete button is clicked.
-     */
-
+    private int goalsProgress = 0;
     @FXML
     public void onCompleteGoalsClick(ActionEvent event) {
         Goal selectedGoal = contactsListView.getSelectionModel().getSelectedItem();
@@ -226,9 +324,11 @@ public class GoalsController {
         if (selectedGoal != null && !selectedGoal.isGoalCompleted()) {
             contactsListView.getItems().remove(selectedGoal); // Remove the selected goal from the ListView
             databaseHelper.updateGoalAsCompleted(selectedGoal.getGoalId());
-            databaseHelper.deleteGoalFromDatabase(selectedGoal.getGoalId()); // Delete from database
+           // databaseHelper.deleteGoalFromDatabase(selectedGoal.getGoalId()); // Delete from database
             completedGoals++;
             updateGoalsCompleted(); // Update goals completed count
+            sessionGoalsCompleted++;
+            goalsProgress++;
             updateProgressBar(); // Update progress bar
             displayPieChart(); // Update the pie chart
             displayGoalCount();
@@ -237,13 +337,11 @@ public class GoalsController {
             databaseHelper.initializeTotalGoalsCompleted(userId);
             databaseHelper.incrementTotalGoalsCompleted(userId);
             setStats();
+            updatePieChart();
+            updateLifeProgressBar();
         }
     }
-    /**
-     * Deletes the selected goal from the database and refreshes the goals list.
-     *
-     * @param event ActionEvent triggered when the Delete button is clicked.
-     */
+
     @FXML
     public void onDeleteGoalsClick(ActionEvent event) {
         Goal selectedGoal = contactsListView.getSelectionModel().getSelectedItem();
@@ -255,12 +353,6 @@ public class GoalsController {
             refreshGoalsList();
         }
     }
-    /**
-     * Logs the user off and redirects to the login screen.
-     *
-     * @param event ActionEvent triggered when the Logoff button is clicked.
-     * @throws IOException If an error occurs while loading the login view.
-     */
     @FXML
     protected void onLogoffButtonClick(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
@@ -268,9 +360,6 @@ public class GoalsController {
         Scene scene = new Scene(fxmlLoader.load(), FitScheduleApp.WIDTH, FitScheduleApp.HEIGHT);
         stage.setScene(scene);
     }
-    /**
-     * Refreshes the list of badges earned by the user.
-     */
     public void refreshBadgesList() {
         ObservableList<String> badges = databaseHelper.getUserBadges(userId);
         badgesListView.setItems(badges);

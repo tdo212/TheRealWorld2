@@ -1,22 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AnalysisUIOptions">
-    <option name="ANALYZE_TEST_SOURCES" value="false" />
-  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="764ab08b-92db-428a-9811-fe61d0ba3206" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_10_2024__11_03_pm__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_10_2024__11_03_pm__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_10_2024__11_03_pm__Changes_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_10_2024__11_03_pm__Changes_1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_7_10_2024__5_24_pm__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_7_10_2024__5_24_pm__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_7_10_2024__5_24_pm__Changes_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_7_10_2024__5_24_pm__Changes_1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_10_2024__12_03_am__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_10_2024__12_03_am__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_10_2024__12_03_am__Changes_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_10_2024__12_03_am__Changes_1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/therealworld/fitschedule/DataTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/therealworld/fitschedule/DataTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testschedulingdatabase.db" beforeDir="false" afterPath="$PROJECT_DIR$/testschedulingdatabase.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/therealworld/fitschedule/controllers/DashboardControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/therealworld/fitschedule/controllers/DashboardControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,10 +37,13 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/tdo212/TheRealWorld2&quot;,
-    &quot;accountId&quot;: &quot;d97e5845-5496-4dd1-afb5-9e08a9696e74&quot;
+    &quot;url&quot;: &quot;https://github.com/tdo212/TheRealWorld2.git&quot;,
+    &quot;accountId&quot;: &quot;dc01a137-d808-437f-b47a-01e32fd1b3ca&quot;
   }
 }</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/target/classes/com/therealworld/fitschedule/controllers/SchedulerController.class" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -69,44 +62,47 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Application.FitScheduleApp.executor&quot;: &quot;Run&quot;,
-    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;JUnit.DataTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.databaseTest.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.fitschedule [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.fitschedule [org.apache.maven.plugins:maven-javadoc-plugin:3.4.0:javadoc].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.fitschedule [package].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.fitschedule [test].executor&quot;: &quot;Run&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Int-Actions&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Ben/IdeaProjects/TheRealWorld2/.github/workflows&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Application.FitScheduleApp.executor": "Run",
+    "Application.HelloApplication.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.DashboardControllerTest.executor": "Run",
+    "JUnit.GoalControllerTest.executor": "Run",
+    "JUnit.LoginControllerTest.executor": "Run",
+    "JUnit.RegisterController.executor": "Run",
+    "JUnit.RegisterControllerTest.executor": "Run",
+    "JUnit.Unnamed.executor": "Run",
+    "JUnit.databaseTest.executor": "Run",
+    "Maven.fitschedule [clean].executor": "Run",
+    "Maven.fitschedule [compile].executor": "Run",
+    "Maven.fitschedule [test].executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/benpt/IdeaProjects/TheRealWorld2",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;sqlite&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Ben\IdeaProjects\TheRealWorld2\.github\workflows" />
       <recent name="C:\Users\Ben\IdeaProjects\TheRealWorld2\src\main\resources\com\therealworld\fitschedule" />
       <recent name="C:\Users\Ben\IdeaProjects\TheRealWorld2" />
     </key>
@@ -118,7 +114,6 @@
       <recent name="C:\Users\benpt\IdeaProjects\TheRealWorld2\src\main\java\com\therealworld\fitschedule\images" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="com.therealworld.fitschedule" />
       <recent name="" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -126,7 +121,7 @@
       <recent name="com.therealworld.fitschedule.controllers" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.DashboardControllerTest">
     <configuration name="FitScheduleApp" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="corretto-21" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -142,8 +137,56 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
+      <module name="fitschedule" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DashboardControllerTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="fitschedule" />
+      <option name="PACKAGE_NAME" value="com.therealworld.fitschedule.controllers" />
+      <option name="MAIN_CLASS_NAME" value="com.therealworld.fitschedule.controllers.DashboardControllerTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="--add-opens javafx.graphics/com.sun.javafx.application=ALL-UNNAMED " />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LoginControllerTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="fitschedule" />
+      <option name="PACKAGE_NAME" value="com.therealworld.fitschedule.controllers" />
+      <option name="MAIN_CLASS_NAME" value="com.therealworld.fitschedule.controllers.LoginControllerTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="--add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED --add-exports javafx.base/com.sun.javafx.collections=ALL-UNNAMED " />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RegisterController" type="JUnit" factoryName="JUnit">
+      <module name="fitschedule" />
+      <option name="PACKAGE_NAME" value="com.therealworld.fitschedule.controllers" />
+      <option name="MAIN_CLASS_NAME" value="com.therealworld.fitschedule.controllers.RegisterControllerTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="--add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED " />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Unnamed" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="fitschedule" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="databaseTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Scheduling" />
+      <module name="fitschedule" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="databaseTest" />
       <option name="METHOD_NAME" value="" />
@@ -166,7 +209,12 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.Unnamed" />
       <item itemvalue="Application.FitScheduleApp" />
+      <item itemvalue="JUnit.Unnamed" />
+      <item itemvalue="JUnit.DashboardControllerTest" />
+      <item itemvalue="JUnit.RegisterController" />
+      <item itemvalue="JUnit.LoginControllerTest" />
       <item itemvalue="JUnit.databaseTest" />
     </list>
     <recent_temporary>
@@ -186,6 +234,9 @@
       <workItem from="1726888456174" duration="28065000" />
       <workItem from="1728093128186" duration="8191000" />
       <workItem from="1728116886005" duration="288000" />
+      <workItem from="1728375713383" duration="2049000" />
+      <workItem from="1728511657419" duration="7718000" />
+      <workItem from="1728797777788" duration="5729000" />
     </task>
     <servers />
   </component>

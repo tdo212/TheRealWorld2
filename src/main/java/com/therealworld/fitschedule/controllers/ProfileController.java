@@ -12,59 +12,38 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-
-/**
- * Default constructor for ProfileController.
- * Initializes the controller and sets up UI components.
- */
 public class ProfileController {
 
-    // DAO to interact with the database
-    private final SqliteDAO sqliteDAO = new SqliteDAO();
-
-    // UI components linked to FXML labels for displaying username and email
     @FXML
     private Label profileNameLabel;
     @FXML
     private Label profileEmailLabel;
-
-    /**
-     * Initializes the controller class. This method is automatically called
-     * after the FXML file has been loaded and sets up the initial data.
-     */
     @FXML
-    public void initialize() {
-        // Get the currently logged-in user ID
-        int userId = UserSession.getInstance().getUserId();
-        // Display profile details for the logged-in user
+    private Label profilePhoneNumberLabel;
+
+    private SqliteDAO databaseObject = new SqliteDAO();
+    int userId = UserSession.getInstance().getUserId();
+
+
+    public void initialize(){
         displayProfileDetails(userId);
     }
 
-    /**
-     * Fetches and displays the profile details of the user on the UI.
-     *
-     * @param userId The ID of the user whose profile is to be displayed.
-     */
-    private void displayProfileDetails(int userId) {
-        // Fetch profile details from the database for the current user
-        UserProfile userProfile = sqliteDAO.fetchProfileDetails(userId);
+    public void displayProfileDetails(int userId) {
+        UserProfile userProfile = databaseObject.fetchProfileDetails(userId);
+        // Fetch profile details for the current user
 
-        // If user profile is found, display the details in the corresponding labels
         if (userProfile != null) {
+            // Set profile details to the UI labels
             profileNameLabel.setText(userProfile.getUsername());
             profileEmailLabel.setText(userProfile.getEmail());
+            profilePhoneNumberLabel.setText(userProfile.getPhoneNumber());
         } else {
             System.out.println("No profile found for user ID: " + userId);
         }
     }
 
-    /**
-     * Handles the logoff button click event.
-     * Logs off the user and redirects to the login view.
-     *
-     * @param event the event triggered by clicking the logoff button.
-     * @throws IOException if there is an error loading the login-view FXML file.
-     */
+    // Logoff button action
     @FXML
     protected void onLogoffButtonClick(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
@@ -73,11 +52,4 @@ public class ProfileController {
         stage.setScene(scene);
     }
 
-    /**
-     * Handles the profile button click event.
-     * @param event the event triggered by clicking the profile button.
-     */
-    public void onProfileButtonClick(ActionEvent event) {
-        // Already on the profile page, no action needed
-    }
 }

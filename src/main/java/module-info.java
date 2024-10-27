@@ -3,6 +3,7 @@ module com.therealworld.fitschedule {
     requires javafx.fxml;
     requires java.sql;
     requires jbcrypt;
+    requires java.desktop;
 
     opens com.therealworld.fitschedule to javafx.fxml;
     exports com.therealworld.fitschedule;

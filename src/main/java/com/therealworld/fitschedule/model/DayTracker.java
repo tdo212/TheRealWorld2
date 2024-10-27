@@ -81,4 +81,5 @@ public class DayTracker {
         // Compare the day of the event with the current day.
         return schedule.getDayOfWeek().equalsIgnoreCase(getCurrentDay());
     }
+
 }

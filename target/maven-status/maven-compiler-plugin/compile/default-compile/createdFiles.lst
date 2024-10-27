@@ -19,4 +19,5 @@ com\therealworld\fitschedule\controllers\ProfileController.class
 com\therealworld\fitschedule\model\User.class
 com\therealworld\fitschedule\controllers\EditGoalsController.class
 com\therealworld\fitschedule\controllers\SchedulerController.class
+com\therealworld\fitschedule\model\DateUtil.class
 com\therealworld\fitschedule\controllers\RegisterController.class
