@@ -1,5 +1,3 @@
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time.
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time.
 name: Java CI with Maven
 
 on:
@@ -28,11 +26,14 @@ jobs:
       - name: Verify Java version
         run: java -version
 
-      - name: Build and Test with Maven (Headless Mode)
-        run: mvn -B package test -Djava.awt.headless=true --file pom.xml
+      - name: Build with Maven (Skip Tests)
+        run: mvn -B clean package -DskipTests --file pom.xml
 
-      - name: Generate Javadoc
-        run: mvn javadoc:javadoc
+      - name: Test with Maven (Headless Mode)
+        run: mvn -B test -Djava.awt.headless=true --file pom.xml
+
+      - name: Generate Javadoc (Skip Tests)
+        run: mvn -B javadoc:javadoc -DskipTests
 
       - name: Show Git Remote Configuration
         run: git remote -v
@@ -46,7 +47,7 @@ jobs:
       - name: Publish Javadoc
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: target/docs/javadoc
+          folder: target/site/apidocs
           branch: gh-pages
           clean: true
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -54,4 +55,3 @@ jobs:
 
     env:
       ACTIONS_RUNNER_DEBUG: true
-
