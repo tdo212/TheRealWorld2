@@ -27,10 +27,14 @@ import java.io.IOException;
 
 import static com.therealworld.fitschedule.model.DateUtil.getWeekStartDate;
 
+/**
+ * The SchedulerController class is responsible for managing and displaying the user's weekly schedule.
+ * It handles the UI components for the scheduler view, including the table layout and column bindings.
+ * It also retrieves schedule data from the database and populates the TableView with scheduled events.
+ */
 public class SchedulerController {
 
     private int currentWeekOffset = 0;
-
 
     @FXML
     private VBox rootContainer;  // Main container that will hold all UI elements
@@ -57,7 +61,6 @@ public class SchedulerController {
     @FXML
     private CheckBox fitnessEventCheckBox;
 
-
     private int userId;
 
     private final SqliteDAO scheduleDAO = new SqliteDAO();
@@ -70,13 +73,16 @@ public class SchedulerController {
             "9:00 PM", "10:00 PM", "11:00 PM"
     );
 
+    /**
+     * Initializes the SchedulerController, binding columns, and populating the schedule table
+     * for the current week. It retrieves the user's weekly schedule data from the database
+     * and sets it in the TableView.
+     */
     @FXML
     public void initialize() {
         String currentWeekStartDate = getWeekStartDate(currentWeekOffset);
-        // Access the userId from the global session
         this.userId = UserSession.getInstance().getUserId();
         System.out.println("User ID in SchedulerController: " + userId);
-        // Bind the TableColumns to ScheduleRow properties
         bindTableColumns();
         System.out.println("Current Week Start Date: " + getWeekStartDate(0));  // Current week
         System.out.println("Previous Week Start Date: " + getWeekStartDate(-1));  // Previous week
@@ -84,7 +90,10 @@ public class SchedulerController {
         populateScheduleTable(userId, currentWeekStartDate);
     }
 
-    // Bind the TableColumns to ScheduleRow properties
+    /**
+     * Binds each TableColumn in the TableView to the appropriate property of ScheduleRow.
+     * This allows each day's column in the TableView to display the correct data from ScheduleRow.
+     */
     private void bindTableColumns() {
         timeSlotColumn.setCellValueFactory(cellData -> cellData.getValue().timeSlotProperty());
         mondayColumn.setCellValueFactory(cellData -> cellData.getValue().mondayProperty());
@@ -96,7 +105,21 @@ public class SchedulerController {
         sundayColumn.setCellValueFactory(cellData -> cellData.getValue().sundayProperty());
     }
 
-    // Method to populate the schedule table for a specific user and week offset
+    /**
+     * Populates the schedule table for a specified user and week start date. It retrieves
+     * the user's weekly schedule data from the database, merges it with predefined time slots,
+     * and displays the combined data in the TableView.
+     *
+     * <p>Steps in this method include:
+     * <ul>
+     *   <li>Retrieves the weekly schedule for the specified user and week start date.</li>
+     *   <li>Maps each time slot to its respective events.</li>
+     *   <li>Creates an observable list of ScheduleRow objects for display in the TableView.</li>
+     * </ul>
+     *
+     * @param userId              The ID of the user whose schedule is to be displayed.
+     * @param currentWeekStartDate The start date of the week for which the schedule is being populated.
+     */
     private void populateScheduleTable(int userId, String currentWeekStartDate) {
         List<String> timeSlots = Arrays.asList(
                 "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM", "6:00 AM", "7:00 AM",
@@ -111,23 +134,19 @@ public class SchedulerController {
         if (scheduleData != null && !scheduleData.isEmpty()) {
             for (String[] row : scheduleData) {
                 scheduleMap.put(row[0], row);  // Time slot as the key
-                // Debugging log
                 System.out.println("Added time slot: " + row[0] + " | Events: " + Arrays.toString(row));
             }
         } else {
             System.out.println("No schedule data found for this week.");
         }
 
-
         // Initialize the observable list for the table rows
         ObservableList<ScheduleRow> scheduleRows = FXCollections.observableArrayList();
 
         // Populate the table with predefined time slots and merge with any existing events for the selected week
         for (String timeSlot : timeSlots) {
-            // Retrieve the schedule row for this time slot from the map
             String[] eventRow = scheduleMap.getOrDefault(timeSlot, new String[8]);
 
-            // Add the row to the table, ensuring that each day (column) gets the correct event for the selected week
             scheduleRows.add(new ScheduleRow(
                     timeSlot, // Always add the predefined time slot
                     eventRow[1] == null ? "" : eventRow[1],  // Monday's event
@@ -146,9 +165,14 @@ public class SchedulerController {
     }
 
 
-
-
-    // Logoff button action
+    /**
+     * Handles the action triggered by the "Logoff" button click. This method logs the user off by
+     * navigating to the login view, effectively ending the user's session and returning them
+     * to the login screen.
+     *
+     * @param event The action event triggered by the "Logoff" button click.
+     * @throws IOException If an error occurs while loading the login view FXML file.
+     */
     @FXML
     protected void onLogoffButtonClick(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
@@ -157,6 +181,10 @@ public class SchedulerController {
         stage.setScene(scene);
     }
 
+    /**
+     * Handles the action triggered by the "Schedule" button click. This method updates the schedule
+     * table view with the user's schedule for the currently selected week.
+     */
     @FXML
     public void onScheduleButtonClick() {
         String currentWeekStartDate = getWeekStartDate(currentWeekOffset);
@@ -165,50 +193,63 @@ public class SchedulerController {
         populateScheduleTable(userId, currentWeekStartDate);
     }
 
-    // Method to handle the "Previous Week" button click
+    /**
+     * Handles the action triggered by the "Previous Week" button click. This method adjusts
+     * the week offset to display the previous week's schedule in the TableView. It ensures
+     * the weekly schedule table for the selected week exists, creating it if necessary,
+     * and then populates the TableView with the previous week's data.
+     */
     @FXML
     protected void onPreviousWeekButtonClick() {
         currentWeekOffset--;  // Move to the previous week
-        String currentWeekStartDate = getWeekStartDate(currentWeekOffset);  // Calculate the start date for the previous week
-        String tableName = "weeklySchedule_" + currentWeekStartDate.replace("-", "_");  // Generate table name for the week
+        String currentWeekStartDate = getWeekStartDate(currentWeekOffset);
+        String tableName = "weeklySchedule_" + currentWeekStartDate.replace("-", "_");
 
-        // Check if the table exists, create it if not, and then populate the schedule
         checkAndCreateWeeklyTableIfNotExists(tableName, currentWeekStartDate);
-
-        // Load the previous week's schedule
         populateScheduleTable(userId, currentWeekStartDate);
     }
 
-    // Method to handle the "Next Week" button click
+    /**
+     * Handles the action triggered by the "Next Week" button click. This method adjusts
+     * the week offset to display the next week's schedule in the TableView. It ensures
+     * the weekly schedule table for the selected week exists, creating it if necessary,
+     * and then populates the TableView with the next week's data.
+     */
     @FXML
     protected void onNextWeekButtonClick() {
         currentWeekOffset++;  // Move to the next week
-        String currentWeekStartDate = getWeekStartDate(currentWeekOffset);  // Calculate the start date for the next week
-        String tableName = "weeklySchedule_" + currentWeekStartDate.replace("-", "_");  // Generate table name for the week
+        String currentWeekStartDate = getWeekStartDate(currentWeekOffset);
+        String tableName = "weeklySchedule_" + currentWeekStartDate.replace("-", "_");
 
-        // Check if the table exists, create it if not, and then populate the schedule
         checkAndCreateWeeklyTableIfNotExists(tableName, currentWeekStartDate);
-
-        // Load the next week's schedule
         populateScheduleTable(userId, currentWeekStartDate);
     }
 
-    // Method to handle the "Current Week" button click
+    /**
+     * Handles the action triggered by the "Current Week" button click. This method resets the
+     * week offset to the current week and displays the current week's schedule in the TableView.
+     * It ensures the weekly schedule table for the selected week exists, creating it if necessary,
+     * and then populates the TableView with the current week's data.
+     */
     @FXML
     protected void onCurrentWeekButtonClick() {
         currentWeekOffset = 0;  // Reset to the current week
-        String currentWeekStartDate = getWeekStartDate(currentWeekOffset);  // Get the start date for the current week
-        String tableName = "weeklySchedule_" + currentWeekStartDate.replace("-", "_");  // Generate table name for the current week
+        String currentWeekStartDate = getWeekStartDate(currentWeekOffset);
+        String tableName = "weeklySchedule_" + currentWeekStartDate.replace("-", "_");
 
-        // Check if the table exists, create it if not, and then populate the schedule
         checkAndCreateWeeklyTableIfNotExists(tableName, currentWeekStartDate);
-
         populateScheduleTable(userId, currentWeekStartDate);
     }
 
 
 
-    // Clear Schedule Button
+
+    /**
+     * Handles the action triggered by the "Clear Schedule" button click. This method displays
+     * a confirmation alert to the user, prompting them to confirm if they wish to clear their
+     * schedule for the current week. If confirmed, the schedule is cleared from both the TableView
+     * and the database for the user's current week.
+     */
     @FXML
     protected void onChangeScheduleButtonClick() {
         Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -224,21 +265,23 @@ public class SchedulerController {
             if (response == buttonYes) {
                 scheduleTable.getItems().clear();
 
-                // Get the current week's start date
                 String currentWeekStartDate = getWeekStartDate(currentWeekOffset);
-
-                // Access the userId from the global session
                 int userId = UserSession.getInstance().getUserId();
 
-                // Call the method with both userId and currentWeekStartDate
                 scheduleDAO.clearScheduleForUser(userId, currentWeekStartDate);
-
                 showAlert("Success", "The schedule has been cleared.", Alert.AlertType.INFORMATION);
             }
         });
     }
 
-@FXML
+    /**
+     * Handles the action triggered by the "Generate New Schedule" button click. This method
+     * clears the current layout and displays a form for the user to create a new commitment.
+     * The form includes fields for day selection, start and end times, event name, description,
+     * and a checkbox for marking the event as a fitness event. Upon submission, the event is
+     * validated and then added to the database for the specified week.
+     */
+    @FXML
     public void onGenerateNewScheduleButtonClick() {
         try {
             String currentWeekStartDate = getWeekStartDate(currentWeekOffset);
@@ -246,24 +289,19 @@ public class SchedulerController {
             rootContainer.getChildren().clear();
             Label formTitle = new Label("Add a New Commitment For Week Start Date: " + currentWeekStartDate);
 
-            // Dropdowns for Day, Start Time, and End Time
             ComboBox<String> dayComboBox = new ComboBox<>(FXCollections.observableArrayList(
                     "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"));
             ComboBox<String> timeSlotComboBox = new ComboBox<>(FXCollections.observableArrayList(timeSlots));
             ComboBox<String> endTimeSlotComboBox = new ComboBox<>(FXCollections.observableArrayList(timeSlots));
 
-            // Text fields for event name and description
             TextField eventNameTextField = new TextField();
             eventNameTextField.setPromptText("Enter Event Name");
 
             TextField eventDescriptionTextField = new TextField();
             eventDescriptionTextField.setPromptText("Enter Event Description");
 
-            // Initialize the fitness event checkbox
             fitnessEventCheckBox = new CheckBox("Is this a fitness event?");
 
-
-            // Submit button logic
             Button submitButton = new Button("Submit");
             submitButton.setOnAction(event -> {
                 try {
@@ -272,23 +310,20 @@ public class SchedulerController {
                     String endTime = cleanTimeString(endTimeSlotComboBox.getValue());
                     String eventDescription = eventDescriptionTextField.getText();
                     String eventName = eventNameTextField.getText();
-                    boolean isFitnessEvent = fitnessEventCheckBox.isSelected(); // Correctly capture the checkbox value
+                    boolean isFitnessEvent = fitnessEventCheckBox.isSelected();
                     int userId = UserSession.getInstance().getUserId();
 
-                    // Ensure all fields are filled
                     if (dayOfWeek == null || startTime.isEmpty() || endTime.isEmpty() ||
                             eventDescription.isEmpty() || eventName.isEmpty()) {
                         showAlert("Error", "All fields are required.", Alert.AlertType.ERROR);
                         return;
                     }
 
-                    // Validate the time range
                     if (!isValidTimeRange(startTime, endTime)) {
                         showAlert("Error", "End time must be after start time.", Alert.AlertType.ERROR);
                         return;
                     }
 
-                    // Insert the event into the database
                     List<String> timeSlotsInRange = getTimeSlotsInRange(startTime, endTime);
                     for (String timeSlot : timeSlotsInRange) {
                         scheduleDAO.insertWeeklyEvent(userId, timeSlot, dayOfWeek, eventDescription,
@@ -296,7 +331,6 @@ public class SchedulerController {
                         if (isFitnessEvent) {
                             scheduleDAO.insertIntoFitnessEvents(userId, eventName, dayOfWeek, timeSlot, currentWeekStartDate);
                         }
-
                     }
 
                     showAlert("Success", "Event added successfully!", Alert.AlertType.INFORMATION);
@@ -308,12 +342,9 @@ public class SchedulerController {
                 }
             });
 
-
-            // Back button to return to the main layout
             Button backButton = new Button("Back");
             backButton.setOnAction(event -> buildInitialLayout());
 
-            // Add all UI components to the layout
             rootContainer.getChildren().addAll(
                     formTitle,
                     new HBox(new Label("Day of the Week: "), dayComboBox),
@@ -332,11 +363,17 @@ public class SchedulerController {
 
 
 
-    // Update Event Button
+
+    /**
+     * Handles the action triggered by the "Update Schedule" button click. This method displays a form
+     * that allows the user to update an existing commitment. The form includes dropdowns for day selection,
+     * start and end times, event selection, event name, and description. A fitness event checkbox is also
+     * provided to mark the event type. Upon submission, the selected commitment's details are updated
+     * in the database.
+     */
     @FXML
     protected void onUpdateScheduleButtonClick() {
         try {
-            // Calculate the start date for the current week offset
             String currentWeekStartDate = getWeekStartDate(currentWeekOffset);
             rootContainer.getChildren().clear();
             Label formTitle = new Label("Update an Existing Commitment");
@@ -347,8 +384,6 @@ public class SchedulerController {
             ComboBox<String> endTimeSlotComboBox = new ComboBox<>(FXCollections.observableArrayList(timeSlots));
 
             ComboBox<Schedule> eventComboBox = new ComboBox<>();
-
-            // Add the new fitness event checkbox
             CheckBox updateFitnessEventCheckBox = new CheckBox("Is this a fitness event?");
 
             dayComboBox.setOnAction(event -> {
@@ -368,8 +403,6 @@ public class SchedulerController {
                     eventNameTextField.setText(selectedSchedule.getEventName());
                     eventDescriptionTextField.setText(selectedSchedule.getEventDescription());
                     timeSlotComboBox.setValue(selectedSchedule.getEventStartTime());
-
-                    // Set the fitness checkbox value based on the selected schedule
                     updateFitnessEventCheckBox.setSelected(selectedSchedule.isFitnessEvent());
                 }
             });
@@ -380,7 +413,7 @@ public class SchedulerController {
                     String dayOfWeek = dayComboBox.getValue();
                     String timeSlot = timeSlotComboBox.getValue();
                     String eventDescription = eventDescriptionTextField.getText();
-                    boolean isFitnessEvent = updateFitnessEventCheckBox.isSelected(); // Capture checkbox value
+                    boolean isFitnessEvent = updateFitnessEventCheckBox.isSelected();
 
                     int userId = UserSession.getInstance().getUserId();
 
@@ -410,7 +443,7 @@ public class SchedulerController {
                     new HBox(new Label("Event Name: "), eventNameTextField),
                     new HBox(new Label("Description: "), eventDescriptionTextField),
                     new HBox(new Label("Select Event: "), eventComboBox),
-                    updateFitnessEventCheckBox,  // Add the checkbox to the layout
+                    updateFitnessEventCheckBox,
                     submitButton,
                     backButton
             );
@@ -420,6 +453,10 @@ public class SchedulerController {
     }
 
 
+    /**
+     * Loads and sets up the initial layout for the scheduler view. This method is used to reset
+     * the layout to its original view after performing operations such as adding or updating events.
+     */
     private void buildInitialLayout() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(FitScheduleApp.class.getResource("scheduler-view.fxml"));
@@ -431,7 +468,13 @@ public class SchedulerController {
         }
     }
 
-    // Utility method to show alerts
+    /**
+     * Utility method to display an alert dialog with a specified title, message, and alert type.
+     *
+     * @param title      The title of the alert dialog.
+     * @param content    The message to display in the alert dialog.
+     * @param alertType  The type of alert to display (e.g., INFORMATION, ERROR).
+     */
     private void showAlert(String title, String content, Alert.AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -439,12 +482,18 @@ public class SchedulerController {
         alert.showAndWait();
     }
 
+    /**
+     * Checks if a weekly schedule table for a given start date exists in the database.
+     * If the table does not exist, this method creates it. This ensures that each week's
+     * schedule data is stored in a dedicated table.
+     *
+     * @param tableName       The name of the table to check.
+     * @param weekStartDate   The start date of the week for which the table is checked or created.
+     */
     private void checkAndCreateWeeklyTableIfNotExists(String tableName, String weekStartDate) {
-        // Check if the table already exists in the database
         if (!scheduleDAO.doesTableExist(tableName)) {
-            // If the table does not exist, create it
             System.out.println("Table for the week starting on " + weekStartDate + " does not exist. Creating it now...");
-            scheduleDAO.createWeeklyScheduleTable(weekStartDate, userId);  // Create the table using the week start date
+            scheduleDAO.createWeeklyScheduleTable(weekStartDate, userId);
         } else {
             System.out.println("Table for the week starting on " + weekStartDate + " already exists.");
         }
@@ -452,6 +501,13 @@ public class SchedulerController {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm a", Locale.ENGLISH);
 
+    /**
+     * Validates that the end time is later than the start time.
+     *
+     * @param startTime The start time of the event in "h:mm a" format.
+     * @param endTime   The end time of the event in "h:mm a" format.
+     * @return          True if the end time is after the start time; otherwise, false.
+     */
     private boolean isValidTimeRange(String startTime, String endTime) {
         try {
             System.out.println("Sanitized Start Time: " + startTime);
@@ -469,6 +525,14 @@ public class SchedulerController {
 
 
 
+    /**
+     * Generates a list of time slots within a specified range of start and end times.
+     * This method increments the start time by one hour until it reaches the end time.
+     *
+     * @param startTime The start time of the range in "h:mm a" format.
+     * @param endTime   The end time of the range in "h:mm a" format.
+     * @return          A list of time slots within the specified time range.
+     */
     private List<String> getTimeSlotsInRange(String startTime, String endTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm a", Locale.ENGLISH);
         LocalTime start = LocalTime.parse(startTime, formatter);
@@ -481,10 +545,15 @@ public class SchedulerController {
         }
         return slotsInRange;
     }
+
+    /**
+     * Cleans a time string by removing any extra whitespace and replacing multiple spaces with a single space.
+     *
+     * @param time The time string to be cleaned.
+     * @return     The cleaned time string.
+     */
     private String cleanTimeString(String time) {
-        return time.replaceAll("\\s+", " ").trim();  // Replace multiple spaces with one and trim any extra spaces.
+        return time.replaceAll("\\s+", " ").trim();
     }
-
-
 
 }
