@@ -47,8 +47,10 @@ public class DashboardControllerTest {
     public void testPopulateTodaySchedule_withEvents() {
         int userId = 1;
         List<Schedule> mockTodaySchedules = Arrays.asList(
-                new Schedule("Monday", "Workout", "", "10:00 AM", "11:00 AM", true),
-                new Schedule("Monday", "Study", "", "1:00 PM", "2:00 PM", false)
+                new Schedule("Monday", "Workout", "",
+                        "10:00 AM", "11:00 AM", true),
+                new Schedule("Monday", "Study", "",
+                        "1:00 PM", "2:00 PM", false)
         );
 
         when(scheduleDAO.getCommitmentsForDay(userId, "Monday")).thenReturn(mockTodaySchedules);
@@ -65,8 +67,10 @@ public class DashboardControllerTest {
         String today = dayTracker.getCurrentDay();
 
         List<Schedule> mockWorkoutEvents = Arrays.asList(
-                new Schedule("Monday", "Morning Run", "", "7:00 AM", "8:00 AM", true),
-                new Schedule("Monday", "Evening Gym", "", "6:00 PM", "7:00 PM", true)
+                new Schedule("Monday", "Morning Run", "",
+                        "7:00 AM", "8:00 AM", true),
+                new Schedule("Monday", "Evening Gym", "",
+                        "6:00 PM", "7:00 PM", true)
         );
 
         when(scheduleDAO.getCommitmentsForDay(userId, today)).thenReturn(mockWorkoutEvents);
@@ -121,7 +125,8 @@ public class DashboardControllerTest {
         String nextDay = dashboardController.getNextDay();
 
         List<Schedule> fullyBookedSchedule = Arrays.stream(dashboardController.timeSlots)
-                .map(time -> new Schedule(nextDay, "Event", "", time, "", false))
+                .map(time -> new Schedule(nextDay, "Event", "", time, "",
+                        false))
                 .collect(Collectors.toList());
 
         when(scheduleDAO.getCommitmentsForDay(userId, nextDay)).thenReturn(fullyBookedSchedule);
