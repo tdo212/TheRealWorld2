@@ -59,6 +59,62 @@ public class GoalsController {
     int userId = UserSession.getInstance().getUserId();
     String username = databaseHelper.getUsernameById(userId);
 
+    // Add setter methods for each UI component to allow injection from test classes
+    public void setGoalCountLabel(Label goalCountLabel) {
+        this.goalCountLabel = goalCountLabel;
+    }
+
+    public void setGoalCompletedLabel(Label goalCompletedLabel) {
+        this.goalCompletedLabel = goalCompletedLabel;
+    }
+
+    public void setProgressLabel(Label progressLabel) {
+        this.progressLabel = progressLabel;
+    }
+
+    public void setProgressLabel2(Label progressLabel2) {
+        this.progressLabel2 = progressLabel2;
+    }
+
+    public void setProgressBar(ProgressBar progressBar) {
+        this.progressBar = progressBar;
+    }
+
+    public void setLifetimeProgressBar(ProgressBar lifetimeProgressBar) {
+        this.lifetimeProgressBar = lifetimeProgressBar;
+    }
+
+    public void setContactsListView(ListView<Goal> contactsListView) {
+        this.contactsListView = contactsListView;
+    }
+
+    public void setBadgesListView(ListView<String> badgesListView) {
+        this.badgesListView = badgesListView;
+    }
+
+    public void setPieChart(PieChart pieChart) {
+        this.pieChart = pieChart;
+    }
+
+    public void setPieChartLifetime(PieChart pieChartLifetime) {
+        this.pieChartLifetime = pieChartLifetime;
+    }
+
+    public void setUserIDLabel(Label userIDLabel) {
+        this.UserIDLabel = userIDLabel;
+    }
+
+    public void setLifetimeCompleted(Label lifetimeCompleted) {
+        this.LifetimeCompleted = lifetimeCompleted;
+    }
+
+    public void setGoalCountLabel1(Label goalCountLabel1) {
+        this.goalCountLabel1 = goalCountLabel1;
+    }
+
+    public void setUsernameLabel(Label usernameLabel) {
+        this.UsernameLabel = usernameLabel;
+    }
 
     public void initialize() {
         refreshGoalsList(); // Initialize the list of goals
