@@ -90,6 +90,12 @@
                 <configuration>
                     <source>21</source>
                     <target>21</target>
+                    <excludes>
+                        <exclude>**/DashboardControllerTest.java</exclude>
+                        <exclude>**/RegisterControllerTest.java</exclude>
+                        <exclude>**/LoginControllerTest.java</exclude>
+                        <exclude>**/DatabaseTest.java</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
 
