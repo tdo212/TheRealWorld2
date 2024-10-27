@@ -1,4 +1,5 @@
 # This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time.
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time.
 name: Java CI with Maven
 
 on:
@@ -27,8 +28,8 @@ jobs:
       - name: Verify Java version
         run: java -version
 
-      - name: Build with Maven
-        run: mvn -B package --file pom.xml
+      - name: Build and Test with Maven (Headless Mode)
+        run: mvn -B package test -Djava.awt.headless=true --file pom.xml
 
       - name: Generate Javadoc
         run: mvn javadoc:javadoc
@@ -53,3 +54,4 @@ jobs:
 
     env:
       ACTIONS_RUNNER_DEBUG: true
+
