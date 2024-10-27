@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.therealworld.fitschedule.controllers.LoginControllerTest" time="2.478" tests="5" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.therealworld.fitschedule.controllers.LoginControllerTest" time="2.448" tests="5" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="javafx.runtime.version" value="22.0.2+4"/>
@@ -17,7 +17,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="AU"/>
     <property name="sun.boot.library.path" value="C:\Users\Ben\.jdks\corretto-21.0.4\bin"/>
-    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter C:\Users\Ben\AppData\Local\Temp\surefire1600250487106161231 2024-10-27T14-52-37_482-jvmRun1 surefire-20241027145237760_1tmp surefire_0-20241027145237760_2tmp"/>
+    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter C:\Users\Ben\AppData\Local\Temp\surefire8313832052397086501 2024-10-27T14-59-52_916-jvmRun1 surefire-20241027145953221_1tmp surefire_0-20241027145953221_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\Ben\IdeaProjects\TheRealWorld2\target\test-classes;C:\Users\Ben\.m2\repository\org\openjfx\javafx-controls\22.0.2\javafx-controls-22.0.2.jar;C:\Users\Ben\.m2\repository\org\openjfx\javafx-graphics\22.0.2\javafx-graphics-22.0.2.jar;C:\Users\Ben\.m2\repository\org\openjfx\javafx-base\22.0.2\javafx-base-22.0.2.jar;C:\Users\Ben\.m2\repository\org\openjfx\javafx-fxml\22.0.2\javafx-fxml-22.0.2.jar;C:\Users\Ben\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.0\junit-jupiter-api-5.10.0.jar;C:\Users\Ben\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\Ben\.m2\repository\org\junit\platform\junit-platform-commons\1.10.0\junit-platform-commons-1.10.0.jar;C:\Users\Ben\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Ben\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.0\junit-jupiter-engine-5.10.0.jar;C:\Users\Ben\.m2\repository\org\junit\platform\junit-platform-engine\1.10.0\junit-platform-engine-1.10.0.jar;C:\Users\Ben\.m2\repository\org\mockito\mockito-core\5.13.0\mockito-core-5.13.0.jar;C:\Users\Ben\.m2\repository\net\bytebuddy\byte-buddy\1.15.0\byte-buddy-1.15.0.jar;C:\Users\Ben\.m2\repository\net\bytebuddy\byte-buddy-agent\1.15.0\byte-buddy-agent-1.15.0.jar;C:\Users\Ben\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\Ben\.m2\repository\org\testfx\testfx-core\4.0.16-alpha\testfx-core-4.0.16-alpha.jar;C:\Users\Ben\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\Ben\.m2\repository\org\assertj\assertj-core\3.13.2\assertj-core-3.13.2.jar;C:\Users\Ben\.m2\repository\org\testfx\testfx-junit5\4.0.16-alpha\testfx-junit5-4.0.16-alpha.jar;C:\Users\Ben\.m2\repository\org\xerial\sqlite-jdbc\3.36.0.3\sqlite-jdbc-3.36.0.3.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -64,108 +64,8 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="testEmptyUsernameAndPasswordFields" classname="com.therealworld.fitschedule.controllers.LoginControllerTest" time="0.729">
+  <testcase name="testEmptyUsernameAndPasswordFields" classname="com.therealworld.fitschedule.controllers.LoginControllerTest" time="0.681">
     <system-out><![CDATA[Database URL: jdbc:sqlite:FitScheduleDBConnection.db
-Users table created or already exists.
-currentSchedule table created or already exists.
-Goals table created or already exists.
-Badges table created or already exists.
-Total_Goals table created or already exists.
-User Profile table created or already exists.
-'isFitnessEvent' column already exists.
-'goal_progress' column already exists.
-Fitness events table created or already exists.
-Database URL: jdbc:sqlite:FitScheduleDBConnection.db
-Users table created or already exists.
-currentSchedule table created or already exists.
-Goals table created or already exists.
-Badges table created or already exists.
-Total_Goals table created or already exists.
-User Profile table created or already exists.
-'isFitnessEvent' column already exists.
-'goal_progress' column already exists.
-Fitness events table created or already exists.
-Database URL: jdbc:sqlite:FitScheduleDBConnection.db
-Users table created or already exists.
-currentSchedule table created or already exists.
-Goals table created or already exists.
-Badges table created or already exists.
-Total_Goals table created or already exists.
-User Profile table created or already exists.
-'isFitnessEvent' column already exists.
-'goal_progress' column already exists.
-Fitness events table created or already exists.
-Database URL: jdbc:sqlite:FitScheduleDBConnection.db
-Users table created or already exists.
-currentSchedule table created or already exists.
-Goals table created or already exists.
-Badges table created or already exists.
-Total_Goals table created or already exists.
-User Profile table created or already exists.
-'isFitnessEvent' column already exists.
-'goal_progress' column already exists.
-Fitness events table created or already exists.
-Database URL: jdbc:sqlite:FitScheduleDBConnection.db
-Users table created or already exists.
-currentSchedule table created or already exists.
-Goals table created or already exists.
-Badges table created or already exists.
-Total_Goals table created or already exists.
-User Profile table created or already exists.
-'isFitnessEvent' column already exists.
-'goal_progress' column already exists.
-Fitness events table created or already exists.
-Database URL: jdbc:sqlite:FitScheduleDBConnection.db
-Users table created or already exists.
-currentSchedule table created or already exists.
-Goals table created or already exists.
-Badges table created or already exists.
-Total_Goals table created or already exists.
-User Profile table created or already exists.
-'isFitnessEvent' column already exists.
-'goal_progress' column already exists.
-Fitness events table created or already exists.
-Database URL: jdbc:sqlite:FitScheduleDBConnection.db
-Users table created or already exists.
-currentSchedule table created or already exists.
-Goals table created or already exists.
-Badges table created or already exists.
-Total_Goals table created or already exists.
-User Profile table created or already exists.
-'isFitnessEvent' column already exists.
-'goal_progress' column already exists.
-Fitness events table created or already exists.
-Database URL: jdbc:sqlite:FitScheduleDBConnection.db
-Users table created or already exists.
-currentSchedule table created or already exists.
-Goals table created or already exists.
-Badges table created or already exists.
-Total_Goals table created or already exists.
-User Profile table created or already exists.
-'isFitnessEvent' column already exists.
-'goal_progress' column already exists.
-Fitness events table created or already exists.
-Database URL: jdbc:sqlite:FitScheduleDBConnection.db
-Users table created or already exists.
-currentSchedule table created or already exists.
-Goals table created or already exists.
-Badges table created or already exists.
-Total_Goals table created or already exists.
-User Profile table created or already exists.
-'isFitnessEvent' column already exists.
-'goal_progress' column already exists.
-Fitness events table created or already exists.
-Database URL: jdbc:sqlite:FitScheduleDBConnection.db
-Users table created or already exists.
-currentSchedule table created or already exists.
-Goals table created or already exists.
-Badges table created or already exists.
-Total_Goals table created or already exists.
-User Profile table created or already exists.
-'isFitnessEvent' column already exists.
-'goal_progress' column already exists.
-Fitness events table created or already exists.
-Database URL: jdbc:sqlite:FitScheduleDBConnection.db
 Users table created or already exists.
 currentSchedule table created or already exists.
 Goals table created or already exists.
@@ -190,7 +90,7 @@ User Profile table created or already exists.
 Fitness events table created or already exists.
 ]]></system-out>
   </testcase>
-  <testcase name="testFailedLogin" classname="com.therealworld.fitschedule.controllers.LoginControllerTest" time="0.36">
+  <testcase name="testFailedLogin" classname="com.therealworld.fitschedule.controllers.LoginControllerTest" time="0.363">
     <system-out><![CDATA[Database URL: jdbc:sqlite:FitScheduleDBConnection.db
 Users table created or already exists.
 currentSchedule table created or already exists.
@@ -204,7 +104,7 @@ Fitness events table created or already exists.
 Login failed. Invalid username or password.
 ]]></system-out>
   </testcase>
-  <testcase name="testSuccessfulLogin" classname="com.therealworld.fitschedule.controllers.LoginControllerTest" time="0.668">
+  <testcase name="testSuccessfulLogin" classname="com.therealworld.fitschedule.controllers.LoginControllerTest" time="0.684">
     <system-out><![CDATA[Database URL: jdbc:sqlite:FitScheduleDBConnection.db
 Users table created or already exists.
 currentSchedule table created or already exists.
@@ -243,7 +143,7 @@ table weeklySchedule_2024_10_21does exist
     <system-err><![CDATA[Error populating time slots: [SQLITE_ERROR] SQL error or missing database (no such table: 2024-10-21)
 ]]></system-err>
   </testcase>
-  <testcase name="testOnlyUsernameFilled" classname="com.therealworld.fitschedule.controllers.LoginControllerTest" time="0.357">
+  <testcase name="testOnlyUsernameFilled" classname="com.therealworld.fitschedule.controllers.LoginControllerTest" time="0.356">
     <system-out><![CDATA[Database URL: jdbc:sqlite:FitScheduleDBConnection.db
 Users table created or already exists.
 currentSchedule table created or already exists.
