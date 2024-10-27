@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.therealworld.fitschedule.DatabaseTest" time="0.004" tests="1" errors="1" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.therealworld.fitschedule.controllers.DashboardControllerTest" time="3.626" tests="8" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="javafx.runtime.version" value="22.0.2+4"/>
@@ -64,12 +64,153 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="testConnection" classname="com.therealworld.fitschedule.DatabaseTest" time="0.003">
-    <error message="Cannot invoke &quot;java.sql.Connection.createStatement()&quot; because &quot;com.therealworld.fitschedule.DataTest.connection&quot; is null" type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "java.sql.Connection.createStatement()" because "com.therealworld.fitschedule.DataTest.connection" is null
-	at com.therealworld.fitschedule@1.0-SNAPSHOT/com.therealworld.fitschedule.DatabaseTest.tearDown(DatabaseTest.java:36)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
-]]></error>
+  <testcase name="testGetNextDay" classname="com.therealworld.fitschedule.controllers.DashboardControllerTest" time="1.986">
+    <system-out><![CDATA[Database URL: jdbc:sqlite:FitScheduleDBConnection.db
+Users table created or already exists.
+currentSchedule table created or already exists.
+Goals table created or already exists.
+Badges table created or already exists.
+Total_Goals table created or already exists.
+User Profile table created or already exists.
+'isFitnessEvent' column already exists.
+'goal_progress' column already exists.
+Fitness events table created or already exists.
+]]></system-out>
+    <system-err><![CDATA[WARNING: A Java agent has been loaded dynamically (C:\Users\Ben\.m2\repository\net\bytebuddy\byte-buddy-agent\1.15.0\byte-buddy-agent-1.15.0.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+  </testcase>
+  <testcase name="testPopulateTodaySchedule_withEvents" classname="com.therealworld.fitschedule.controllers.DashboardControllerTest" time="0.255">
+    <system-out><![CDATA[Database URL: jdbc:sqlite:FitScheduleDBConnection.db
+Users table created or already exists.
+currentSchedule table created or already exists.
+Goals table created or already exists.
+Badges table created or already exists.
+Total_Goals table created or already exists.
+User Profile table created or already exists.
+'isFitnessEvent' column already exists.
+'goal_progress' column already exists.
+Fitness events table created or already exists.
+]]></system-out>
+  </testcase>
+  <testcase name="testCapitalizeFirstLetter" classname="com.therealworld.fitschedule.controllers.DashboardControllerTest" time="0.228">
+    <system-out><![CDATA[Database URL: jdbc:sqlite:FitScheduleDBConnection.db
+Users table created or already exists.
+currentSchedule table created or already exists.
+Goals table created or already exists.
+Badges table created or already exists.
+Total_Goals table created or already exists.
+User Profile table created or already exists.
+'isFitnessEvent' column already exists.
+'goal_progress' column already exists.
+Fitness events table created or already exists.
+]]></system-out>
+  </testcase>
+  <testcase name="testPopulateTodaySchedule_withNoEvents" classname="com.therealworld.fitschedule.controllers.DashboardControllerTest" time="0.228">
+    <system-out><![CDATA[Database URL: jdbc:sqlite:FitScheduleDBConnection.db
+Users table created or already exists.
+currentSchedule table created or already exists.
+Goals table created or already exists.
+Badges table created or already exists.
+Total_Goals table created or already exists.
+User Profile table created or already exists.
+'isFitnessEvent' column already exists.
+'goal_progress' column already exists.
+Fitness events table created or already exists.
+]]></system-out>
+  </testcase>
+  <testcase name="testFindAvailableWorkoutSlots" classname="com.therealworld.fitschedule.controllers.DashboardControllerTest" time="0.226">
+    <system-out><![CDATA[Database URL: jdbc:sqlite:FitScheduleDBConnection.db
+Users table created or already exists.
+currentSchedule table created or already exists.
+Goals table created or already exists.
+Badges table created or already exists.
+Total_Goals table created or already exists.
+User Profile table created or already exists.
+'isFitnessEvent' column already exists.
+'goal_progress' column already exists.
+Fitness events table created or already exists.
+Available workout slots in Monday:
+Option: [12:00 AM, 1:00 AM]
+Option: [2:00 AM, 3:00 AM]
+Option: [4:00 AM, 5:00 AM]
+Option: [6:00 AM, 7:00 AM]
+Option: [8:00 AM, 9:00 AM]
+Option: [1:00 PM, 2:00 PM]
+Option: [3:00 PM, 4:00 PM]
+Option: [5:00 PM, 6:00 PM]
+Option: [7:00 PM, 8:00 PM]
+Option: [9:00 PM, 10:00 PM]
+]]></system-out>
+  </testcase>
+  <testcase name="testCalculateWorkoutHoursToday_mixedEventTypes" classname="com.therealworld.fitschedule.controllers.DashboardControllerTest" time="0.227">
+    <system-out><![CDATA[Database URL: jdbc:sqlite:FitScheduleDBConnection.db
+Users table created or already exists.
+currentSchedule table created or already exists.
+Goals table created or already exists.
+Badges table created or already exists.
+Total_Goals table created or already exists.
+User Profile table created or already exists.
+'isFitnessEvent' column already exists.
+'goal_progress' column already exists.
+Fitness events table created or already exists.
+Total workout hours for today: 2
+Available workout slots in Monday:
+Option: [12:00 AM, 1:00 AM]
+Option: [2:00 AM, 3:00 AM]
+Option: [4:00 AM, 5:00 AM]
+Option: [6:00 AM, 7:00 AM]
+Option: [8:00 AM, 9:00 AM]
+Option: [10:00 AM, 11:00 AM]
+Option: [12:00 PM, 1:00 PM]
+Option: [2:00 PM, 3:00 PM]
+Option: [4:00 PM, 5:00 PM]
+Option: [6:00 PM, 7:00 PM]
+Option: [8:00 PM, 9:00 PM]
+Option: [10:00 PM, 11:00 PM]
+]]></system-out>
+  </testcase>
+  <testcase name="testFindAvailableWorkoutSlots_noFreeSlots" classname="com.therealworld.fitschedule.controllers.DashboardControllerTest" time="0.224">
+    <system-out><![CDATA[Database URL: jdbc:sqlite:FitScheduleDBConnection.db
+Users table created or already exists.
+currentSchedule table created or already exists.
+Goals table created or already exists.
+Badges table created or already exists.
+Total_Goals table created or already exists.
+User Profile table created or already exists.
+'isFitnessEvent' column already exists.
+'goal_progress' column already exists.
+Fitness events table created or already exists.
+Available workout slots in Monday:
+]]></system-out>
+  </testcase>
+  <testcase name="testCalculateWorkoutHoursToday" classname="com.therealworld.fitschedule.controllers.DashboardControllerTest" time="0.227">
+    <system-out><![CDATA[Database URL: jdbc:sqlite:FitScheduleDBConnection.db
+Users table created or already exists.
+currentSchedule table created or already exists.
+Goals table created or already exists.
+Badges table created or already exists.
+Total_Goals table created or already exists.
+User Profile table created or already exists.
+'isFitnessEvent' column already exists.
+'goal_progress' column already exists.
+Fitness events table created or already exists.
+Total workout hours for today: 2
+Available workout slots in Monday:
+Option: [12:00 AM, 1:00 AM]
+Option: [2:00 AM, 3:00 AM]
+Option: [4:00 AM, 5:00 AM]
+Option: [6:00 AM, 7:00 AM]
+Option: [8:00 AM, 9:00 AM]
+Option: [10:00 AM, 11:00 AM]
+Option: [12:00 PM, 1:00 PM]
+Option: [2:00 PM, 3:00 PM]
+Option: [4:00 PM, 5:00 PM]
+Option: [6:00 PM, 7:00 PM]
+Option: [8:00 PM, 9:00 PM]
+Option: [10:00 PM, 11:00 PM]
+]]></system-out>
   </testcase>
 </testsuite>

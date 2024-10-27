@@ -1,2 +1,6 @@
+com\therealworld\fitschedule\controllers\LoginControllerTest.class
+com\therealworld\fitschedule\controllers\GoalControllerTest.class
+com\therealworld\fitschedule\DataTest.class
 com\therealworld\fitschedule\DatabaseTest.class
-DataTest.class
+com\therealworld\fitschedule\controllers\DashboardControllerTest.class
+com\therealworld\fitschedule\controllers\RegisterControllerTest.class

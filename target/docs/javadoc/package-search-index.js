@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"com.therealworld.fitschedule","l":"com.therealworld.fitschedule"},{"m":"com.therealworld.fitschedule","l":"com.therealworld.fitschedule.controllers"},{"m":"com.therealworld.fitschedule","l":"com.therealworld.fitschedule.model"}];updateSearchResults();

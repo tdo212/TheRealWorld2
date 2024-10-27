@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.therealworld.fitschedule.DatabaseTest" time="0.004" tests="1" errors="1" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.therealworld.fitschedule.DataTest" time="0.512" tests="21" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="javafx.runtime.version" value="22.0.2+4"/>
@@ -64,12 +64,55 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="testConnection" classname="com.therealworld.fitschedule.DatabaseTest" time="0.003">
-    <error message="Cannot invoke &quot;java.sql.Connection.createStatement()&quot; because &quot;com.therealworld.fitschedule.DataTest.connection&quot; is null" type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "java.sql.Connection.createStatement()" because "com.therealworld.fitschedule.DataTest.connection" is null
-	at com.therealworld.fitschedule@1.0-SNAPSHOT/com.therealworld.fitschedule.DatabaseTest.tearDown(DatabaseTest.java:36)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
-]]></error>
+  <testcase name="tableCanBeClearedSuccessfully" classname="com.therealworld.fitschedule.DataTest" time="0.028"/>
+  <testcase name="insertLargestPossibleLengthOfStringInFields" classname="com.therealworld.fitschedule.DataTest" time="0.035"/>
+  <testcase name="cantUpdateRecordsWithInvalidData" classname="com.therealworld.fitschedule.DataTest" time="0.032">
+    <system-err><![CDATA[Can't update record with invalid data type: [SQLITE_MISMATCH]  Data type mismatch (datatype mismatch)
+]]></system-err>
+  </testcase>
+  <testcase name="cantInsertEmptyStringsIntoFieldsWithNotNullValues" classname="com.therealworld.fitschedule.DataTest" time="0.019">
+    <system-err><![CDATA[Can't insert empty strings into table: [SQLITE_CONSTRAINT_CHECK]  A CHECK constraint failed (CHECK constraint failed: dayOfWeek <> '')
+]]></system-err>
+  </testcase>
+  <testcase name="recordsCanBeInsertedIntoDatabaseTable" classname="com.therealworld.fitschedule.DataTest" time="0.027"/>
+  <testcase name="recordsThatDontExistCantBeDeleted" classname="com.therealworld.fitschedule.DataTest" time="0.016">
+    <system-err><![CDATA[Can't delete records that don't exist
+]]></system-err>
+  </testcase>
+  <testcase name="insertStringThatExceedsMaxLength" classname="com.therealworld.fitschedule.DataTest" time="0.015">
+    <system-err><![CDATA[Can't insert string that exceeds maximum length: [SQLITE_CONSTRAINT_CHECK]  A CHECK constraint failed (CHECK constraint failed: LENGTH(dayOfWeek) <= 50)
+]]></system-err>
+  </testcase>
+  <testcase name="incorrectDataTypeCantBeInserted" classname="com.therealworld.fitschedule.DataTest" time="0.02">
+    <system-err><![CDATA[Can't insert record with invalid data type: [SQLITE_MISMATCH]  Data type mismatch (datatype mismatch)
+]]></system-err>
+  </testcase>
+  <testcase name="cantInsertRecordsWithNullValuesIntoFieldsWithNotNullValues" classname="com.therealworld.fitschedule.DataTest" time="0.022">
+    <system-err><![CDATA[Can't insert null value in table: [SQLITE_CONSTRAINT_NOTNULL]  A NOT NULL constraint failed (NOT NULL constraint failed: testTable.dayOfWeek)
+]]></system-err>
+  </testcase>
+  <testcase name="allRecordsCanBeRetrieved" classname="com.therealworld.fitschedule.DataTest" time="0.027"/>
+  <testcase name="recordsCanBeRemovedFromDatabaseTable" classname="com.therealworld.fitschedule.DataTest" time="0.026"/>
+  <testcase name="createTableAndIfExistsDeleteIt" classname="com.therealworld.fitschedule.DataTest" time="0.027"/>
+  <testcase name="recordsCanBeRetrieved" classname="com.therealworld.fitschedule.DataTest" time="0.023"/>
+  <testcase name="retrieveNullRecordInTable" classname="com.therealworld.fitschedule.DataTest" time="0.027"/>
+  <testcase name="throwExceptionIfDuplicateUniqueFieldsInserted" classname="com.therealworld.fitschedule.DataTest" time="0.029">
+    <system-err><![CDATA[Can't insert record with duplicate 'dayOfWeek': [SQLITE_CONSTRAINT_UNIQUE]  A UNIQUE constraint failed (UNIQUE constraint failed: testTable.dayOfWeek)
+]]></system-err>
+  </testcase>
+  <testcase name="connectionToDatabaseShouldNotBeClosedOrNull" classname="com.therealworld.fitschedule.DataTest" time="0.015"/>
+  <testcase name="recordsThatDontExistCantBeRetrieved" classname="com.therealworld.fitschedule.DataTest" time="0.019">
+    <system-err><![CDATA[Can't retrieve record that does not exist in database table: ResultSet closed
+]]></system-err>
+  </testcase>
+  <testcase name="recordsThatDontExistCantBeUpdated" classname="com.therealworld.fitschedule.DataTest" time="0.024">
+    <system-err><![CDATA[Can't update records that don't exist: ResultSet closed
+]]></system-err>
+  </testcase>
+  <testcase name="databaseFileIsCreated" classname="com.therealworld.fitschedule.DataTest" time="0.031"/>
+  <testcase name="recordsCanBeUpdated" classname="com.therealworld.fitschedule.DataTest" time="0.021"/>
+  <testcase name="testInsertIncorrectColumnName" classname="com.therealworld.fitschedule.DataTest" time="0.018">
+    <system-err><![CDATA[Can't insert into non-existent column: [SQLITE_ERROR] SQL error or missing database (table testTable has no column named daofWeek)
+]]></system-err>
   </testcase>
 </testsuite>

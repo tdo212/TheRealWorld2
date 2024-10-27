@@ -1,0 +1,12 @@
+-------------------------------------------------------------------------------
+Test set: com.therealworld.fitschedule.controllers.GoalControllerTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.006 s <<< FAILURE! -- in com.therealworld.fitschedule.controllers.GoalControllerTest
+com.therealworld.fitschedule.controllers.GoalControllerTest -- Time elapsed: 0.006 s <<< ERROR!
+java.lang.IllegalStateException: Toolkit already initialized
+	at javafx.graphics@22.0.2/com.sun.javafx.application.PlatformImpl.startup(PlatformImpl.java:186)
+	at javafx.graphics@22.0.2/javafx.application.Platform.startup(Platform.java:116)
+	at com.therealworld.fitschedule@1.0-SNAPSHOT/com.therealworld.fitschedule.controllers.GoalControllerTest.initToolkit(GoalControllerTest.java:32)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
