@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.therealworld.fitschedule.DatabaseTest" time="0.004" tests="1" errors="1" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.therealworld.fitschedule.DatabaseTest" time="0.29" tests="12" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="javafx.runtime.version" value="22.0.2+4"/>
@@ -17,7 +17,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="AU"/>
     <property name="sun.boot.library.path" value="C:\Users\Ben\.jdks\corretto-21.0.4\bin"/>
-    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter C:\Users\Ben\AppData\Local\Temp\surefire6718174911733828966 2024-10-27T14-39-31_053-jvmRun1 surefire-20241027143931330_1tmp surefire_0-20241027143931330_2tmp"/>
+    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter C:\Users\Ben\AppData\Local\Temp\surefire1600250487106161231 2024-10-27T14-52-37_482-jvmRun1 surefire-20241027145237760_1tmp surefire_0-20241027145237760_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\Ben\IdeaProjects\TheRealWorld2\target\test-classes;C:\Users\Ben\.m2\repository\org\openjfx\javafx-controls\22.0.2\javafx-controls-22.0.2.jar;C:\Users\Ben\.m2\repository\org\openjfx\javafx-graphics\22.0.2\javafx-graphics-22.0.2.jar;C:\Users\Ben\.m2\repository\org\openjfx\javafx-base\22.0.2\javafx-base-22.0.2.jar;C:\Users\Ben\.m2\repository\org\openjfx\javafx-fxml\22.0.2\javafx-fxml-22.0.2.jar;C:\Users\Ben\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.0\junit-jupiter-api-5.10.0.jar;C:\Users\Ben\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\Ben\.m2\repository\org\junit\platform\junit-platform-commons\1.10.0\junit-platform-commons-1.10.0.jar;C:\Users\Ben\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Ben\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.0\junit-jupiter-engine-5.10.0.jar;C:\Users\Ben\.m2\repository\org\junit\platform\junit-platform-engine\1.10.0\junit-platform-engine-1.10.0.jar;C:\Users\Ben\.m2\repository\org\mockito\mockito-core\5.13.0\mockito-core-5.13.0.jar;C:\Users\Ben\.m2\repository\net\bytebuddy\byte-buddy\1.15.0\byte-buddy-1.15.0.jar;C:\Users\Ben\.m2\repository\net\bytebuddy\byte-buddy-agent\1.15.0\byte-buddy-agent-1.15.0.jar;C:\Users\Ben\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\Ben\.m2\repository\org\testfx\testfx-core\4.0.16-alpha\testfx-core-4.0.16-alpha.jar;C:\Users\Ben\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\Ben\.m2\repository\org\assertj\assertj-core\3.13.2\assertj-core-3.13.2.jar;C:\Users\Ben\.m2\repository\org\testfx\testfx-junit5\4.0.16-alpha\testfx-junit5-4.0.16-alpha.jar;C:\Users\Ben\.m2\repository\org\xerial\sqlite-jdbc\3.36.0.3\sqlite-jdbc-3.36.0.3.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -64,12 +64,16 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="testConnection" classname="com.therealworld.fitschedule.DatabaseTest" time="0.003">
-    <error message="Cannot invoke &quot;java.sql.Connection.createStatement()&quot; because &quot;com.therealworld.fitschedule.DataTest.connection&quot; is null" type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "java.sql.Connection.createStatement()" because "com.therealworld.fitschedule.DataTest.connection" is null
-	at com.therealworld.fitschedule@1.0-SNAPSHOT/com.therealworld.fitschedule.DatabaseTest.tearDown(DatabaseTest.java:36)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
-]]></error>
-  </testcase>
+  <testcase name="insertLargestPossibleLengthOfStringInFields" classname="com.therealworld.fitschedule.DatabaseTest" time="0.031"/>
+  <testcase name="testConnection" classname="com.therealworld.fitschedule.DatabaseTest" time="0.015"/>
+  <testcase name="recordsCanBeInsertedIntoDatabaseTable" classname="com.therealworld.fitschedule.DatabaseTest" time="0.025"/>
+  <testcase name="insertStringThatExceedsMaxLength" classname="com.therealworld.fitschedule.DatabaseTest" time="0.022"/>
+  <testcase name="incorrectDataTypeCantBeInserted" classname="com.therealworld.fitschedule.DatabaseTest" time="0.026"/>
+  <testcase name="cantInsertRecordsWithNullValuesIntoFieldsWithNotNullValues" classname="com.therealworld.fitschedule.DatabaseTest" time="0.028"/>
+  <testcase name="recordsCanBeRemovedFromDatabaseTable" classname="com.therealworld.fitschedule.DatabaseTest" time="0.02"/>
+  <testcase name="recordsCanBeRetrieved" classname="com.therealworld.fitschedule.DatabaseTest" time="0.018"/>
+  <testcase name="throwExceptionIfDuplicateUniqueFieldsInserted" classname="com.therealworld.fitschedule.DatabaseTest" time="0.021"/>
+  <testcase name="connectionToDatabaseShouldNotBeClosedOrNull" classname="com.therealworld.fitschedule.DatabaseTest" time="0.024"/>
+  <testcase name="databaseFileIsCreated" classname="com.therealworld.fitschedule.DatabaseTest" time="0.026"/>
+  <testcase name="recordsCanBeUpdated" classname="com.therealworld.fitschedule.DatabaseTest" time="0.026"/>
 </testsuite>

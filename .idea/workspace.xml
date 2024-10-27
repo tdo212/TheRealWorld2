@@ -4,7 +4,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="764ab08b-92db-428a-9811-fe61d0ba3206" name="Changes" comment="" />
+    <list default="true" id="764ab08b-92db-428a-9811-fe61d0ba3206" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FitScheduleDBConnection.db" beforeDir="false" afterPath="$PROJECT_DIR$/FitScheduleDBConnection.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/therealworld/fitschedule/DataTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/therealworld/fitschedule/DatabaseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/therealworld/fitschedule/DatabaseTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/therealworld/fitschedule/controllers/GoalControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/therealworld/fitschedule/controllers/GoalControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.therealworld.fitschedule.DataTest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.therealworld.fitschedule.DatabaseTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.therealworld.fitschedule.DatabaseTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.therealworld.fitschedule.controllers.DashboardControllerTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.therealworld.fitschedule.controllers.DashboardControllerTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.therealworld.fitschedule.controllers.GoalControllerTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.therealworld.fitschedule.controllers.GoalControllerTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.therealworld.fitschedule.controllers.LoginControllerTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.therealworld.fitschedule.controllers.LoginControllerTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.therealworld.fitschedule.controllers.RegisterControllerTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.therealworld.fitschedule.controllers.RegisterControllerTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.therealworld.fitschedule.DataTest.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.therealworld.fitschedule.DatabaseTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.therealworld.fitschedule.DatabaseTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.therealworld.fitschedule.controllers.DashboardControllerTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.therealworld.fitschedule.controllers.DashboardControllerTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.therealworld.fitschedule.controllers.GoalControllerTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.therealworld.fitschedule.controllers.GoalControllerTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.therealworld.fitschedule.controllers.LoginControllerTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.therealworld.fitschedule.controllers.LoginControllerTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.therealworld.fitschedule.controllers.RegisterControllerTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.therealworld.fitschedule.controllers.RegisterControllerTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/therealworld/fitschedule/DataTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/therealworld/fitschedule/DatabaseTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/therealworld/fitschedule/DatabaseTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/therealworld/fitschedule/controllers/GoalControllerTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/therealworld/fitschedule/controllers/GoalControllerTest.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -66,6 +89,8 @@
     "Application.HelloApplication.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
     "JUnit.DashboardControllerTest.executor": "Run",
+    "JUnit.DataTest.executor": "Run",
+    "JUnit.DatabaseTest.executor": "Run",
     "JUnit.GoalControllerTest.executor": "Run",
     "JUnit.LoginControllerTest.executor": "Run",
     "JUnit.RegisterController.executor": "Run",

@@ -1,11 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.therealworld.fitschedule.DatabaseTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.004 s <<< FAILURE! -- in com.therealworld.fitschedule.DatabaseTest
-com.therealworld.fitschedule.DatabaseTest.testConnection -- Time elapsed: 0.003 s <<< ERROR!
-java.lang.NullPointerException: Cannot invoke "java.sql.Connection.createStatement()" because "com.therealworld.fitschedule.DataTest.connection" is null
-	at com.therealworld.fitschedule@1.0-SNAPSHOT/com.therealworld.fitschedule.DatabaseTest.tearDown(DatabaseTest.java:36)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
-
+Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.290 s -- in com.therealworld.fitschedule.DatabaseTest
